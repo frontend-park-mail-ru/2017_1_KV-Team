@@ -2,14 +2,13 @@
  * Created by maxim on 14.02.17.
  */
 
-
 'use strict';
 const nameInput = document.getElementById('name');
 const passwordInput = document.getElementById('password');
 const errorLabel = document.getElementById('error');
 const button = document.getElementById('okButton');
 
-button.onclick = function(){
+button.onclick = () => {
     const name = nameInput.value;
     const password = passwordInput.value;
 

@@ -1,5 +1,5 @@
 'use strict';
-document.getElementById('okButton').onclick = function(){
+document.getElementById('okButton').onclick = () => {
     alert('Представим, что зарегистрировались');
     location.href = "menu";
 };
