@@ -11,11 +11,14 @@
     "url": "https://github.com/frontend-park-mail-ru/2017_1_KV-Team.git"
   },
   "engines": {
-      "node": "7.5.0",
-      "npm": "4.1.2"
+    "node": "7.5.0",
+    "npm": "4.1.2"
   },
   "keywords": [],
   "author": "",
-  "homepage": ""
+  "homepage": "",
+  "dependencies": {
+    "data.maybe": "^1.2.2",
+    "data.task": "^3.1.1"
+  }
 }
-
