@@ -5,7 +5,7 @@
 'use strict';
 const http = require('http');
 const fs = require('fs');
-const { liftPromise } = require('./utils/helperFunctions');
+const { identity } = require('./utils/helperFunctions');
 const logger = require('./utils/logger');
 const errorHandler = require('./utils/errorHandler');
 const URL = require('url');
@@ -24,8 +24,7 @@ const mimeRoutes = {
 const readNotFound = () => readFileUTF8(BASE_ROUTE + '/404.html');
 
 // writeToRes :: Object -> Resolved Promise
-const writeToRes = res => text =>
-    Promise.resolve((() => { res.write(text); res.end(); })());
+const writeToRes = res => text => { res.write(text); res.end(); };
 
 // getFilePath :: (String, Object) -> String
 const getFilePath = (url, mimeRoutes) => {
@@ -42,9 +41,9 @@ const readFileUTF8 = filename => new Promise((resolve, reject) =>
 const worker = (req, res) =>
     Promise.resolve(getFilePath(URL.parse(req.url), mimeRoutes))
         .then(readFileUTF8)
-        .then(liftPromise, readNotFound)
+        .then(identity, readNotFound)
         .then(writeToRes(res))
-        .then(liftPromise(logger(req.url)));
+        .then(logger(req.url));
 
 // serverAtPort :: Number -> Promise Object Error
 const serverAtPort = port => new Promise(((resolve, reject) => {
