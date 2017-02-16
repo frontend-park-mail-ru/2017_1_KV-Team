@@ -5,52 +5,56 @@
 'use strict';
 const http = require('http');
 const fs = require('fs');
-const Maybe = require('data.maybe');
-const Task = require('data.task');
-const { safeProp } = require('./utils/helperFunctions');
+const { liftPromise } = require('./utils/helperFunctions');
 const logger = require('./utils/logger');
 const errorHandler = require('./utils/errorHandler');
+const URL = require('url');
+const path = require('path');
 
-const routes = {
-    '/': 'static/login.html',
-    '/login': 'static/login.html',
-    '/menu': 'static/menu.html',
-    '/register': 'static/register.html',
-    '/leaders': 'static/leaders.html',
-    '/about': 'static/about.html',
-    '/play': 'static/play.html'
+const BASE_ROUTE = 'static';
+
+const mimeRoutes = {
+    '': BASE_ROUTE,
+    '.css': BASE_ROUTE + '/style',
+    '.js': BASE_ROUTE + '/js',
+    '.ico': BASE_ROUTE + '/images'
 };
 
-// readFileUTF8 :: String -> Task Error String
-const readFileUTF8 = filename => new Task((reject, resolve) =>
+// readNotFound :: _ -> String
+const readNotFound = () => readFileUTF8(BASE_ROUTE + '/404.html');
+
+// writeToRes :: Object -> Resolved Promise
+const writeToRes = res => text =>
+    Promise.resolve((() => { res.write(text); res.end(); })());
+
+// getFilePath :: (String, Object) -> String
+const getFilePath = (url, mimeRoutes) => {
+    const ext = path.parse(url.pathname).ext;
+    const filePath = mimeRoutes[ext] + url.pathname;
+    return ext ? filePath : filePath + '.html';
+};
+
+// readFileUTF8 :: String -> Promise String Error
+const readFileUTF8 = filename => new Promise((resolve, reject) =>
     fs.readFile(filename, 'utf8', (e, d) => e ? reject(e) : resolve(d)));
 
-// serverAtPort :: Number -> Task Error Object
-const serverAtPort = port => new Task(((reject, resolve) =>
-    http.createServer((req, res) => resolve({ req, res })).on('error', reject).listen(port)));
+// worker :: (Object, Object) -> Promise Undefined Error
+const worker = (req, res) =>
+    Promise.resolve(getFilePath(URL.parse(req.url), mimeRoutes))
+        .then(readFileUTF8)
+        .then(liftPromise, readNotFound)
+        .then(writeToRes(res))
+        .then(liftPromise(logger(req.url)));
 
-// mb :: String -> _ -> Just String
-const mb = url => () => Maybe.of(url);
-
-// checkUrl :: String -> Maybe Nothing String
-const checkUrl = url => url.endsWith('.js') ?
-    mb('static/js' + url) : url.endsWith('.css') ?
-    mb('static/css' + url) : safeProp(url);
-
-// writeToRes :: Object -> Resolved
-const writeToRes = res => Task.of(text => { res.write(text); res.end(); });
-
-// getFilePath :: (String, Routes) -> Just String
-const getFilePath = (url, routes) => checkUrl(url)(routes)
-    .orElse(() => Maybe.of('static/404.html'));
-
-// worker :: Object -> Object
-const worker = ({ req, res }) =>
-    writeToRes(res)
-        .ap(readFileUTF8(getFilePath(req.url, routes).get()))
-        .map(() => req.url);
+// serverAtPort :: Number -> Promise Object Error
+const serverAtPort = port => new Promise(((resolve, reject) => {
+    const server = http.createServer(worker)
+        .on('error', reject)
+        .on('listening', () => resolve(server))
+        .listen(port)
+}));
 
 serverAtPort(process.env.PORT || 3000)
-    .chain(worker)
-    .fork(errorHandler, logger);
+    .then(server => console.log('serving on port:', server.address().port))
+    .catch(errorHandler);
 
