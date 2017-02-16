@@ -5,7 +5,6 @@
 'use strict';
 const http = require('http');
 const fs = require('fs');
-const { identity } = require('./utils/helperFunctions');
 const logger = require('./utils/logger');
 const errorHandler = require('./utils/errorHandler');
 const URL = require('url');
@@ -13,18 +12,42 @@ const path = require('path');
 
 const BASE_ROUTE = 'static';
 
+const mimeType = {
+    '.ico': 'image/x-icon',
+    '.html': 'text/html',
+    '.js': 'text/javascript',
+    '.json': 'application/json',
+    '.css': 'text/css',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.wav': 'audio/wav',
+    '.mp3': 'audio/mpeg',
+    '.svg': 'image/svg+xml',
+    '.pdf': 'application/pdf',
+    '.doc': 'application/msword',
+    '.eot': 'appliaction/vnd.ms-fontobject',
+    '.ttf': 'aplication/font-sfnt',
+    '': 'text/html'
+};
+
 const mimeRoutes = {
     '': BASE_ROUTE,
     '.css': BASE_ROUTE + '/style',
     '.js': BASE_ROUTE + '/js',
-    '.ico': BASE_ROUTE + '/images'
+    '.ico': BASE_ROUTE + '/images',
+    '.jpg': BASE_ROUTE + '/images'
 };
 
 // readNotFound :: _ -> String
-const readNotFound = () => readFileUTF8(BASE_ROUTE + '/404.html');
+const readNotFound = () => readFile(BASE_ROUTE + '/404.html');
 
-// writeToRes :: Object -> Resolved Promise
-const writeToRes = res => text => { res.write(text); res.end(); };
+// writeToRes :: Object -> Undefined
+const writeToRes = (res, req) => text => {
+    const ext = path.parse(URL.parse(req.url).pathname).ext;
+    res.setHeader('Content-type', mimeType[ext] || 'text/plain');
+    res.write(text, 'utf8');
+    res.end();
+};
 
 // getFilePath :: (String, Object) -> String
 const getFilePath = (url, mimeRoutes) => {
@@ -33,16 +56,16 @@ const getFilePath = (url, mimeRoutes) => {
     return ext ? filePath : filePath + '.html';
 };
 
-// readFileUTF8 :: String -> Promise String Error
-const readFileUTF8 = filename => new Promise((resolve, reject) =>
-    fs.readFile(filename, 'utf8', (e, d) => e ? reject(e) : resolve(d)));
+// readFile :: String -> Promise String Error
+const readFile = filename => new Promise((resolve, reject) =>
+    fs.readFile(filename, (e, d) => e ? reject(e) : resolve(d)));
 
 // worker :: (Object, Object) -> Promise Undefined Error
 const worker = (req, res) =>
     Promise.resolve(getFilePath(URL.parse(req.url), mimeRoutes))
-        .then(readFileUTF8)
-        .then(identity, readNotFound)
-        .then(writeToRes(res))
+        .then(readFile)
+        .catch(readNotFound)
+        .then(writeToRes(res, req))
         .then(logger(req.url));
 
 // serverAtPort :: Number -> Promise Object Error

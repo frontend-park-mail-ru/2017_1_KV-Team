@@ -6,17 +6,10 @@
 const nameInput = document.getElementById('name');
 const passwordInput = document.getElementById('password');
 const errorLabel = document.getElementById('error');
-const button = document.getElementById('okButton');
+const button = document.getElementById('register-btn');
 
-button.onclick = () => {
-    const name = nameInput.value;
-    const password = passwordInput.value;
+button.onclick = e => {
+    e.preventDefault();
 
-    if( name === 'admin'
-        && password === '1234') {
-        errorLabel.textContent = '';
-        location.href = "menu";
-    }else{
-        errorLabel.textContent = 'Неверный логин/пароль';
-    }
+    location.href = "register";
 };
