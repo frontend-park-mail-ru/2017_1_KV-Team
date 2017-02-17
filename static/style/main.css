@@ -2,6 +2,9 @@ body {
     font: normal 18px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
     background-image: url("siege2.jpg");
     background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #fff;
     padding: 50px 0;
 }

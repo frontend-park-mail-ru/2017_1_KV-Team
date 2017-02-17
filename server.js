@@ -12,24 +12,6 @@ const path = require('path');
 
 const BASE_ROUTE = 'static';
 
-const mimeType = {
-    '.ico': 'image/x-icon',
-    '.html': 'text/html',
-    '.js': 'text/javascript',
-    '.json': 'application/json',
-    '.css': 'text/css',
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.wav': 'audio/wav',
-    '.mp3': 'audio/mpeg',
-    '.svg': 'image/svg+xml',
-    '.pdf': 'application/pdf',
-    '.doc': 'application/msword',
-    '.eot': 'appliaction/vnd.ms-fontobject',
-    '.ttf': 'aplication/font-sfnt',
-    '': 'text/html'
-};
-
 const mimeRoutes = {
     '': BASE_ROUTE,
     '.css': BASE_ROUTE + '/style',
@@ -38,25 +20,23 @@ const mimeRoutes = {
     '.jpg': BASE_ROUTE + '/images'
 };
 
-// readNotFound :: _ -> String
+// readNotFound :: _ -> Buffer
 const readNotFound = () => readFile(BASE_ROUTE + '/404.html');
 
-// writeToRes :: Object -> Undefined
-const writeToRes = (res, req) => text => {
-    const ext = path.parse(URL.parse(req.url).pathname).ext;
-    res.setHeader('Content-type', mimeType[ext] || 'text/plain');
+// writeToRes :: Object -> Buffer -> Undefined
+const writeToRes = res => text => {
     res.write(text, 'utf8');
     res.end();
 };
 
-// getFilePath :: (String, Object) -> String
+// getFilePath :: (Object, Object) -> String
 const getFilePath = (url, mimeRoutes) => {
     const ext = path.parse(url.pathname).ext;
     const filePath = mimeRoutes[ext] + url.pathname;
-    return ext ? filePath : filePath + '.html';
+    return ext ? filePath : (url.pathname === '/' ? filePath + 'index' : filePath) + '.html';
 };
 
-// readFile :: String -> Promise String Error
+// readFile :: String -> Promise Buffer Error
 const readFile = filename => new Promise((resolve, reject) =>
     fs.readFile(filename, (e, d) => e ? reject(e) : resolve(d)));
 
@@ -65,7 +45,7 @@ const worker = (req, res) =>
     Promise.resolve(getFilePath(URL.parse(req.url), mimeRoutes))
         .then(readFile)
         .catch(readNotFound)
-        .then(writeToRes(res, req))
+        .then(writeToRes(res))
         .then(logger(req.url));
 
 // serverAtPort :: Number -> Promise Object Error
