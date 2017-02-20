@@ -7,32 +7,46 @@
 </head>
 <body>
 <div class="container">
-    <form action="index">
+    <form id="registration-form" action="index" novalidate>
         <ul class="flex-outer">
             <li>
                 <label for="name">Логин</label>
-                <input type="text" id="name" placeholder="Придумайте логин">
+                <div>
+                    <input type="text" id="name" placeholder="Придумайте логин" required>
+                    <div class="err-container"></div>
+                </div>
             </li>
             <li>
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Введите свой email">
+                <div>
+                    <input type="email" id="email" placeholder="Введите свой email" required>
+                    <div class="err-container"></div>
+                </div>
             </li>
             <li>
                 <label for="password">Пароль</label>
-                <input type="password" id="password" placeholder="Придумайте пароль">
+                <div>
+                    <input type="password" id="password" placeholder="Придумайте пароль" required>
+                    <div class="err-container"></div>
+                </div>
             </li>
             <li>
                 <label for="password2">Повторите пароль</label>
-                <input type="password" id="password2" placeholder="Повторите пароль">
+                <div>
+                    <input type="password" id="password2" placeholder="Повторите пароль" required>
+                    <div class="err-container"></div>
+                </div>
             </li>
             <li>
-                <button id="login-btn">Войти</button>
+                <div id="login-btn"></div>
+                <a href="login">Уже есть аккаунт?</a>
                 <button type="submit">Зарегистрироваться</button>
             </li>
         </ul>
     </form>
 </div>
 
-<script type="text/javascript" src="login.js"></script>
+<script type="text/javascript" src="sValidator.js"></script>
+<script type="text/javascript" src="credentials_check.js"></script>
 </body>
 </html>

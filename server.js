@@ -17,7 +17,8 @@ const mimeRoutes = {
     '.css': BASE_ROUTE + '/style',
     '.js': BASE_ROUTE + '/js',
     '.ico': BASE_ROUTE + '/images',
-    '.jpg': BASE_ROUTE + '/images'
+    '.jpg': BASE_ROUTE + '/images',
+    '.png': BASE_ROUTE + '/images'
 };
 
 // readNotFound :: _ -> Buffer
