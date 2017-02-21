@@ -1,8 +1,6 @@
 /**
  * Created by andreivinogradov on 15.02.17.
  */
-
-'use strict';
 const http = require('http');
 const fs = require('fs');
 const logger = require('./utils/logger');
@@ -13,33 +11,34 @@ const path = require('path');
 const BASE_ROUTE = 'static';
 
 const mimeRoutes = {
-    '': BASE_ROUTE,
-    '.css': BASE_ROUTE + '/style',
-    '.js': BASE_ROUTE + '/js',
-    '.ico': BASE_ROUTE + '/images',
-    '.jpg': BASE_ROUTE + '/images',
-    '.png': BASE_ROUTE + '/images'
+  '': BASE_ROUTE,
+  '.css': `${BASE_ROUTE}/style`,
+  '.js': `${BASE_ROUTE}/js`,
+  '.ico': `${BASE_ROUTE}/images`,
+  '.jpg': `${BASE_ROUTE}/images`,
+  '.png': `${BASE_ROUTE}/images`,
 };
 
-// readNotFound :: _ -> Buffer
-const readNotFound = () => readFile(BASE_ROUTE + '/404.html');
-
 // writeToRes :: Object -> Buffer -> Undefined
-const writeToRes = res => text => {
-    res.write(text, 'utf8');
-    res.end();
+const writeToRes = res => (text) => {
+  res.write(text, 'utf8');
+  res.end();
 };
 
 // getFilePath :: (Object, Object) -> String
-const getFilePath = (url, mimeRoutes) => {
-    const ext = path.parse(url.pathname).ext;
-    const filePath = mimeRoutes[ext] + url.pathname;
-    return ext ? filePath : (url.pathname === '/' ? filePath + 'index' : filePath) + '.html';
+const getFilePath = (url, mRoutes) => {
+  const ext = path.parse(url.pathname).ext;
+  const filePath = mRoutes[ext] + url.pathname;
+  // return ext ? filePath : (url.pathname === '/' ? `${filePath}index` : filePath) + '.html';
+  return ext ? filePath : `${url.pathname === '/' ? `${filePath}index` : filePath}.html`;
 };
 
 // readFile :: String -> Promise Buffer Error
 const readFile = filename => new Promise((resolve, reject) =>
-    fs.readFile(filename, (e, d) => e ? reject(e) : resolve(d)));
+    fs.readFile(filename, (e, d) => (e ? reject(e) : resolve(d))));
+
+// readNotFound :: _ -> Buffer
+const readNotFound = () => readFile(`${BASE_ROUTE}/404.html`);
 
 // worker :: (Object, Object) -> Promise Undefined Error
 const worker = (req, res) =>
@@ -51,10 +50,10 @@ const worker = (req, res) =>
 
 // serverAtPort :: Number -> Promise Object Error
 const serverAtPort = port => new Promise(((resolve, reject) => {
-    const server = http.createServer(worker)
+  const server = http.createServer(worker)
         .on('error', reject)
         .on('listening', () => resolve(server))
-        .listen(port)
+        .listen(port);
 }));
 
 serverAtPort(process.env.PORT || 3000)

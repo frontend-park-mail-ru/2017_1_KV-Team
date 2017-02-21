@@ -4,8 +4,8 @@
 
 const button = document.getElementById('login-btn');
 
-button.onclick = e => {
-    e.preventDefault();
+button.onclick = (e) => {
+  e.preventDefault();
 
-    location.href = "login";
+  location.href = 'login';
 };
