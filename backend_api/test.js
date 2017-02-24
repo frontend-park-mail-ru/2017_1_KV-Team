@@ -6,7 +6,8 @@
 const backend = require('./backendAPI');
 
 // backend.register('some_nickname5', '33', '3');
-// backend.login('some_nickname5', '3');
- backend.isLoggedIn('some_nickname5', '5abeaaf4-50f6-4fe6-98f3-c4841eda5e3b');
+// backend.login('some_nickname5', '1234');
+backend.isLoggedIn('some_nickname5', '5205aaa2-d909-4ce6-809c-4d64bfe4abe5');
 
-//backend.logout('some_nickname5', '5abeaaf4-50f6-4fe6-98f3-c4841eda5e3b');
+//backend.editAccount('some_nickname5', 'b3df6b99-01fb-448f-b8b0-56b146e568ce', 'n mail', '1234');
+//backend.logout('some_nickname5', 'b3df6b99-01fb-448f-b8b0-56b146e568ce');

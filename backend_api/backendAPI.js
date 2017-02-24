@@ -8,7 +8,7 @@ const http = require('http');
 // An object of options to indicate where to post to
 const post_options = {
     host: 'localhost',
-    port: '8080',
+    port: '8082',
     path: undefined,
     method: 'POST',
     headers: {
@@ -36,7 +36,7 @@ const sendRequest = (post_options, post_data) => {
 // Коды:
 //      200 - зареган успешно
 //      409 - такой никнейм есть
-//      401 - маловероятный кейс(зареган, но не залогинился)
+//      403 - маловероятный кейс(зареган, но не залогинился)
 // Формат ответа при 200 коде:
 //      {"nickname" : ..., "sessionID": ...}
 const register = (username, email, password) => {
@@ -54,9 +54,8 @@ const register = (username, email, password) => {
 
 // Результатом запроса от бекенда будет:
 // Коды:
-//      200 - зареган успешно
-//      401 - парольчик не подошел
-//      404 - нет такого юзера
+//      200 - логин успешен
+//      403 - доступ запрещен
 // Формат ответа при 200 коде:
 //      {"nickname" : ..., "sessionID": ...}
 const login = (username, password) => {
@@ -89,7 +88,7 @@ const logout = (username, sessionID) => {
 // Результатом запроса от бекенда будет:
 // Коды:
 //      200 - сессия существует
-//      401 - нет юзера или сессия не существуют
+//      403 - нет юзера или сессия не существуют
 // Формат ответа при 200 коде:
 //      {"nickname" : ..., "email": ...}
 const isLoggedIn = (username, sessionID) => {
@@ -105,4 +104,23 @@ const isLoggedIn = (username, sessionID) => {
 
 };
 
-module.exports = { register, login, logout, isLoggedIn };
+// Результатом запроса от бекенда будет:
+// Коды:
+//      200 - данные изменены
+//      403 - запрещено менять данные(сессия не сошлась)
+const editAccount = (username, sessionID, newEmail, newPassword) => {
+    const post_data = JSON.stringify({
+        'username': username,
+        'sessionID': sessionID,
+        'email': newEmail,
+        'password': newPassword
+    });
+
+    post_options.path = '/api/editaccount';
+    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
+
+    sendRequest(post_options, post_data);
+
+};
+
+module.exports = { register, login, logout, isLoggedIn, editAccount };
