@@ -38,7 +38,7 @@ const sendRequest = (post_options, post_data) => {
 //      409 - такой никнейм есть
 //      403 - маловероятный кейс(зареган, но не залогинился)
 // Формат ответа при 200 коде:
-//      {"nickname" : ..., "sessionID": ...}
+//      {"username" : ..., "sessionID": ...}
 const register = (username, email, password) => {
     const post_data = JSON.stringify({
         'username': username,
@@ -57,7 +57,7 @@ const register = (username, email, password) => {
 //      200 - логин успешен
 //      403 - доступ запрещен
 // Формат ответа при 200 коде:
-//      {"nickname" : ..., "sessionID": ...}
+//      {"username" : ..., "sessionID": ...}
 const login = (username, password) => {
     const post_data = JSON.stringify({
         'username': username,
@@ -90,7 +90,7 @@ const logout = (username, sessionID) => {
 //      200 - сессия существует
 //      403 - нет юзера или сессия не существуют
 // Формат ответа при 200 коде:
-//      {"nickname" : ..., "email": ...}
+//      {"username" : ..., "email": ...}
 const isLoggedIn = (username, sessionID) => {
     const post_data = JSON.stringify({
         'username': username,
