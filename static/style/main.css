@@ -58,7 +58,7 @@ body {
 }
 
 .flex-outer > li > label,
-#login-btn{
+.space-taker{
     flex: 1 0 120px;
     max-width: 215px;
 }
@@ -116,13 +116,13 @@ body {
     outline: none;
 }
 
-#login-btn + a{
+.space-taker + a{
     color: gainsboro;
     font-weight: 200;
     text-decoration: none;
 }
 
-#login-btn + a:hover{
+.space-taker + a:hover{
     text-decoration: underline;
 }
 
@@ -161,6 +161,7 @@ body {
 #main-navigation ul li:hover,
 #main-navigation ul .active-item{
     background: rgba(255, 255, 255, 1);
+    cursor: pointer;
 }
 
 #main-navigation ul a:hover,
@@ -239,4 +240,22 @@ body {
 
 #registration-form .input-error{
     margin-top: 5px;
+}
+
+.page{
+    display: none;
+}
+
+.current-page{
+    display: block;
+}
+
+.page-not-found{
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }

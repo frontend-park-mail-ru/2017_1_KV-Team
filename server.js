@@ -7,6 +7,7 @@ const logger = require('./utils/logger');
 const errorHandler = require('./utils/errorHandler');
 const URL = require('url');
 const path = require('path');
+const qs = require('querystring');
 
 const BASE_ROUTE = 'static';
 
@@ -19,6 +20,8 @@ const mimeRoutes = {
   '.png': `${BASE_ROUTE}/images`,
 };
 
+const users = { admin: { password: '1234567' } };
+
 // writeToRes :: Object -> Buffer -> Undefined
 const writeToRes = res => (text) => {
   res.write(text, 'utf8');
@@ -28,9 +31,9 @@ const writeToRes = res => (text) => {
 // getFilePath :: (Object, Object) -> String
 const getFilePath = (url, mRoutes) => {
   const ext = path.parse(url.pathname).ext;
-  const filePath = mRoutes[ext] + url.pathname;
-  // return ext ? filePath : (url.pathname === '/' ? `${filePath}index` : filePath) + '.html';
-  return ext ? filePath : `${url.pathname === '/' ? `${filePath}index` : filePath}.html`;
+  const filePath = mRoutes[ext] + ((url.pathname.indexOf('views') === -1 && !ext)
+    ? '/index' : url.pathname);
+  return ext ? filePath : `${filePath}.html`;
 };
 
 // readFile :: String -> Promise Buffer Error
@@ -38,15 +41,50 @@ const readFile = filename => new Promise((resolve, reject) =>
     fs.readFile(filename, (e, d) => (e ? reject(e) : resolve(d))));
 
 // readNotFound :: _ -> Buffer
-const readNotFound = () => readFile(`${BASE_ROUTE}/404.html`);
+const readNotFound = () => readFile(`${BASE_ROUTE}/views/404.html`);
 
-// worker :: (Object, Object) -> Promise Undefined Error
+const handlePOST = req => new Promise((resolve, reject) => {
+  let body = '';
+  req.on('error', (err) => {
+    reject(err);
+  }).on('data', (chunk) => {
+    body += chunk;
+  }).on('end', () => {
+    body = qs.parse(body);
+    switch (req.url) {
+      case '/ajax_login':
+        if (users[body.name] && (users[body.name].password === body.pass)) {
+          resolve('success');
+        } else {
+          resolve('wrongLogPass');
+        }
+        break;
+      case '/ajax_register':
+        if (!users[body.name]) {
+          users[body.name] = {
+            password: body.pass,
+            email: body.email,
+          };
+          resolve('success');
+        } else {
+          resolve('userAlreadyExists');
+        }
+        break;
+      default:
+    }
+    console.log(users);
+  });
+});
+
+const handleGet = req =>
+  Promise.resolve(getFilePath(URL.parse(req.url), mimeRoutes))
+    .then(readFile)
+    .catch(readNotFound);
+
 const worker = (req, res) =>
-    Promise.resolve(getFilePath(URL.parse(req.url), mimeRoutes))
-        .then(readFile)
-        .catch(readNotFound)
-        .then(writeToRes(res))
-        .then(logger(req.url));
+  (req.method === 'POST' ? handlePOST(req, res) : handleGet(req, res))
+    .then(writeToRes(res))
+    .then(logger(req.url));
 
 // serverAtPort :: Number -> Promise Object Error
 const serverAtPort = port => new Promise(((resolve, reject) => {
