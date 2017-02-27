@@ -17,15 +17,16 @@ const post_options = {
     }
 };
 
-const sendRequest = (post_options, post_data) => {
+const sendRequest = (post_options, post_data, onResult) => {
     const post_req = http.request(
         post_options,
         function(res) {
             res.setEncoding('utf8');
-            console.log(`STATUS: ${res.statusCode}`);
-            res.on('data', function (text) {
-                console.log(text);
-            });
+            onResult(res);
+            // console.log(`STATUS: ${res.statusCode}`);
+            // res.on('data', function (text) {
+            //    console.log(text);
+            // });
         });
 
     post_req.write(post_data);
@@ -39,7 +40,7 @@ const sendRequest = (post_options, post_data) => {
 //      403 - маловероятный кейс(зареган, но не залогинился)
 // Формат ответа при 200 коде:
 //      {"username" : ..., "sessionID": ...}
-const register = (username, email, password) => {
+const register = (username, email, password, onResult) => {
     const post_data = JSON.stringify({
         'username': username,
         'email': email,
@@ -49,7 +50,7 @@ const register = (username, email, password) => {
     post_options.path = '/api/register';
     post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
 
-    sendRequest(post_options, post_data);
+    sendRequest(post_options, post_data, onResult);
 };
 
 // Результатом запроса от бекенда будет:
@@ -58,7 +59,7 @@ const register = (username, email, password) => {
 //      403 - доступ запрещен
 // Формат ответа при 200 коде:
 //      {"username" : ..., "sessionID": ...}
-const login = (username, password) => {
+const login = (username, password, onResult) => {
     const post_data = JSON.stringify({
         'username': username,
         'password': password
@@ -67,13 +68,13 @@ const login = (username, password) => {
     post_options.path = '/api/login';
     post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
 
-    sendRequest(post_options, post_data);
+    sendRequest(post_options, post_data, onResult);
 };
 
 // Результатом запроса от бекенда будет:
 // Коды:
 //      200 - гарантировано, что по указанным данным не будет залогиненного пользователя
-const logout = (username, sessionID) => {
+const logout = (username, sessionID, onResult) => {
     const post_data = JSON.stringify({
         'username': username,
         'sessionID': sessionID
@@ -82,16 +83,14 @@ const logout = (username, sessionID) => {
     post_options.path = '/api/logout';
     post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
 
-    sendRequest(post_options, post_data);
+    sendRequest(post_options, post_data, onResult);
 };
 
 // Результатом запроса от бекенда будет:
 // Коды:
 //      200 - сессия существует
 //      403 - нет юзера или сессия не существуют
-// Формат ответа при 200 коде:
-//      {"username" : ..., "email": ...}
-const isLoggedIn = (username, sessionID) => {
+const isLoggedIn = (username, sessionID, onResult) => {
     const post_data = JSON.stringify({
         'username': username,
         'sessionID': sessionID
@@ -100,7 +99,7 @@ const isLoggedIn = (username, sessionID) => {
     post_options.path = '/api/isloggedin';
     post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
 
-    sendRequest(post_options, post_data);
+    sendRequest(post_options, post_data, onResult);
 
 };
 
@@ -108,7 +107,7 @@ const isLoggedIn = (username, sessionID) => {
 // Коды:
 //      200 - данные изменены
 //      403 - запрещено менять данные(сессия не сошлась)
-const editAccount = (username, sessionID, newEmail, newPassword) => {
+const editAccount = (username, sessionID, newEmail, newPassword, onResult) => {
     const post_data = JSON.stringify({
         'username': username,
         'sessionID': sessionID,
@@ -119,8 +118,24 @@ const editAccount = (username, sessionID, newEmail, newPassword) => {
     post_options.path = '/api/editaccount';
     post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
 
-    sendRequest(post_options, post_data);
+    sendRequest(post_options, post_data, onResult);
 
 };
 
-module.exports = { register, login, logout, isLoggedIn, editAccount };
+
+// 200 - пользователь найден.
+// 404 - пользователь не найден
+// Формат ответа при 200 коде:
+//      {"username" : ...}
+const getAccount = (username, onResult) => {
+    const post_data = JSON.stringify({
+        'username': username
+    });
+
+    post_options.path = '/api/getaccount';
+    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
+
+    sendRequest(post_options, post_data, onResult);
+};
+
+module.exports = { register, login, logout, isLoggedIn, editAccount, getAccount };
