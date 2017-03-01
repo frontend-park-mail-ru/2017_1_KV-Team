@@ -5,10 +5,13 @@
 
 const http = require('http');
 
+const hostname = 'localhost';
+const portNumber = '8082';
+
 // An object of options to indicate where to post to
 const post_options = {
-    host: 'localhost',
-    port: '8082',
+    host: hostname,
+    port: portNumber,
     path: undefined,
     method: 'POST',
     headers: {
@@ -17,20 +20,40 @@ const post_options = {
     }
 };
 
-const sendRequest = (post_options, post_data, onResult) => {
-    const post_req = http.request(
-        post_options,
+const put_options = {
+    host: hostname,
+    port: portNumber,
+    path: undefined,
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': undefined
+    }
+};
+
+const get_options = {
+    host: hostname,
+    port: portNumber,
+    path: undefined,
+    method: 'GET',
+    headers: {
+        'Content-Length': 0
+    }
+};
+
+const sendRequest = (options, data, onResult) => {
+    const req = http.request(
+        options,
         function(res) {
             res.setEncoding('utf8');
             onResult(res);
-            // console.log(`STATUS: ${res.statusCode}`);
-            // res.on('data', function (text) {
-            //    console.log(text);
-            // });
+
         });
 
-    post_req.write(post_data);
-    post_req.end();
+    if(data !== null){
+        req.write(data);
+    }
+    req.end();
 };
 
 // Результатом запроса от бекенда будет:
@@ -47,7 +70,7 @@ const register = (username, email, password, onResult) => {
         'password': password
     });
 
-    post_options.path = '/api/register';
+    post_options.path = '/api/account';
     post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
 
     sendRequest(post_options, post_data, onResult);
@@ -108,17 +131,17 @@ const isLoggedIn = (username, sessionID, onResult) => {
 //      200 - данные изменены
 //      403 - запрещено менять данные(сессия не сошлась)
 const editAccount = (username, sessionID, newEmail, newPassword, onResult) => {
-    const post_data = JSON.stringify({
+    const data = JSON.stringify({
         'username': username,
         'sessionID': sessionID,
         'email': newEmail,
         'password': newPassword
     });
 
-    post_options.path = '/api/editaccount';
-    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
+    put_options.path = '/api/account';
+    put_options.headers['Content-Length'] = Buffer.byteLength(data);
 
-    sendRequest(post_options, post_data, onResult);
+    sendRequest(put_options, data, onResult);
 
 };
 
@@ -128,14 +151,8 @@ const editAccount = (username, sessionID, newEmail, newPassword, onResult) => {
 // Формат ответа при 200 коде:
 //      {"username" : ...}
 const getAccount = (username, onResult) => {
-    const post_data = JSON.stringify({
-        'username': username
-    });
-
-    post_options.path = '/api/getaccount';
-    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
-
-    sendRequest(post_options, post_data, onResult);
+    get_options.path = `/api/account?username=${username}`;
+    sendRequest(get_options, null, onResult);
 };
 
 module.exports = { register, login, logout, isLoggedIn, editAccount, getAccount };
