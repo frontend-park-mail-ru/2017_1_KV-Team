@@ -3,57 +3,59 @@
  */
 "use strict";
 
-const http = require('http');
-
+const protocol = 'http';
 const hostname = 'localhost';
 const portNumber = '8082';
 
 // An object of options to indicate where to post to
 const post_options = {
+    protocol: protocol,
     host: hostname,
     port: portNumber,
     path: undefined,
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': undefined
+        'Content-Type': 'application/json'
     }
 };
 
 const put_options = {
+    protocol: protocol,
     host: hostname,
     port: portNumber,
     path: undefined,
     method: 'PUT',
     headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': undefined
+        'Content-Type': 'application/json'
     }
 };
 
 const get_options = {
+    protocol: protocol,
     host: hostname,
     port: portNumber,
     path: undefined,
     method: 'GET',
     headers: {
-        'Content-Length': 0
     }
 };
 
 const sendRequest = (options, data, onResult) => {
-    const req = http.request(
-        options,
-        function(res) {
-            res.setEncoding('utf8');
-            onResult(res);
+    const xhr = new XMLHttpRequest();
+    xhr.open(options.method, `${options.protocol}://${options.host}:${options.port}${options.path}`, true);
 
-        });
+    Object.keys(options.headers).map(function(key, index) {
+        xhr.setRequestHeader(key, options.headers[key]);
+    });
 
-    if(data !== null){
-        req.write(data);
+    xhr.withCredentials = true;
+    xhr.onload = () => onResult(xhr);
+
+    if( data !== null && data.length !== 0 ){
+        xhr.send(data);
+    }else{
+        xhr.send();
     }
-    req.end();
 };
 
 // Результатом запроса от бекенда будет:
@@ -69,10 +71,7 @@ const register = (username, email, password, onResult) => {
         'email': email,
         'password': password
     });
-
     post_options.path = '/api/account';
-    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
-
     sendRequest(post_options, post_data, onResult);
 };
 
@@ -89,60 +88,40 @@ const login = (username, password, onResult) => {
     });
 
     post_options.path = '/api/login';
-    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
-
     sendRequest(post_options, post_data, onResult);
 };
 
 // Результатом запроса от бекенда будет:
 // Коды:
 //      200 - гарантировано, что по указанным данным не будет залогиненного пользователя
-const logout = (username, sessionID, onResult) => {
-    const post_data = JSON.stringify({
-        'username': username,
-        'sessionID': sessionID
-    });
-
-    post_options.path = '/api/logout';
-    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
-
-    sendRequest(post_options, post_data, onResult);
+const logout = (onResult) => {
+    get_options.path = '/api/logout';
+    sendRequest(get_options, null, onResult);
 };
 
 // Результатом запроса от бекенда будет:
 // Коды:
 //      200 - сессия существует
 //      403 - нет юзера или сессия не существуют
-const isLoggedIn = (username, sessionID, onResult) => {
-    const post_data = JSON.stringify({
-        'username': username,
-        'sessionID': sessionID
-    });
-
-    post_options.path = '/api/isloggedin';
-    post_options.headers['Content-Length'] = Buffer.byteLength(post_data);
-
-    sendRequest(post_options, post_data, onResult);
-
+const isLoggedIn = (onResult) => {
+    get_options.path = '/api/isloggedin';
+    sendRequest(get_options, null, onResult);
 };
 
 // Результатом запроса от бекенда будет:
 // Коды:
 //      200 - данные изменены
 //      403 - запрещено менять данные(сессия не сошлась)
-const editAccount = (username, sessionID, newEmail, newPassword, onResult) => {
+const editAccount = (newEmail, newPassword, onResult) => {
     const data = JSON.stringify({
-        'username': username,
-        'sessionID': sessionID,
         'email': newEmail,
         'password': newPassword
     });
 
     put_options.path = '/api/account';
-    put_options.headers['Content-Length'] = Buffer.byteLength(data);
+    put_options.headers['Content-Length'] = data.length;
 
     sendRequest(put_options, data, onResult);
-
 };
 
 
@@ -151,8 +130,6 @@ const editAccount = (username, sessionID, newEmail, newPassword, onResult) => {
 // Формат ответа при 200 коде:
 //      {"username" : ...}
 const getAccount = (username, onResult) => {
-    get_options.path = `/api/account?username=${username}`;
+    get_options.path = `/api/account/${username}`;
     sendRequest(get_options, null, onResult);
 };
-
-module.exports = { register, login, logout, isLoggedIn, editAccount, getAccount };

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+                Присылать с такими заголовками:
+                'Access-Control-Allow-Methods':	'GET, POST, PUT',
+                'Access-Control-Allow-Credentials':	true,
+                'Access-Control-Allow-Origin':	'http://localhost:8082/',
+                'Access-Control-Allow-Headers':	'Content-Type,*'
+
+
+-->
+
+
+<input type="button" id="btn1" value="register"/>
+<input type="button" id="btn2" value="login"/>
+<input type="button" id="btn3" value="logout"/>
+<input type="button" id="btn4" value="isloggedin"/>
+<input type="button" id="btn5" value="editAccount"/>
+<input type="button" id="btn6" value="getAccount"/>
+
+
+<script src="backendAPI.js"></script>
+<script>
+    "use strict";
+
+    const f = (res) => {
+        console.log(`STATUS: ${res.status}, \n ${res.responseText}`);
+
+    };
+
+    btn1.onclick = function() {
+        register('user1','oldmail@mail.ru','2',f);
+    };
+    btn2.onclick = function() {
+        login('user1','2',f);
+    };
+    btn3.onclick = function() {
+        logout(f);
+    };
+    btn4.onclick = function() {
+        isLoggedIn(f);
+    };
+    btn5.onclick = function() {
+        editAccount('new@mail.ru', null, f);
+    };
+    btn6.onclick = function() {
+        getAccount('user1', f);
+    };
+
+</script>
+
+</body>
+</html>
