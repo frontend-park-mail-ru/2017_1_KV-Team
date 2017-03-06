@@ -8,6 +8,7 @@ const errorHandler = require('./utils/errorHandler');
 const URL = require('url');
 const path = require('path');
 const qs = require('querystring');
+const fest = require('fest');
 
 const BASE_ROUTE = 'static';
 
@@ -41,7 +42,7 @@ const readFile = filename => new Promise((resolve, reject) =>
     fs.readFile(filename, (e, d) => (e ? reject(e) : resolve(d))));
 
 // readNotFound :: _ -> Buffer
-const readNotFound = () => readFile(`${BASE_ROUTE}/views/404.html`);
+const readNotFound = () => readFile(`${BASE_ROUTE}/views/404.xml`);
 
 const handlePOST = req => new Promise((resolve, reject) => {
   let body = '';
@@ -97,4 +98,7 @@ const serverAtPort = port => new Promise(((resolve, reject) => {
 serverAtPort(process.env.PORT || 3000)
     .then(server => console.log('serving on port:', server.address().port))
     .catch(errorHandler);
+
+// const leaders = require('./static/js/leadersTemplate.js');
+// console.log(leaders(JSON.parse(fs.readFileSync('./leaders.json', 'utf8'))));
 

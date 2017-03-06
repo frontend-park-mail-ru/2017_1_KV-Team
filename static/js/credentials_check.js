@@ -1,7 +1,8 @@
 /* global Valnder */
 /* global app */
+const Valnder = require('./sValidator.js');
 
-(function () {
+module.exports = (app) => {
   const nameInput = document.getElementById('reg-name');
   const passwordInput = document.getElementById('reg-password');
   const passwordCheckInput = document.getElementById('password2');
@@ -47,4 +48,4 @@
   val.renderTo('.err-container');
 
   app.connectValidator(val);
-}());
+};

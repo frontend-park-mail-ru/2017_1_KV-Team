@@ -75,3 +75,5 @@ class Valnder {
     this.containerClass = cls;
   }
 }
+
+module.exports = Valnder;
