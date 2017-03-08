@@ -1,0 +1,278 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "The Last Siege",
+        "description": "Реализация апи для игры The Last Siege",
+        "version": "0.1.0"
+    },
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "basePath": "/api",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/account": {
+            "post": {
+                "summary": "Регистрация пользователя",
+                "description": "регистрация пользователя. Необходимо указать username и password\n",
+                "operationId": "register",
+                "parameters": [
+                    {
+                        "name": "UserData",
+                        "in": "body",
+                        "description": "Имя и пароль пользователя",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пользователь создан \nВернет code 200 и message username.\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    },
+                    "400": {
+                        "description": "В запросе отсутствуют имя пользователя или пароль.\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    },
+                    "409": {
+                        "description": "Пользователь уже существует\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Редактирование данных о пользователе",
+                "description": "Изменение данных о пользователе (email и/или пароль).\n",
+                "operationId": "editAccount",
+                "parameters": [
+                    {
+                        "name": "UserData",
+                        "in": "body",
+                        "description": "данные о пароле и адресе электронной почты",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пользователь изменен успешно\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    },
+                    "409": {
+                        "description": "Запрещен доступ для изменения. (Пользователь меняет не себя)\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/{username}": {
+            "get": {
+                "summary": "Получить информацию о пользователе",
+                "description": "Получение информации о пользователе\n",
+                "operationId": "getAccount",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Имя пользователя.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Данные о пользователе\n",
+                        "schema": {
+                            "$ref": "#/definitions/UserData"
+                        }
+                    },
+                    "404": {
+                        "description": "Пользователь не найден\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    }
+                }
+            }
+        },
+        "/leaders": {
+            "get": {
+                "summary": "Получить список лидеров",
+                "description": "Получить топ игроков\n",
+                "operationId": "leaders",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "количество топ игроков\n",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Массив игроков, состоящих из username, rating, level\n",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ResponseStatusData"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Логин",
+                "description": "Логин\n",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "UserData",
+                        "in": "body",
+                        "description": "имя пользователя и пароль",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Залогинен успешно\nВернет code 200 и message username.\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    },
+                    "400": {
+                        "description": "В запросе отсутствуют имя пользователя или пароль.\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    },
+                    "403": {
+                        "description": "Имя или пароль не подходят\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    }
+                }
+            }
+        },
+        "/isloggedin": {
+            "get": {
+                "summary": "Проверить, залогинен ли пользователь",
+                "description": "Проверить, залогинен ли пользователь\n",
+                "operationId": "isloggedin",
+                "responses": {
+                    "200": {
+                        "description": "Залогинен успешно\nВернет code 200 и message username.\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    },
+                    "401": {
+                        "description": "Пользователь не залогинен\n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "summary": "Разлогиниться",
+                "description": "Разлогиниться\n",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Для пользователя с пришедшими cookie завершена сессия \n",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseStatusData"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ResponseStatusData": {
+            "description": "Информация о выполнении запроса \n",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "number",
+                    "format": "int32",
+                    "description": "статус выполнения запроса",
+                    "example": 200,
+                    "x-isnullable": false
+                },
+                "message": {
+                    "type": "string",
+                    "format": "text",
+                    "description": "Текстовое описание, например имя текущего пользователя или ключ валидации",
+                    "example": "success",
+                    "x-isnullable": false
+                }
+            }
+        },
+        "UserData": {
+            "description": "Информация о пользователе\n",
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "description": "имя пользователя",
+                    "example": "user1",
+                    "x-isnullable": true
+                },
+                "email": {
+                    "type": "string",
+                    "description": "адрес электронной почты",
+                    "example": "user1@mail.ru",
+                    "x-isnullable": true
+                },
+                "password": {
+                    "type": "string",
+                    "description": "пароль",
+                    "example": "passwd",
+                    "x-isnullable": true
+                },
+                "rating": {
+                    "type": "number",
+                    "description": "рейтинг пользователя",
+                    "example": 0,
+                    "x-isnullable": true
+                },
+                "level": {
+                    "type": "number",
+                    "description": "уровень пользователя",
+                    "example": 1,
+                    "x-isnullable": true
+                }
+            }
+        }
+    }
+}
