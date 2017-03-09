@@ -86,7 +86,84 @@
       return fn.call(__fest_self, params)
     }
 
-    __fest_buf += ("<nav id=\"main-navigation\"><ul><li class=\"active-item\"><a href=\"play\" class=\"no-reload\" title=\"Играть\">Играть</a></li><li><a href=\"leaders\" class=\"no-reload\" title=\"Лидерборд\">Лидерборд</a></li><li><a href=\"about\" class=\"no-reload\" title=\"Об игре\">Об игре</a></li><li><a href=\"login\" class=\"no-reload\" title=\"Выйти\">Выйти</a></li></ul></nav><div id=\"main-content-container\"><div id=\"game\"></div></div>");
+    var info = __fest_context;
+    try {
+      var active = {active: 'leaders', nick: info.username}
+    } catch (e) {
+      __fest_log_error(e.message);
+    }
+    var __fest_context0;
+    try {
+      __fest_context0 = active
+    } catch (e) {
+      __fest_context0 = {};
+      __fest_log_error(e.message)
+    }
+    ;
+    (function (__fest_context) {
+      var info = __fest_context;
+      __fest_buf += ("<div class=\"user-bar\">Вы вошли как ");
+      try {
+        __fest_buf += (__fest_escapeHTML(info.nick))
+      } catch (e) {
+        __fest_log_error(e.message + "2");
+      }
+      __fest_buf += ("</div><nav id=\"main-navigation\"><ul>");
+      try {
+        __fest_attrs[0] = __fest_escapeHTML(info.active === 'play' ? 'active-item' : '')
+      } catch (e) {
+        __fest_attrs[0] = "";
+        __fest_log_error(e.message);
+      }
+      __fest_buf += ("<li class=\"" + __fest_attrs[0] + "\"><a href=\"play\" class=\"no-reload\" title=\"Играть\">Играть</a></li>");
+      try {
+        __fest_attrs[0] = __fest_escapeHTML(info.active === 'leaders' ? 'active-item' : '')
+      } catch (e) {
+        __fest_attrs[0] = "";
+        __fest_log_error(e.message);
+      }
+      __fest_buf += ("<li class=\"" + __fest_attrs[0] + "\"><a href=\"leaders\" class=\"no-reload\" title=\"Лидерборд\">Лидерборд</a></li>");
+      try {
+        __fest_attrs[0] = __fest_escapeHTML(info.active === 'about' ? 'active-item' : '')
+      } catch (e) {
+        __fest_attrs[0] = "";
+        __fest_log_error(e.message);
+      }
+      __fest_buf += ("<li class=\"" + __fest_attrs[0] + "\"><a href=\"about\" class=\"no-reload\" title=\"Об игре\">Об игре</a></li><li><a href=\"login\" class=\"no-reload logout-link\" title=\"Выйти\">Выйти</a></li></ul></nav>");
+    })(__fest_context0);
+    __fest_buf += ("<div id=\"main-content-container\"><div id=\"main-content\"><table id=\"leaderboard\"><col width=\"300\"/><col width=\"150\"/><col width=\"100\"/><thead><tr><th><a href=\"\">Игрок</a></th><th><a href=\"\">Уровень</a></th><th><a href=\"\">Рейтинг</a></th></tr></thead><tbody>");
+    var i, v, __fest_to1, __fest_iterator1;
+    try {
+      __fest_iterator1 = info.leaders || [];
+      __fest_to1 = __fest_iterator1.length;
+    } catch (e) {
+      __fest_iterator1 = [];
+      __fest_to1 = 0;
+      __fest_log_error(e.message);
+    }
+    for (i = 0; i < __fest_to1; i++) {
+      v = __fest_iterator1[i];
+      __fest_buf += ("<tr><td><a href=\"\">");
+      try {
+        __fest_buf += (__fest_escapeHTML(v.username))
+      } catch (e) {
+        __fest_log_error(e.message + "20");
+      }
+      __fest_buf += ("</a></td><td>");
+      try {
+        __fest_buf += (__fest_escapeHTML(v.level))
+      } catch (e) {
+        __fest_log_error(e.message + "21");
+      }
+      __fest_buf += ("</td><td>");
+      try {
+        __fest_buf += (__fest_escapeHTML(v.rating))
+      } catch (e) {
+        __fest_log_error(e.message + "22");
+      }
+      __fest_buf += ("</td></tr>");
+    }
+    __fest_buf += ("</tbody></table></div></div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
       __fest_iterator = 0;

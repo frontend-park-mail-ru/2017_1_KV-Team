@@ -86,7 +86,52 @@
       return fn.call(__fest_self, params)
     }
 
-    __fest_buf += ("<div class=\"page-not-found\"></div><div id=\"main-content-container\"><div id=\"page-not-found\"><h1>404 Страница не найдена</h1><a href=\"play\" class=\"no-reload\">На главную</a></div></div>");
+    var user = __fest_context;
+    try {
+      var active = {active: 'about', nick: user}
+    } catch (e) {
+      __fest_log_error(e.message);
+    }
+    var __fest_context0;
+    try {
+      __fest_context0 = active
+    } catch (e) {
+      __fest_context0 = {};
+      __fest_log_error(e.message)
+    }
+    ;
+    (function (__fest_context) {
+      var info = __fest_context;
+      __fest_buf += ("<div class=\"user-bar\">Вы вошли как ");
+      try {
+        __fest_buf += (__fest_escapeHTML(info.nick))
+      } catch (e) {
+        __fest_log_error(e.message + "2");
+      }
+      __fest_buf += ("</div><nav id=\"main-navigation\"><ul>");
+      try {
+        __fest_attrs[0] = __fest_escapeHTML(info.active === 'play' ? 'active-item' : '')
+      } catch (e) {
+        __fest_attrs[0] = "";
+        __fest_log_error(e.message);
+      }
+      __fest_buf += ("<li class=\"" + __fest_attrs[0] + "\"><a href=\"play\" class=\"no-reload\" title=\"Играть\">Играть</a></li>");
+      try {
+        __fest_attrs[0] = __fest_escapeHTML(info.active === 'leaders' ? 'active-item' : '')
+      } catch (e) {
+        __fest_attrs[0] = "";
+        __fest_log_error(e.message);
+      }
+      __fest_buf += ("<li class=\"" + __fest_attrs[0] + "\"><a href=\"leaders\" class=\"no-reload\" title=\"Лидерборд\">Лидерборд</a></li>");
+      try {
+        __fest_attrs[0] = __fest_escapeHTML(info.active === 'about' ? 'active-item' : '')
+      } catch (e) {
+        __fest_attrs[0] = "";
+        __fest_log_error(e.message);
+      }
+      __fest_buf += ("<li class=\"" + __fest_attrs[0] + "\"><a href=\"about\" class=\"no-reload\" title=\"Об игре\">Об игре</a></li><li><a href=\"login\" class=\"no-reload logout-link\" title=\"Выйти\">Выйти</a></li></ul></nav>");
+    })(__fest_context0);
+    __fest_buf += ("<div id=\"main-content-container\"><div id=\"main-content\"><p>«Карточная стратегия для всех» — заявлено на официальном сайте Hearthstone.\n                Под «всеми» подразумеваются любители и киберспортсмены, хотя Blizzard не планировала\n                продвигать\n                соревновательную составляющую. Однако многотысячные армии зрителей на трансляциях\n                турниров прозрачно\n                намекнули: хотим, чтоб всё всерьез! И создатели «Военного ремесла» пошли им навстречу.</p></div></div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
       __fest_iterator = 0;

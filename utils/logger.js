@@ -6,4 +6,3 @@
 const logger = url => console.log(`GET: ${url}`);
 
 module.exports = logger;
-

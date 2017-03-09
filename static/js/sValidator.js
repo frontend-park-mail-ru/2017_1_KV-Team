@@ -2,30 +2,33 @@
  * Created by andreivinogradov on 20.02.17.
  */
 
-/* eslint no-unused-vars:0 */
 class Valnder {
   static isEmpty(input) {
     return !!input;
   }
+
   constructor() {
     this.fields = new Map();
     this.serverSideValidationErrors = {};
   }
+
   register(form) {
     this.form = form;
   }
-  showErrors() {
-    let isValid = true;
+
+  showIfAnyErrors() {
+    let isInvalid = false;
     this.fields.forEach((errors, elem) => {
       const field = elem;
       const err = this.checkAll(errors);
       if (err) {
-        isValid = false;
+        isInvalid = true;
       }
       field.parentNode.querySelector(this.containerClass).innerHTML = err;
     });
-    return isValid;
+    return isInvalid;
   }
+
   checkAll(errors, index = 0) {
     if (!errors[index].validator()) {
       return this.render(errors[index].message);
@@ -35,6 +38,7 @@ class Valnder {
     }
     return this.checkAll(errors, index + 1);
   }
+
   addValidation(field, msg, valFn = this.constructor.isEmpty) {
     const fields = field.constructor === Array ? field : [field];
     if (!this.fields.has(fields[0])) {
@@ -50,6 +54,7 @@ class Valnder {
       message: msg,
     });
   }
+
   addServerSideValidation(field, msg, key) {
     if (this.serverSideValidationErrors[key]) {
       console.log('Ошибка с таким ключом уже существует!');
@@ -57,20 +62,25 @@ class Valnder {
       this.serverSideValidationErrors[key] = { field, msg };
     }
   }
+
   showError(elem, msg) {
     const field = elem;
     field.parentNode.querySelector(this.containerClass).innerHTML = this.render(msg);
   }
+
   raiseByKey(key) {
     this.showError(this.serverSideValidationErrors[key].field,
       this.serverSideValidationErrors[key].msg);
   }
+
   getForm() {
     return this.form;
   }
+
   renderFunction(fn) {
     this.render = fn;
   }
+
   renderTo(cls) {
     this.containerClass = cls;
   }

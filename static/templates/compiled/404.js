@@ -4,7 +4,7 @@
   module.exports = function (__fest_context) {
     "use strict";
     var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_element_stack = [], __fest_short_tags = {
-      'area': true,
+      "area": true,
       "base": true,
       "br": true,
       "col": true,
@@ -86,7 +86,7 @@
       return fn.call(__fest_self, params)
     }
 
-    __fest_buf += ("<nav id=\"main-navigation\"><ul><li><a href=\"play\" class=\"no-reload\" title=\"Играть\">Играть</a></li><li><a href=\"leaders\" class=\"no-reload\" title=\"Лидерборд\">Лидерборд</a></li><li class=\"active-item\"><a href=\"about\" class=\"no-reload\" title=\"Об игре\">Об игре</a></li><li><a href=\"login\" class=\"no-reload\" title=\"Выйти\">Выйти</a></li></ul></nav><div id=\"main-content-container\"><div id=\"main-content\"><p>«Карточная стратегия для всех» — заявлено на официальном сайте Hearthstone.\n                Под «всеми» подразумеваются любители и киберспортсмены, хотя Blizzard не планировала\n                продвигать\n                соревновательную составляющую. Однако многотысячные армии зрителей на трансляциях\n                турниров прозрачно\n                намекнули: хотим, чтоб всё всерьез! И создатели «Военного ремесла» пошли им навстречу.</p></div></div>");
+    __fest_buf += ("<div class=\"page-not-found\"></div><div id=\"main-content-container\"><div id=\"page-not-found\"><h1>404 Страница не найдена</h1><a href=\"play\" class=\"no-reload\">На главную</a></div></div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
       __fest_iterator = 0;

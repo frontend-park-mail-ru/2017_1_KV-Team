@@ -1,8 +1,6 @@
 /**
  * Created by andreivinogradov on 27.02.17.
  */
-/* global Valnder */
-/* global app */
 const Valnder = require('./sValidator.js');
 
 module.exports = (app) => {
@@ -17,7 +15,7 @@ module.exports = (app) => {
 
   loginValidator.addValidation(passField, 'Поле пароля не может быть пустым');
   // Четвертый параметр - url для проверки поля через ajax (если нету, то это url всей формы)
-  loginValidator.addServerSideValidation(loginField, 'Неправильный логин/пароль', 'wrongLogPass');
+  loginValidator.addServerSideValidation(loginField, 'Неправильный логин/пароль', 'Access denied');
 
   loginValidator.renderFunction(text => `<p class='input-error'>${text}</p>`);
 

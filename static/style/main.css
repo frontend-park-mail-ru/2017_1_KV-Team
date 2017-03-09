@@ -1,6 +1,9 @@
+@import url("../components/button/button.css");
+@import url("../components/form/form.css");
+
 body {
     font: normal 18px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
-    background-image: url("siege2.jpg");
+    background-image: url("../siege2.jpg");
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
@@ -20,119 +23,6 @@ body {
 
 .container * {
     box-sizing: border-box;
-}
-
-.flex-outer,
-.flex-inner {
-    list-style-type: none;
-    padding: 0;
-}
-
-.flex-outer {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.flex-outer li,
-.flex-inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}
-
-.flex-inner {
-    padding: 0 8px;
-    justify-content: space-between;
-}
-
-.flex-outer > li:not(:last-child) {
-    margin-bottom: 20px;
-}
-
-.flex-outer li label,
-.flex-outer li p {
-    padding: 8px 8px 8px 0;
-    font-weight: 300;
-    letter-spacing: .09em;
-    text-transform: uppercase;
-}
-
-.flex-outer > li > label,
-.space-taker{
-    flex: 1 0 120px;
-    max-width: 215px;
-}
-
-.flex-outer > li > label + *,
-.flex-inner {
-    flex: 1 0 220px;
-}
-
-.flex-outer li p {
-    display: inline-block;
-    color: cornsilk;
-    margin: 0;
-    font-size: 14px;
-}
-
-.flex-outer li p:before {
-    content: "";
-    width: 24px;
-    height: 24px;
-    background: url(error.png);
-    display: inline-block;
-    background-size: contain;
-    margin-right: 10px;
-    vertical-align: bottom;
-    filter: contrast(150%);
-}
-
-.flex-outer li input {
-    width: 100%;
-    font-size: 14px;
-    color: #8e8d8d;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 15px;
-    border: none;
-    transition: all 0.15s ease-out;
-}
-
-.flex-outer li input:focus {
-    outline: none;
-    box-shadow: 0 0 10px chocolate;
-    transform: scale(1.01);
-}
-
-.flex-outer li button {
-    transition: all 0.1s ease-out;
-    margin-left: auto;
-    padding: 12px 16px;
-    border: 2px solid white;
-    background: rgba(0, 0, 0, 0.3);
-    color: #f2f2f2;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-    border-radius: 2px;
-    outline: none;
-}
-
-.space-taker + a{
-    color: gainsboro;
-    font-weight: 200;
-    text-decoration: none;
-}
-
-.space-taker + a:hover{
-    text-decoration: underline;
-}
-
-.flex-outer li button:hover {
-    cursor: pointer;
-    transform: scale(1.025);
-}
-
-.flex-inner li {
-    width: 100px;
 }
 
 #main-navigation {
@@ -190,7 +80,7 @@ body {
 }
 
 #game{
-    background-image: url("game_process.jpg");
+    background-image: url("../game_process.jpg");
     height: 450px;
     width: 800px;
     background-size: cover;
@@ -258,4 +148,14 @@ body {
     top: 0;
     left: 0;
     z-index: -1;
+}
+
+.user-bar{
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background: rgba(51, 51, 51, 0.4);
+    padding: 5px 15px;
+    color: chocolate;
+    border-radius: 5px;
 }

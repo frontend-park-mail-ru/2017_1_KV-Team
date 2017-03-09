@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <div class="page-not-found"></div>
+    <div class="page-not-found"/>
     <div id="main-content-container">
         <div id="page-not-found">
             <h1>404 Страница не найдена</h1>

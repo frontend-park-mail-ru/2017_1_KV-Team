@@ -86,38 +86,12 @@
       return fn.call(__fest_self, params)
     }
 
-    var leaders = __fest_context;
-    __fest_buf += ("<nav id=\"main-navigation\"><ul><li><a href=\"play\" class=\"no-reload\" title=\"Играть\">Играть</a></li><li class=\"active-item\"><a href=\"leaders\" class=\"no-reload\" title=\"Лидерборд\">Лидерборд</a></li><li><a href=\"aboutts\" class=\"no-reload\" title=\"Об игре\">Об игре</a></li><li><a href=\"login\" class=\"no-reload\" title=\"Выйти\">Выйти</a></li></ul></nav><div id=\"main-content-container\"><div id=\"main-content\"><table id=\"leaderboard\"><col width=\"300\"/><col width=\"150\"/><col width=\"100\"/><thead><tr><th><a href=\"\">Игрок</a></th><th><a href=\"\">Уровень</a></th><th><a href=\"\">Рейтинг</a></th></tr></thead><tbody>");
-    var nam, val, __fest_iterator0;
+    var registerForm = __fest_context;
     try {
-      __fest_iterator0 = leaders || {};
+      __fest_buf += (registerForm)
     } catch (e) {
-      __fest_iterator = {};
-      __fest_log_error(e.message);
+      __fest_log_error(e.message + "2");
     }
-    for (nam in __fest_iterator0) {
-      val = __fest_iterator0[nam];
-      __fest_buf += ("<tr><td><a href=\"\">");
-      try {
-        __fest_buf += (__fest_escapeHTML(nam))
-      } catch (e) {
-        __fest_log_error(e.message + "26");
-      }
-      __fest_buf += ("</a></td><td>");
-      try {
-        __fest_buf += (__fest_escapeHTML(val.level))
-      } catch (e) {
-        __fest_log_error(e.message + "27");
-      }
-      __fest_buf += ("</td><td>");
-      try {
-        __fest_buf += (__fest_escapeHTML(val.score))
-      } catch (e) {
-        __fest_log_error(e.message + "28");
-      }
-      __fest_buf += ("</td></tr>");
-    }
-    __fest_buf += ("</tbody></table></div></div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
       __fest_iterator = 0;

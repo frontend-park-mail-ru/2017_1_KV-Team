@@ -86,7 +86,12 @@
       return fn.call(__fest_self, params)
     }
 
-    __fest_buf += ("<form id=\"login-form\" action=\"ajax_login\" novalidate=\"true\"><ul class=\"flex-outer\"><li><label for=\"login-name\">Логин</label><div><input type=\"text\" name=\"name\" id=\"login-name\" placeholder=\"Введите логин\"/><div class=\"err-container\"></div></div></li><li><label for=\"login-password\">Пароль</label><div><input type=\"password\" name=\"pass\" id=\"login-password\" placeholder=\"Введите пароль\"/><div class=\"err-container\"></div></div></li><li><div class=\"space-taker\"></div><a href=\"register\" class=\"no-reload\" id=\"register-btn\">Зарегистрироваться</a><button type=\"submit\">Войти</button></li></ul></form>");
+    var loginForm = __fest_context;
+    try {
+      __fest_buf += (loginForm)
+    } catch (e) {
+      __fest_log_error(e.message + "2");
+    }
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
       __fest_iterator = 0;

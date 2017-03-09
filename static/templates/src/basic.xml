@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="info">
+    <div class="user-bar">Вы вошли как<fest:space/><fest:value>info.nick</fest:value></div>
+    <nav id="main-navigation">
+        <ul>
+            <li class="{info.active==='play'?'active-item':''}">
+                <a href="play" class="no-reload" title="Играть">Играть</a>
+            </li>
+            <li class="{info.active==='leaders'?'active-item':''}">
+                <a href="leaders" class="no-reload" title="Лидерборд">Лидерборд</a>
+            </li>
+            <li class="{info.active==='about'?'active-item':''}">
+                <a href="about" class="no-reload" title="Об игре">Об игре</a>
+            </li>
+            <li>
+                <a href="login" class="no-reload logout-link" title="Выйти">Выйти</a>
+            </li>
+        </ul>
+    </nav>
+</fest:template>

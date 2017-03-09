@@ -8,90 +8,89 @@ const portNumber = '8082';
 
 class HTTP {
   constructor() {
-    if (HTTP.__instance) {
-      return HTTP.__instance;
+    if (HTTP.instance) {
+      return HTTP.instance;
     }
 
-    this._headers = {};
-    this._baseUrl = `${protocol}://${hostname}:${portNumber}`;
+    this.headers = {};
+    this.baseUrl = `${protocol}://${hostname}:${portNumber}`;
 
-    HTTP.__instance = this;
+    HTTP.instance = this;
   }
 
   get Headers() {
-    return this._headers;
+    return this.headers;
   }
 
   set Headers(value) {
-    if (!(value && ('' + value === '[object Object]'))) {
+    if (!(value && (value.toString() === '[object Object]'))) {
       throw new TypeError('Headers must be a plain object');
     }
     const valid = Object.keys(value).every(key => typeof value[key] === 'string');
     if (!valid) {
       throw new TypeError('Headers must be a plain object');
     }
-    this._headers = value;
+    this.headers = value;
   }
 
   get BaseURL() {
-    return this._baseUrl;
+    return this.baseUrl;
   }
 
   set BaseURL(value) {
-    this._baseUrl = value;
+    this.baseUrl = value;
   }
 
-  get(address, query = null, callback = null) {
-    let url = `${this._baseUrl}${address}`;
+  get(address, query = null) {
+    let url = `${this.baseUrl}${address}`;
     if (query) {
       url += Object.keys(query)
         .map(name => encodeURIComponent(`${name}=${query[name]}`))
         .join('&');
     }
-    fetch(url, {
+    return fetch(url, {
       method: 'GET',
       credentials: 'include',
       mode: 'cors',
-      headers: this._headers,
+      headers: this.headers,
     })
-      .then(callback);
+      .then(resp => resp.json());
   }
 
-  post(address, body = null, callback = null) {
-    let url = `${this._baseUrl}${address}`;
-    console.log(url);
-    fetch(url, {
+  post(address, body = null) {
+    const url = `${this.baseUrl}${address}`;
+    return fetch(url, {
       method: 'post',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8'}, this._headers),
+      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
       mode: 'cors',
       credentials: 'include',
       body: JSON.stringify(body) || null,
     })
-      .then(callback);
+      .then(resp => resp.json());
   }
 
-  put(address, body = null, callback = null) {
-    let url = `${this._baseUrl}${address}`;
-    fetch(url, {
+  put(address, body = null) {
+    const url = `${this.baseUrl}${address}`;
+    return fetch(url, {
       method: 'put',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this._headers),
+      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
       mode: 'cors',
       credentials: 'include',
       body: JSON.stringify(body) || null,
     })
-      .then(callback);
+      .then(resp => resp.json());
   }
 
-  delete(address, body = null, callback = null) {
-    let url = `${this._baseUrl}${address}`;
-    fetch(url, {
+  delete(address, body = null) {
+    const url = `${this.baseUrl}${address}`;
+    return fetch(url, {
       method: 'delete',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this._headers),
+      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
       mode: 'cors',
       credentials: 'include',
       body: JSON.stringify(body) || null,
     })
-      .then(callback);
+      .then(resp => resp.json());
   }
 }
 

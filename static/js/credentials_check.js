@@ -1,5 +1,4 @@
-/* global Valnder */
-/* global app */
+
 const Valnder = require('./sValidator.js');
 
 module.exports = (app) => {
@@ -39,7 +38,7 @@ module.exports = (app) => {
 // В данном случае валидация происходит на сервере, третий параметр - имя в объекте серверных
 // ошибок, четвертый параметр - url для проверки данного поля через ajax
   val.addServerSideValidation(nameInput, 'Пользователь с таким именем уже существует',
-    'userAlreadyExists');
+    'already exists');
 
 // В функцию рендера передается функция которая возвращает html с ошибкой
   val.renderFunction(text => `<p class='input-error'>${text}</p>`);
