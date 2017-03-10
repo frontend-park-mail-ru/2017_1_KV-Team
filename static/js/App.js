@@ -239,12 +239,10 @@ class App {
       });
   }
 
-  loadScripts(scripts) {
-    if (scripts) {
-      scripts.forEach((script) => {
-        script(this);
-      });
-    }
+  loadScripts(scripts = []) {
+    scripts.forEach((script) => {
+      script(this);
+    });
   }
 
   renderView(content, path) {

@@ -28,9 +28,6 @@ module.exports = Button;
 const Button = require('../button/button.js');
 
 class Form {
-  /**
-   * Конструктор класса Form
-   */
   constructor({ parent, fields = [], attributes = {}, controls = [] }) {
     this.fields = fields;
     this.attributes = attributes;
@@ -46,10 +43,6 @@ class Form {
     return this.html;
   }
 
-  /**
-   * Вернуть поля формы
-   * @return {string}
-   */
   getFields() {
     return this.fields.map(field => `
        <li>
@@ -67,26 +60,20 @@ class Form {
     return Object.keys(attributes).map(attr => `${attr}="${attributes[attr]}"`).join(' ');
   }
 
-  /**
-   * Обновить html компонента
-   */
   updateHtml() {
     this.html = `
-				<form ${this.attrsAsString()}>
-                  <ul class="flex-outer">
-					${this.getFields()}
-					<li>
-					<div class="space-taker"></div>
-					${this.installControls()}
-					</li>
-				  </ul>
-				<form>
-			`;
+      <form ${this.attrsAsString()}>
+        <ul class="flex-outer">
+          ${this.getFields()}
+          <li>
+            <div class="space-taker"></div>
+            ${this.installControls()}
+          </li>
+        </ul>
+      <form>
+    `;
   }
 
-  /**
-   * Вставить управляющие элементы в форму
-   */
   installControls() {
     return this.controls.map(control =>
       (control.type === 'button' ?
@@ -97,10 +84,6 @@ class Form {
       `)).join(' ');
   }
 
-  /**
-   * Взять данные формы
-   * @return {object}
-   */
   getFormData() {
     const form = this.parent.querySelector('form');
     const elements = form.elements;
@@ -365,12 +348,10 @@ class App {
       });
   }
 
-  loadScripts(scripts) {
-    if (scripts) {
-      scripts.forEach((script) => {
-        script(this);
-      });
-    }
+  loadScripts(scripts = []) {
+    scripts.forEach((script) => {
+      script(this);
+    });
   }
 
   renderView(content, path) {
@@ -613,6 +594,20 @@ class HTTP {
     }
 
     this.headers = {};
+
+    this.options = {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: this.headers,
+    };
+
+    this.postOptions = Object.assign({},
+      this.options,
+      {
+        method: 'post',
+        headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
+      });
     this.baseUrl = `${protocol}://${hostname}:${portNumber}`;
 
     HTTP.instance = this;
@@ -648,48 +643,26 @@ class HTTP {
         .map(name => encodeURIComponent(`${name}=${query[name]}`))
         .join('&');
     }
-    return fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-      mode: 'cors',
-      headers: this.headers,
-    })
+    return fetch(url, this.options)
       .then(resp => resp.json());
   }
 
   post(address, body = null) {
     const url = `${this.baseUrl}${address}`;
-    return fetch(url, {
-      method: 'post',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(body) || null,
-    })
+    const opt = Object.assign({}, this.postOptions, { body: JSON.stringify(body) || null });
+    return fetch(url, opt)
       .then(resp => resp.json());
   }
 
   put(address, body = null) {
     const url = `${this.baseUrl}${address}`;
-    return fetch(url, {
-      method: 'put',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(body) || null,
-    })
-      .then(resp => resp.json());
-  }
-
-  delete(address, body = null) {
-    const url = `${this.baseUrl}${address}`;
-    return fetch(url, {
-      method: 'delete',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(body) || null,
-    })
+    const opt = Object.assign({},
+      this.postOptions,
+      {
+        body: JSON.stringify(body) || null,
+        method: 'put',
+      });
+    return fetch(url, opt)
       .then(resp => resp.json());
   }
 }
@@ -707,17 +680,17 @@ class AppService {
     this.http = new HTTP();
   }
   getLeaders() {
-    return this.http.get('/api/leaders', null);
+    return this.http.get('/api/leaders');
   }
   isLoggedIn() {
-    return this.http.get('/api/isloggedin', null);
+    return this.http.get('/api/isloggedin');
   }
   login(username, password) {
     const body = { username, password };
     return this.http.post('/api/login', body);
   }
   logout() {
-    return this.http.get('/api/logout', null);
+    return this.http.get('/api/logout');
   }
   register(username, email, password) {
     const body = { username, email, password };

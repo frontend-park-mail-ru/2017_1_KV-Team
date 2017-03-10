@@ -13,17 +13,25 @@ const BASE_ROUTE = 'static';
 
 const mimeRoutes = {
   '': BASE_ROUTE,
-  '.css': `${BASE_ROUTE}`,
+  '.css': BASE_ROUTE,
   '.js': `${BASE_ROUTE}/js`,
   '.ico': `${BASE_ROUTE}/images`,
   '.jpg': `${BASE_ROUTE}/images`,
   '.png': `${BASE_ROUTE}/images`,
 };
 
+const mimeTypes = {
+  '.css': 'text/css',
+  '': 'text/html',
+  '.js': 'text/javascript',
+};
+
 const users = { admin: { password: '1234567' } };
 
 // writeToRes :: Object -> Buffer -> Undefined
-const writeToRes = res => (text) => {
+const writeToRes = (res, req) => (text) => {
+  const ext = path.parse(URL.parse(req.url).pathname).ext;
+  res.setHeader('Content-Type', mimeTypes[ext] || 'text/plain');
   res.write(text, 'utf8');
   res.end();
 };
@@ -83,7 +91,7 @@ const handleGet = req =>
 
 const worker = (req, res) =>
   (req.method === 'POST' ? handlePOST(req, res) : handleGet(req, res))
-    .then(writeToRes(res))
+    .then(writeToRes(res, req))
     .then(logger(req.url));
 
 // serverAtPort :: Number -> Promise Object Error

@@ -4,9 +4,6 @@
 const Button = require('../button/button.js');
 
 class Form {
-  /**
-   * Конструктор класса Form
-   */
   constructor({ parent, fields = [], attributes = {}, controls = [] }) {
     this.fields = fields;
     this.attributes = attributes;
@@ -22,10 +19,6 @@ class Form {
     return this.html;
   }
 
-  /**
-   * Вернуть поля формы
-   * @return {string}
-   */
   getFields() {
     return this.fields.map(field => `
        <li>
@@ -43,26 +36,20 @@ class Form {
     return Object.keys(attributes).map(attr => `${attr}="${attributes[attr]}"`).join(' ');
   }
 
-  /**
-   * Обновить html компонента
-   */
   updateHtml() {
     this.html = `
-				<form ${this.attrsAsString()}>
-                  <ul class="flex-outer">
-					${this.getFields()}
-					<li>
-					<div class="space-taker"></div>
-					${this.installControls()}
-					</li>
-				  </ul>
-				<form>
-			`;
+      <form ${this.attrsAsString()}>
+        <ul class="flex-outer">
+          ${this.getFields()}
+          <li>
+            <div class="space-taker"></div>
+            ${this.installControls()}
+          </li>
+        </ul>
+      <form>
+    `;
   }
 
-  /**
-   * Вставить управляющие элементы в форму
-   */
   installControls() {
     return this.controls.map(control =>
       (control.type === 'button' ?
@@ -73,10 +60,6 @@ class Form {
       `)).join(' ');
   }
 
-  /**
-   * Взять данные формы
-   * @return {object}
-   */
   getFormData() {
     const form = this.parent.querySelector('form');
     const elements = form.elements;

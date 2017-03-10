@@ -8,17 +8,17 @@ class AppService {
     this.http = new HTTP();
   }
   getLeaders() {
-    return this.http.get('/api/leaders', null);
+    return this.http.get('/api/leaders');
   }
   isLoggedIn() {
-    return this.http.get('/api/isloggedin', null);
+    return this.http.get('/api/isloggedin');
   }
   login(username, password) {
     const body = { username, password };
     return this.http.post('/api/login', body);
   }
   logout() {
-    return this.http.get('/api/logout', null);
+    return this.http.get('/api/logout');
   }
   register(username, email, password) {
     const body = { username, email, password };

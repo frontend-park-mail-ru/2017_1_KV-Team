@@ -13,6 +13,21 @@ class HTTP {
     }
 
     this.headers = {};
+
+    this.options = {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: this.headers,
+    };
+
+    this.postOptions = Object.assign({},
+      this.options,
+      {
+        method: 'post',
+        headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
+      });
+
     this.baseUrl = `${protocol}://${hostname}:${portNumber}`;
 
     HTTP.instance = this;
@@ -48,48 +63,26 @@ class HTTP {
         .map(name => encodeURIComponent(`${name}=${query[name]}`))
         .join('&');
     }
-    return fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-      mode: 'cors',
-      headers: this.headers,
-    })
+    return fetch(url, this.options)
       .then(resp => resp.json());
   }
 
   post(address, body = null) {
     const url = `${this.baseUrl}${address}`;
-    return fetch(url, {
-      method: 'post',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(body) || null,
-    })
+    const opt = Object.assign({}, this.postOptions, { body: JSON.stringify(body) || null });
+    return fetch(url, opt)
       .then(resp => resp.json());
   }
 
   put(address, body = null) {
     const url = `${this.baseUrl}${address}`;
-    return fetch(url, {
-      method: 'put',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(body) || null,
-    })
-      .then(resp => resp.json());
-  }
-
-  delete(address, body = null) {
-    const url = `${this.baseUrl}${address}`;
-    return fetch(url, {
-      method: 'delete',
-      headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
-      mode: 'cors',
-      credentials: 'include',
-      body: JSON.stringify(body) || null,
-    })
+    const opt = Object.assign({},
+      this.postOptions,
+      {
+        body: JSON.stringify(body) || null,
+        method: 'put',
+      });
+    return fetch(url, opt)
       .then(resp => resp.json());
   }
 }
