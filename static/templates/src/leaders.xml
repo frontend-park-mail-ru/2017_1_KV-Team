@@ -2,23 +2,31 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="info">
     <fest:script>var active = { active: 'leaders', nick: info.username }</fest:script>
     <fest:include context="active" src="./basic.xml"/>
-    <div id="main-content-container">
-        <div id="main-content">
+    <div class="main-content-container">
+        <div class="main-content">
             <table id="leaderboard">
                 <col width="300"/>
                 <col width="150"/>
                 <col width="100"/>
                 <thead>
-                    <tr>
-                        <th><a href="">Игрок</a></th>
-                        <th><a href="">Уровень</a></th>
-                        <th><a href="">Рейтинг</a></th>
+                    <tr class="leaderboard__head-row">
+                        <th class="leaderboard__head-element">
+                            <a href="" class="leaderboard__head-row-link">Игрок</a>
+                        </th>
+                        <th class="leaderboard__head-element">
+                            <a href="" class="leaderboard__head-row-link">Уровень</a>
+                        </th>
+                        <th class="leaderboard__head-element">
+                            <a href="" class="leaderboard__head-row-link">Рейтинг</a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <fest:for iterate="info.leaders" index="i" value="v">
-                        <tr>
-                            <td><a href=""><fest:value>v.username</fest:value></a></td>
+                        <tr class="leaderboard__body-row">
+                            <td><a href="" class="leaderboard__user-link">
+                                <fest:value>v.username</fest:value></a>
+                            </td>
                             <td><fest:value>v.level</fest:value></td>
                             <td><fest:value>v.rating</fest:value></td>
                         </tr>

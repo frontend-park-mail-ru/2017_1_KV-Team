@@ -8,7 +8,10 @@ class Button {
   }
 
   setAttrs(attrs = this.attrs) {
-    return Object.keys(attrs).map(attr => `${attr}="${attrs[attr]}"`).join(' ');
+    return Object.keys(attrs).map(attr => `
+        ${attr.startsWith('data_') ? attr.replace('_', '-') : attr}
+        ="${attrs[attr]}"`)
+      .join(' ');
   }
 
   render() {

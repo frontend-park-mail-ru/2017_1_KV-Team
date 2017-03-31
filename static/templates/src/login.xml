@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="loginForm">
-    <fest:value output="text">loginForm</fest:value>
+<fest:template xmlns:fest="http://fest.mail.ru">
+    <div class="login-form-container"/>
 </fest:template>

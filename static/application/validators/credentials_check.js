@@ -1,12 +1,12 @@
 
-const Valnder = require('./sValidator.js');
+const Valnder = require('../sValidator.js');
 
 module.exports = (app) => {
   const nameInput = document.getElementById('reg-name');
   const passwordInput = document.getElementById('reg-password');
   const passwordCheckInput = document.getElementById('password2');
   const email = document.getElementById('email');
-  const regForm = document.getElementById('registration-form');
+  const regForm = document.querySelector('.form_entrance');
 
   const emailRegex = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s' +
     '@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}' +
@@ -44,7 +44,7 @@ module.exports = (app) => {
   val.renderFunction(text => `<p class='input-error'>${text}</p>`);
 
 // В эту функцию передается класс контейнера для ошибки
-  val.renderTo('.err-container');
+  val.renderTo('.input-item__error');
 
   app.connectValidator(val);
 };

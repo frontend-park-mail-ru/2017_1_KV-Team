@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="registerForm">
-    <fest:value output="text">registerForm</fest:value>
+<fest:template xmlns:fest="http://fest.mail.ru">
+    <div class="registration-form-container"/>
 </fest:template>
