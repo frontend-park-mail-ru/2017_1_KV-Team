@@ -14,7 +14,7 @@ const BASE_ROUTE = 'static';
 const mimeRoutes = {
   '': BASE_ROUTE,
   '.css': BASE_ROUTE,
-  '.js': `${BASE_ROUTE}/js`,
+  '.js': BASE_ROUTE,
   '.ico': `${BASE_ROUTE}/images`,
   '.jpg': `${BASE_ROUTE}/images`,
   '.png': `${BASE_ROUTE}/images`,
