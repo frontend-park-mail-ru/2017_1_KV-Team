@@ -3,10 +3,14 @@
  */
 const Form = require('../../components/form/form.js');
 
+const registerCheck = require('../validators/credentials_check.js');
+const loginCheck = require('../validators/login_check.js');
+
 const loginForm = new Form(
   {
     parentSelector: '.login-form-container',
     preset: 'entrance',
+    validator: loginCheck,
     attributes: {
       // id: 'login-form',
       class: 'form form_entrance',
@@ -167,4 +171,34 @@ const registrationForm = new Form(
     ],
   });
 
-module.exports = { loginForm, registrationForm, gameOptionsForm };
+const chatForm = new Form(
+  {
+    parentSelector: '.chat-form',
+    preset: 'chat',
+    attributes: {
+      class: 'form form_chat',
+      action: 'sendMessage',
+      method: 'post',
+    },
+    fields: [
+      {
+        attributes: {
+          type: 'text',
+          name: 'message',
+          class: 'form_chat__input',
+          id: 'chat-message',
+        },
+      },
+    ],
+    controls: [
+      {
+        type: 'button',
+        attributes: {
+          class: 'btn btn_submit form_chat__submit',
+        },
+        value: 'ОК',
+      },
+    ],
+  });
+
+module.exports = { loginForm, registrationForm, gameOptionsForm, chatForm };

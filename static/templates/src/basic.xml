@@ -12,6 +12,12 @@
                    data-act="game-start-options"
                    data-hot="true" title="Игра">Игра</a>
             </li>
+            <li class="navigation__item {info.active==='singleplayer'?'navigation__item_active':''}">
+                <a href="play"
+                   class="navigation__link {info.active==='singleplayer'?'navigation__link_active':''}"
+                   data-act="start-singleplayer"
+                   data-hot="true" title="Обучение">Обучение</a>
+            </li>
             <div class="start-game-options-container"/>
             <li class="navigation__item {info.active==='leaders'?'navigation__item_active':''}">
                 <a href="leaders"

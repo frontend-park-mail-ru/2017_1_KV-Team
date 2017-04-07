@@ -60,7 +60,27 @@ class Form {
            ${control.value}
           </${control.type}>
         `),
-      } };
+      },
+
+      chat: {
+        general: () => `      
+        <form ${this.attrsAsString()}>
+            ${this.getFields()}
+            ${this.installControls()}
+        <form>
+        `,
+        field: field => `
+          <input ${this.attrsAsString(field.attributes)}">
+        `,
+        control: control =>
+          (control.type === 'button' ?
+            new Button({ text: control.value, attrs: control.attributes }).render() :
+            `<${control.type} ${this.attrsAsString(control.attributes)}>
+           ${control.value}
+          </${control.type}>
+        `),
+      },
+    };
 
     this.preset = this.presets[preset];
   }

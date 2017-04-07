@@ -3,9 +3,10 @@
  */
 
 const AppService = require('../services/appService.js');
-const { loginForm, registrationForm, gameOptionsForm } = require('./forms/forms.js');
 const linker = require('./router/linker.js');
 const Router = require('./router/router.js');
+const formActions = require('./forms/formActions.js');
+const Game = require('../game/game.js');
 
 // TODO in webpack before server start
 // TODO automatically compile all xmls into js
@@ -19,11 +20,12 @@ class App {
   constructor() {
     // Передаем в линкер инстанс приложения
     this.linker = linker(this);
-    this.router = new Router(this);
+    this.router = new Router(this, cont);
+    this.formActions = formActions(this);
     // Подключаем сервис
     this.appService = new AppService();
-    // Сохраняем загруженные представления
-    this.cachedViews = {};
+
+    this.game = new Game(this);
 
     cont.addEventListener('click', (e) => {
       this.linker(e);
@@ -34,7 +36,7 @@ class App {
       const formValidator = this.validators.get(e.target);
       const action = e.target.action.slice(e.target.action.lastIndexOf('/') + 1);
       if (!formValidator || !formValidator.showIfAnyErrors()) {
-        this[action]()
+        this.formActions[action]()
           .catch(msg => formValidator.raiseByKey(msg));
       }
     });
@@ -46,8 +48,11 @@ class App {
     this.username = '';
   }
 
-  loginHandler(form = loginForm) {
-    const { name, pass } = form.getFormData();
+  startSingleGame() {
+    return this.app.game.startSingle();
+  }
+
+  login(name, pass) {
     return this.appService.login(name, pass)
       .then((responseText) => {
         if (responseText.code !== 200) {
@@ -55,13 +60,12 @@ class App {
         }
         this.username = name;
         this.loggedStatus = true;
-        this.router.route('/about');
+        this.route('/about');
         return Promise.resolve();
       });
   }
 
-  registrationHandler(form = registrationForm) {
-    const { name, email, pass } = form.getFormData();
+  register(name, pass, email) {
     return this.appService.register(name, email, pass)
       .then((responseText) => {
         if (responseText.code !== 200) {
@@ -69,15 +73,29 @@ class App {
         }
         this.username = name;
         this.loggedStatus = true;
-        this.router.route('/about');
+        this.route('/about');
         return Promise.resolve();
       });
   }
 
-  qStarter(form = gameOptionsForm) {
-    const { attack, defend } = form.getFormData();
-    console.log(attack, defend);
-    return Promise.resolve();
+  logOut() {
+    return this.appService.logout()
+      .then((responseText) => {
+        if (responseText.code === 200) {
+          this.loggedStatus = false;
+          this.username = '';
+          return Promise.resolve(responseText.code);
+        }
+        return Promise.reject(responseText.code);
+      });
+  }
+
+  route(url) {
+    this.router.route(url);
+  }
+
+  getLeaders() {
+    return this.appService.getLeaders();
   }
 
   checkLoggedStatus() {
@@ -90,7 +108,7 @@ class App {
             this.username = '';
             this.loggedStatus = false;
           }
-          this.router.route();
+          this.route();
         });
   }
 

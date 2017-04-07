@@ -17,15 +17,7 @@ const linker = app => (e) => {
   const whatToDoBeforeRoute = [Promise.resolve()];
 
   if (link.dataset.act === 'logout') {
-    whatToDoBeforeRoute.push(app.appService.logout()
-      .then((responseText) => {
-        if (responseText.code === 200) {
-          app.loggedStatus = false;
-          app.username = '';
-          return Promise.resolve(responseText.code);
-        }
-        return Promise.reject(responseText.code);
-      }));
+    whatToDoBeforeRoute.push(app.logOut());
   }
 
   if (link.dataset.act === 'game-start-options') {
@@ -38,7 +30,7 @@ const linker = app => (e) => {
   Promise.all(whatToDoBeforeRoute)
     .then(() => {
       if (!e.target.href.endsWith('#')) {
-        app.router.route(e.target.href);
+        app.route(e.target.href);
       }
     }, console.log);
 };
