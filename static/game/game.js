@@ -183,7 +183,7 @@ function create() {
   this.game.physics.arcade.enable(gamefield);
   const wall = this.game.add.sprite(750, 70, 'wall');
   const castleTowerTop = this.game.add.sprite(750, 75, 'castleTower');
-  const castleTowerBot = this.game.add.sprite(750, 270, 'castleTower');
+  const castleTowerBot = this.game.add.sprite(750, 310, 'castleTower');
   const bottombar = this.game.add.sprite(0, 370, 'bottombar');
   const topbar = this.game.add.sprite(0, 0, 'bottombar');
   const menuButton = this.game.add.button(670, 460, 'button', showMenu, this, 2, 1, 0);

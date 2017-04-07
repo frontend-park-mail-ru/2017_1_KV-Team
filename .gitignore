@@ -2,3 +2,6 @@ node_modules/
 .idea/
 static/templates/views/
 static/bundle.js
+static/App.js
+static/app.min.js
+static/app.min.js.map
