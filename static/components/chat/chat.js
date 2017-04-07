@@ -4,7 +4,7 @@
 
 // const chatT = require('../../templates/views/chat.js');
 
-class Chat {
+export default class Chat {
   constructor({ data = {}, parent, template }) {
     this.data = data;
     this.parent = parent;
@@ -73,4 +73,4 @@ class Chat {
   }
 }
 
-module.exports = Chat;
+// module.exports = Chat;

@@ -2,7 +2,7 @@
  * Created by andreivinogradov on 20.02.17.
  */
 
-class Valnder {
+export default class Valnder {
   static isEmpty(input) {
     return !!input;
   }
@@ -86,4 +86,4 @@ class Valnder {
   }
 }
 
-module.exports = Valnder;
+// module.exports = Valnder;

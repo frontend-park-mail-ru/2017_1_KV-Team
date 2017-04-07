@@ -1,10 +1,13 @@
 /**
  * Created by andreivinogradov on 29.03.17.
  */
-const Form = require('../../components/form/form.js');
+import Form from '../../components/form/form';
+// const Form = require('../../components/form/form.js');
 
-const registerCheck = require('../validators/credentials_check.js');
-const loginCheck = require('../validators/login_check.js');
+import registerCheck from '../validators/credentials_check';
+// const registerCheck = require('../validators/credentials_check.js');
+import loginCheck from '../validators/login_check';
+// const loginCheck = require('../validators/login_check.js');
 
 const loginForm = new Form(
   {
@@ -201,4 +204,4 @@ const chatForm = new Form(
     ],
   });
 
-module.exports = { loginForm, registrationForm, gameOptionsForm, chatForm };
+export { loginForm, registrationForm, gameOptionsForm, chatForm };

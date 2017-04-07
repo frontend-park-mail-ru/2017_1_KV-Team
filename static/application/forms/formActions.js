@@ -1,7 +1,8 @@
 /**
  * Created by andreivinogradov on 31.03.17.
  */
-const { loginForm, registrationForm, gameOptionsForm, chatForm } = require('./forms.js');
+import { loginForm, registrationForm, gameOptionsForm, chatForm } from './forms';
+// const { loginForm, registrationForm, gameOptionsForm, chatForm } = require('./forms.js');
 
 const formActions = app => ({
   loginHandler(form = loginForm) {
@@ -27,4 +28,4 @@ const formActions = app => ({
   },
 });
 
-module.exports = formActions;
+export default formActions;

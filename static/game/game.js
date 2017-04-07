@@ -1,8 +1,10 @@
 /**
  * Created by andreivinogradov on 01.04.17.
  */
-const Chat = require('../components/chat/chat.js');
-const Transport = require('../transports/transport.js');
+import Chat from '../components/chat/chat';
+// const Chat = require('../components/chat/chat.js');
+import Transport from '../transports/transport';
+// const Transport = require('../transports/transport.js');
 window.PIXI = require('phaser/build/pixi');
 window.p2 = require('phaser/build/p2');
 window.Phaser = require('phaser/build/phaser');
@@ -375,7 +377,7 @@ function update() {
   }
 }
 
-class Game {
+export default class Game {
   constructor(app) {
     this.app = app;
     this.isInited = false;
@@ -525,4 +527,4 @@ class Game {
   }
 }
 
-module.exports = Game;
+// module.exports = Game;

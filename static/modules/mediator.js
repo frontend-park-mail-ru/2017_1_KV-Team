@@ -1,9 +1,10 @@
 /**
  * Created by andreivinogradov on 01.04.17.
  */
-const Emitter = require('../emmiter/emitter.js');
+import Emitter from '../emmiter/emitter';
+// const Emitter = require('../emmiter/emitter.js');
 
-class Mediator {
+export default class Mediator {
   constructor(game) {
     this.emitter = new Emitter(game);
   }
@@ -32,4 +33,4 @@ class Mediator {
   }
 }
 
-module.exports = Mediator;
+// module.exports = Mediator;

@@ -2,11 +2,17 @@
  * Created by andreivinogradov on 26.02.17.
  */
 
-const AppService = require('../services/appService.js');
-const linker = require('./router/linker.js');
-const Router = require('./router/router.js');
-const formActions = require('./forms/formActions.js');
-const Game = require('../game/game.js');
+import AppService from '../services/appService';
+// const AppService = require('../services/appService.js');
+import linker from './router/linker';
+// const linker = require('./router/linker.js');
+import Router from './router/router';
+// const Router = require('./router/router.js');
+import formActions from './forms/formActions';
+// const formActions = require('./forms/formActions.js');
+
+import Game from '../game/game';
+// const Game = require('../game/game.js');
 
 // TODO in webpack before server start
 // TODO automatically compile all xmls into js

@@ -1,7 +1,7 @@
 /**
  * Created by andreivinogradov on 05.03.17.
  */
-class Button {
+export default class Button {
   constructor({ text = '', attrs = { class: 'btn' } }) {
     this.text = text;
     this.attrs = attrs;
@@ -21,4 +21,4 @@ class Button {
   }
 }
 
-module.exports = Button;
+// module.exports = Button;

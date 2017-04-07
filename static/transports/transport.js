@@ -2,9 +2,10 @@
  * Created by andreivinogradov on 31.03.17.
  */
 
-const Mediator = require('../modules/mediator.js');
+import Mediator from '../modules/mediator';
+// const Mediator = require('../modules/mediator.js');
 
-class MagicTransport {
+export default class MagicTransport {
   // Открыть соединение через которое будут передаваться данные
   constructor(url, game) {
     this.socket = new WebSocket(url);
@@ -47,4 +48,4 @@ class MagicTransport {
   }
 }
 
-module.exports = MagicTransport;
+// module.exports = MagicTransport;

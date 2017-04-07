@@ -4,7 +4,7 @@
 import HTTP from '../modules/http';
 // const HTTP = require('../modules/http.js');
 
-class AppService {
+export default class AppService {
   constructor() {
     this.http = new HTTP();
   }
@@ -34,4 +34,4 @@ class AppService {
   }
 }
 
-module.exports = AppService;
+// module.exports = AppService;

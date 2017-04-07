@@ -1,9 +1,10 @@
 /**
  * Created by andreivinogradov on 05.03.17.
  */
-const Button = require('../button/button.js');
+import Button from '../button/button';
+// const Button = require('../button/button.js');
 
-class Form {
+export default class Form {
   constructor({ parentSelector, preset = 'default', fields = [], attributes = {}, controls = [] }) {
     this.fields = fields;
     this.attributes = attributes;
@@ -141,4 +142,4 @@ class Form {
   }
 }
 
-module.exports = Form;
+// module.exports = Form;

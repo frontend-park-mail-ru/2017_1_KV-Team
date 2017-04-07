@@ -1,9 +1,10 @@
 /**
  * Created by andreivinogradov on 27.02.17.
  */
-const Valnder = require('../sValidator.js');
+import Valnder from '../sValidator';
+// const Valnder = require('../sValidator.js');
 
-module.exports = (app) => {
+const loginCheck = (app) => {
   const loginField = document.getElementById('login-name');
   const passField = document.getElementById('login-password');
   const loginForm = document.querySelector('.form_entrance');
@@ -23,3 +24,5 @@ module.exports = (app) => {
 
   app.connectValidator(loginValidator);
 };
+
+export default loginCheck;

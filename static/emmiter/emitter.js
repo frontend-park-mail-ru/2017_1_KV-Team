@@ -2,7 +2,7 @@
  * Created by andreivinogradov on 01.04.17.
  */
 
-class Emitter {
+export default class Emitter {
   constructor(game) {
     this.game = game;
   }
@@ -28,4 +28,4 @@ class Emitter {
   }
 }
 
-module.exports = Emitter;
+// module.exports = Emitter;

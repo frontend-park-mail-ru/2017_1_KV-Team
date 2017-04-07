@@ -24,8 +24,12 @@ const rightCodes = [
 ]
   .map(template =>
     new Function(`
-      return ${template.substring(template.indexOf('function', 3),
-        template.lastIndexOf('}'))}
+      return ${template
+      // .substring(template.indexOf('function', 3),
+      //   template.lastIndexOf('}'))
+    }
     `)());
 
-module.exports = rightCodes;
+const { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable } = rightCodes;
+export { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable };
+// module.exports = rightCodes;

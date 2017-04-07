@@ -35,4 +35,4 @@ const linker = app => (e) => {
     }, console.log);
 };
 
-module.exports = linker;
+export default linker;

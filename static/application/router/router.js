@@ -1,13 +1,18 @@
 /**
  * Created by andreivinogradov on 28.03.17.
  */
-const [playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable]
-= require('../../templates/brofest.js');
-const registerCheck = require('../validators/credentials_check.js');
-const loginCheck = require('../validators/login_check.js');
-const { loginForm, registrationForm, gameOptionsForm, chatForm } = require('../forms/forms.js');
+import { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable }
+  from '../../templates/brofest';
+// const [playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable]
+// = require('../../templates/brofest.js');
+import registerCheck from '../validators/credentials_check';
+// const registerCheck = require('../validators/credentials_check.js');
+import loginCheck from '../validators/login_check';
+// const loginCheck = require('../validators/login_check.js');
+import { loginForm, registrationForm, gameOptionsForm, chatForm } from '../forms/forms';
+// const { loginForm, registrationForm, gameOptionsForm, chatForm } = require('../forms/forms.js');
 
-class Route {
+export default class Route {
   constructor(app, cont) {
     this.app = app;
     this.cacheTimers = {};
@@ -176,4 +181,4 @@ class Route {
   }
 }
 
-module.exports = Route;
+// module.exports = Route;

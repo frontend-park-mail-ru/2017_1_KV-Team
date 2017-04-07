@@ -1,7 +1,8 @@
 
-const Valnder = require('../sValidator.js');
+import Valnder from '../sValidator';
+// const Valnder = require('../sValidator.js');
 
-module.exports = (app) => {
+const registerCheck = (app) => {
   const nameInput = document.getElementById('reg-name');
   const passwordInput = document.getElementById('reg-password');
   const passwordCheckInput = document.getElementById('password2');
@@ -48,3 +49,5 @@ module.exports = (app) => {
 
   app.connectValidator(val);
 };
+
+export default registerCheck;
