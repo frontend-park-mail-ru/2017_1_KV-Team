@@ -10,7 +10,11 @@
     outline: none;
 }
 
-.btn {
+.btn:hover {
     cursor: pointer;
     transform: scale(1.025);
+}
+
+.btn-success {
+    margin-left: auto;
 }

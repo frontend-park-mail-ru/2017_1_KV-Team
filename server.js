@@ -14,7 +14,7 @@ const BASE_ROUTE = 'static';
 const mimeRoutes = {
   '': BASE_ROUTE,
   '.css': BASE_ROUTE,
-  '.js': `${BASE_ROUTE}/js`,
+  '.js': BASE_ROUTE,
   '.ico': `${BASE_ROUTE}/images`,
   '.jpg': `${BASE_ROUTE}/images`,
   '.png': `${BASE_ROUTE}/images`,
@@ -38,9 +38,14 @@ const writeToRes = (res, req) => (text) => {
 
 // getFilePath :: (Object, Object) -> String
 const getFilePath = (url, mRoutes) => {
+  let filePath;
   const ext = path.parse(url.pathname).ext;
-  const filePath = mRoutes[ext] + ((url.pathname.indexOf('views') === -1 && !ext)
-    ? '/index' : url.pathname);
+  if (url.pathname.includes('assets')) {
+    filePath = `static/game/${url.pathname}`;
+  } else {
+    filePath = mRoutes[ext] + ((url.pathname.indexOf('views') === -1 && !ext)
+        ? '/index' : url.pathname);
+  }
   return ext ? filePath : `${filePath}.html`;
 };
 

@@ -1,49 +1,46 @@
-.flex-outer {
+.form_entrance__list {
     list-style-type: none;
     padding: 0;
-}
-
-.flex-outer {
     max-width: 800px;
     margin: 0 auto;
 }
 
-.flex-outer li {
+.form_entrance__item {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
 }
 
-.flex-outer > li:not(:last-child) {
+.form_entrance__item:not(:last-child) {
     margin-bottom: 20px;
 }
 
-.flex-outer li label,
-.flex-outer li p {
+.input-item__label,
+.input-error {
     padding: 8px 8px 8px 0;
     font-weight: 300;
     letter-spacing: .09em;
     text-transform: uppercase;
 }
 
-.flex-outer > li > label,
-.space-taker{
+.input-item__label,
+.form_entrance__space-taker{
     flex: 1 0 120px;
     max-width: 215px;
 }
 
-.flex-outer > li > label + *{
+.input-item__label + *{
     flex: 1 0 220px;
 }
 
-.flex-outer li p {
+.input-error {
     display: inline-block;
     color: cornsilk;
     margin: 0;
     font-size: 14px;
 }
 
-.flex-outer li p:before {
+.input-error:before {
     content: "";
     width: 24px;
     height: 24px;
@@ -55,7 +52,7 @@
     filter: contrast(150%);
 }
 
-.flex-outer li input {
+.form_entrance__input {
     width: 100%;
     font-size: 14px;
     color: #8e8d8d;
@@ -65,22 +62,40 @@
     transition: all 0.15s ease-out;
 }
 
-.flex-outer li input:focus {
+.form_entrance__input:focus {
     outline: none;
     box-shadow: 0 0 10px chocolate;
     transform: scale(1.01);
 }
 
-.flex-outer li button {
+.form_entrance__submit {
     margin-left: auto;
 }
 
-.space-taker + a{
+.controls__link{
     color: gainsboro;
     font-weight: 200;
     text-decoration: none;
 }
 
-.space-taker + a:hover{
+.controls__link:hover{
     text-decoration: underline;
+}
+
+.form_start-game-options__label {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.form_start-game-options__checkbox {
+    vertical-align: middle;
+}
+
+.form_start-game-options__checkbox,
+.form_start-game-options__label {
+    cursor: pointer;
+}
+
+.form_start-game-options__select-role {
+    margin-bottom: 10px;
 }

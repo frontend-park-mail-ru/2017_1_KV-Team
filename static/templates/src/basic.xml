@@ -1,19 +1,36 @@
 <?xml version="1.0"?>
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="info">
-    <div class="user-bar">Вы вошли как<fest:space/><fest:value>info.nick</fest:value></div>
-    <nav id="main-navigation">
-        <ul>
-            <li class="{info.active==='play'?'active-item':''}">
-                <a href="play" class="no-reload" title="Играть">Играть</a>
+    <div class="user-bar">Вы вошли как
+        <fest:space/>
+        <fest:value>info.nick</fest:value>
+    </div>
+    <nav class="navigation navigation_main">
+        <ul class="navigation__list">
+            <li class="navigation__item {info.active==='play'?'navigation__item_active':''}">
+                <a href="#"
+                   class="navigation__link {info.active==='play'?'navigation__link_active':''}"
+                   data-act="game-start-options"
+                   data-hot="true" title="Игра">Игра</a>
             </li>
-            <li class="{info.active==='leaders'?'active-item':''}">
-                <a href="leaders" class="no-reload" title="Лидерборд">Лидерборд</a>
+            <li class="navigation__item {info.active==='singleplayer'?'navigation__item_active':''}">
+                <a href="play"
+                   class="navigation__link {info.active==='singleplayer'?'navigation__link_active':''}"
+                   data-act="start-singleplayer"
+                   data-hot="true" title="Обучение">Обучение</a>
             </li>
-            <li class="{info.active==='about'?'active-item':''}">
-                <a href="about" class="no-reload" title="Об игре">Об игре</a>
+            <div class="start-game-options-container"/>
+            <li class="navigation__item {info.active==='leaders'?'navigation__item_active':''}">
+                <a href="leaders"
+                   class="navigation__link {info.active==='leaders'?'navigation__link_active':''}"
+                   data-hot="true" title="Лидерборд">Лидерборд</a>
             </li>
-            <li>
-                <a href="login" class="no-reload logout-link" title="Выйти">Выйти</a>
+            <li class="navigation__item {info.active==='about'?'navigation__item_active':''}">
+                <a href="about"
+                   class="navigation__link {info.active==='about'?'navigation__link_active':''}"
+                   data-hot="true" title="Об игре">Об игре</a>
+            </li>
+            <li class="navigation__item">
+                <a href="login" class="navigation__link" data-hot="true" data-act="logout" title="Выход">Выход</a>
             </li>
         </ul>
     </nav>

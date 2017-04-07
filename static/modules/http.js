@@ -6,7 +6,7 @@ const protocol = 'http';
 const hostname = 'localhost';
 const portNumber = '8082';
 
-class HTTP {
+export default class HTTP {
   constructor() {
     if (HTTP.instance) {
       return HTTP.instance;
@@ -87,4 +87,4 @@ class HTTP {
   }
 }
 
-module.exports = HTTP;
+// module.exports = HTTP;

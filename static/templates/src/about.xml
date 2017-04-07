@@ -2,8 +2,8 @@
 <fest:template xmlns:fest="http://fest.mail.ru"  context_name="user">
     <fest:script>var active = { active: 'about', nick: user }</fest:script>
     <fest:include context="active" src="./basic.xml"/>
-    <div id="main-content-container">
-        <div id="main-content">
+    <div class="main-content-container">
+        <div class="main-content">
             <p>
                 «Карточная стратегия для всех» — заявлено на официальном сайте Hearthstone.
                 Под «всеми» подразумеваются любители и киберспортсмены, хотя Blizzard не планировала
