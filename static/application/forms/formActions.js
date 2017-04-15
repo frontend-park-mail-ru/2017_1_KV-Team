@@ -2,7 +2,6 @@
  * Created by andreivinogradov on 31.03.17.
  */
 import { loginForm, registrationForm, gameOptionsForm, chatForm } from './forms';
-// const { loginForm, registrationForm, gameOptionsForm, chatForm } = require('./forms.js');
 
 const formActions = app => ({
   loginHandler(form = loginForm) {

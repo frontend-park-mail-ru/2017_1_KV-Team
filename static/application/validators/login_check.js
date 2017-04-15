@@ -2,7 +2,6 @@
  * Created by andreivinogradov on 27.02.17.
  */
 import Valnder from '../sValidator';
-// const Valnder = require('../sValidator.js');
 
 const loginCheck = (app) => {
   const loginField = document.getElementById('login-name');

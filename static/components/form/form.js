@@ -2,7 +2,6 @@
  * Created by andreivinogradov on 05.03.17.
  */
 import Button from '../button/button';
-// const Button = require('../button/button.js');
 
 export default class Form {
   constructor({ parentSelector, preset = 'default', fields = [], attributes = {}, controls = [] }) {

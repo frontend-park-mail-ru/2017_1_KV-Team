@@ -1,16 +1,13 @@
 /**
  * Created by andreivinogradov on 28.03.17.
  */
-import { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable }
-  from '../../templates/brofest';
-// const [playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable]
-// = require('../../templates/brofest.js');
+
 import registerCheck from '../validators/credentials_check';
-// const registerCheck = require('../validators/credentials_check.js');
 import loginCheck from '../validators/login_check';
-// const loginCheck = require('../validators/login_check.js');
 import { loginForm, registrationForm, gameOptionsForm, chatForm } from '../forms/forms';
-// const { loginForm, registrationForm, gameOptionsForm, chatForm } = require('../forms/forms.js');
+
+const [playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable]
+= require('../../templates/brofest.js');
 
 export default class Route {
   constructor(app, cont) {

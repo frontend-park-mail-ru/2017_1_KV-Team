@@ -15,9 +15,9 @@ const mimeRoutes = {
   '': BASE_ROUTE,
   '.css': BASE_ROUTE,
   '.js': BASE_ROUTE,
-  '.ico': `${BASE_ROUTE}/images`,
-  '.jpg': `${BASE_ROUTE}/images`,
-  '.png': `${BASE_ROUTE}/images`,
+  '.ico': '.',
+  '.jpg': '.',
+  '.png': '.',
 };
 
 const mimeTypes = {
@@ -46,6 +46,7 @@ const getFilePath = (url, mRoutes) => {
     filePath = mRoutes[ext] + ((url.pathname.indexOf('views') === -1 && !ext)
         ? '/index' : url.pathname);
   }
+  console.log('!!!' + filePath);
   return ext ? filePath : `${filePath}.html`;
 };
 

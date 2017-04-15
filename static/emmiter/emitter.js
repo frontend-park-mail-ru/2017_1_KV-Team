@@ -27,5 +27,3 @@ export default class Emitter {
     console.log(message);
   }
 }
-
-// module.exports = Emitter;

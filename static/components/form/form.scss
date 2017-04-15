@@ -1,0 +1,115 @@
+.form {
+  &_entrance {
+    &__list {
+      list-style-type: none;
+      padding: 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    &__item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+
+    &__input {
+      width: 100%;
+      font-size: 14px;
+      color: #8e8d8d;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px;
+      border: none;
+      transition: all 0.15s ease-out;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 10px chocolate;
+        transform: scale(1.01);
+      }
+    }
+
+    &__submit {
+      margin-left: auto;
+    }
+
+    &__space-taker {
+      flex: 1 0 120px;
+      max-width: 215px;
+    }
+  }
+
+  &_start-game-options {
+    &__label {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    &__checkbox {
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    &__label {
+      cursor: pointer;
+    }
+
+    &__select-role {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.input-item {
+  &__label {
+    padding: 8px 8px 8px 0;
+    font-weight: 300;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    flex: 1 0 120px;
+    max-width: 215px;
+  }
+
+  &__label + * {
+    flex: 1 0 220px;
+  }
+}
+
+.input-error {
+  padding: 8px 8px 8px 0;
+  font-weight: 300;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  display: inline-block;
+  color: cornsilk;
+  margin: 0;
+  font-size: 14px;
+
+  &:before {
+    content: "";
+    width: 24px;
+    height: 24px;
+    background: url(../images/error.png);
+    display: inline-block;
+    background-size: contain;
+    margin-right: 10px;
+    vertical-align: bottom;
+    filter: contrast(150%);
+  }
+}
+
+.controls {
+  &__link {
+    color: gainsboro;
+    font-weight: 200;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

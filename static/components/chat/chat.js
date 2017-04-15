@@ -2,8 +2,6 @@
  * Created by andreivinogradov on 01.04.17.
  */
 
-// const chatT = require('../../templates/views/chat.js');
-
 export default class Chat {
   constructor({ data = {}, parent, template }) {
     this.data = data;
@@ -54,7 +52,7 @@ export default class Chat {
       return;
     }
 
-    const messages = this.parent.querySelector('#jsMessages');
+    const messages = this.parent.querySelector('.chat__messages');
     messages.innerHTML = '';
 
     items.forEach((item) => {

@@ -6,7 +6,7 @@
         <div id="game" class="game">
             <div class="loader">Loading...</div>
             <div class="chat-container">
-                <div id="jsMessages"/>
+                <div class="chat__messages"/>
                 <div class="chat-form"/>
             </div>
         </div>

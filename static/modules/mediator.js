@@ -2,7 +2,6 @@
  * Created by andreivinogradov on 01.04.17.
  */
 import Emitter from '../emmiter/emitter';
-// const Emitter = require('../emmiter/emitter.js');
 
 export default class Mediator {
   constructor(game) {
@@ -32,5 +31,3 @@ export default class Mediator {
     this.emitter.off(message);
   }
 }
-
-// module.exports = Mediator;

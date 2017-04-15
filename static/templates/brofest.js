@@ -30,6 +30,6 @@ const rightCodes = [
     }
     `)());
 
-const { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable } = rightCodes;
-export { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable };
-// module.exports = rightCodes;
+// const { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable } = rightCodes;
+// export { playT, leadersT, notFoundT, aboutT, loginT, registerT, leadersTable };
+module.exports = rightCodes;

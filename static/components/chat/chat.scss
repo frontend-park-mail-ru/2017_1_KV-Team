@@ -1,0 +1,44 @@
+.chat-container {
+  height: 135px;
+  width: 250px;
+  margin: 1vh 0;
+  border: 1px solid #ececec;
+  padding: 1vw;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  display: none;
+
+  &_visible {
+    display: flex;
+  }
+}
+
+.chat {
+  &__message {
+    color: #e4df88;
+    word-wrap: break-word;
+  }
+
+  &__input {
+    font-size: 24px;
+  }
+
+  &__username {
+    color: red;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  &__message_my {
+    .chat__username {
+      color: #42bd2e;
+    }
+  }
+
+  &__messages {
+    overflow: scroll;
+  }
+}

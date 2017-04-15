@@ -1,13 +1,26 @@
 /**
  * Created by andreivinogradov on 01.04.17.
  */
+import 'pixi';
+import 'p2';
+import Phaser from 'phaser';
+import BootState from './states/boot';
+import PreloadState from './states/preload';
 import Chat from '../components/chat/chat';
-// const Chat = require('../components/chat/chat.js');
 import Transport from '../transports/transport';
-// const Transport = require('../transports/transport.js');
-window.PIXI = require('phaser/build/pixi');
-window.p2 = require('phaser/build/p2');
-window.Phaser = require('phaser/build/phaser');
+
+
+class GameMy extends Phaser.Game {
+  constructor() {
+    super('100%', '100%', Phaser.AUTO, 'game');
+
+    this.state.add('bootState', BootState, false);
+    this.state.add('preloadState', PreloadState, false);
+
+    this.state.start('bootState');
+  }
+
+}
 
 function overGrid() {
   console.log('over grid');
@@ -411,65 +424,72 @@ export default class Game {
 
   init({ gameID, enemyUsername, allowedCards, side }) {
     if (!this.isInited) {
-      const container = document.querySelector('.game');
-      this.enemyUsername = enemyUsername;
-      this.gameID = gameID;
-      this.allowedCards = allowedCards;
-      this.isInited = true;
-      const chatContainer = document.querySelector('.chat-container');
-      chatContainer.classList.add('chat-container_visible');
-      const loader = document.querySelector('.loader');
-      loader.remove();
+      new GameMy();
+      // const container = document.querySelector('.game');
+      // this.enemyUsername = enemyUsername;
+      // this.gameID = gameID;
+      // this.allowedCards = allowedCards;
+      // this.isInited = true;
+      // const chatContainer = document.querySelector('.chat-container');
+      // chatContainer.classList.add('chat-container_visible');
+      // const loader = document.querySelector('.loader');
+      // loader.remove();
+      //
+      // this.game = new Phaser.Game(
+      //   container.offsetWidth,
+      //   container.offsetHeight,
+      //   Phaser.AUTO,
+      //   'game'
+        // ,
+        // {
+        //   preload,
+        //   create,
+        //   update,
+        // }
+        // );
 
-      this.game = new Phaser.Game(
-        container.offsetWidth,
-        container.offsetHeight,
-        Phaser.AUTO,
-        'game',
-        {
-          preload,
-          create,
-          update,
-        });
+      // this.game.state.add('bootState', bootState);
+      // this.game.state.add('preloadState', preloadState);
+      // this.game.state.start('bootState');
 
-      this.game.mine = {};
-      this.game.mine.cards = [];
-      this.game.mine.dragCard = {};
-      this.game.mine.username = this.app.username;
-      this.game.mine.enemyUsername = enemyUsername;
-      this.game.mine.units = {};
-      this.game.mine.renderCompleteInfo = {
-        status: 'render_complete',
-        gameID: this.gameID,
-      };
-      this.game.mine.renderAction = renderAction.bind(this.game);
-      this.game.mine.nextRoundInfo = {
-        attackSide: {
-          status: 'ready',
-          gameID: this.gameID,
-          cards: [],
-        },
-        defenceSide: {
-          status: 'ready',
-          gameID: this.gameID,
-          cards: [],
-        },
-      };
-      this.game.mine.transport = {
-        attackSocket: this.attackSocket,
-        defenceSocket: this.defenceSocket,
-      };
-      this.game.mine.graveyard = [];
+      // this.game.mine = {};
+      // this.game.mine.cards = [];
+      // this.game.mine.dragCard = {};
+      // this.game.mine.username = this.app.username;
+      // this.game.mine.enemyUsername = enemyUsername;
+      // this.game.mine.units = {};
+      // this.game.mine.renderCompleteInfo = {
+      //   status: 'render_complete',
+      //   gameID: this.gameID,
+      // };
+      // this.game.mine.renderAction = renderAction.bind(this.game);
+      // this.game.mine.nextRoundInfo = {
+      //   attackSide: {
+      //     status: 'ready',
+      //     gameID: this.gameID,
+      //     cards: [],
+      //   },
+      //   defenceSide: {
+      //     status: 'ready',
+      //     gameID: this.gameID,
+      //     cards: [],
+      //   },
+      // };
+      // this.game.mine.transport = {
+      //   attackSocket: this.attackSocket,
+      //   defenceSocket: this.defenceSocket,
+      // };
+      // this.game.mine.graveyard = [];
     }
 
-    this.game.mine.cards.push(...allowedCards.map((card) => {
-      return {
-        alias: card.alias,
-        side,
-        url: this.cards[card.alias].url,
-        unit: this.cards[card.alias].unit,
-      };
-    }));
+    // this.game.mine.cards.push(...allowedCards.map((card) => {
+    //   return {
+    //     alias: card.alias,
+    //     side,
+    //     url: this.cards[card.alias].url,
+    //     unit: this.cards[card.alias].unit,
+    //   };
+    // }));
   }
 
   startLastRound({ units, actions, status }) {

@@ -2,18 +2,11 @@
  * Created by andreivinogradov on 29.03.17.
  */
 import Form from '../../components/form/form';
-// const Form = require('../../components/form/form.js');
-
-import registerCheck from '../validators/credentials_check';
-// const registerCheck = require('../validators/credentials_check.js');
-import loginCheck from '../validators/login_check';
-// const loginCheck = require('../validators/login_check.js');
 
 const loginForm = new Form(
   {
     parentSelector: '.login-form-container',
     preset: 'entrance',
-    validator: loginCheck,
     attributes: {
       // id: 'login-form',
       class: 'form form_entrance',

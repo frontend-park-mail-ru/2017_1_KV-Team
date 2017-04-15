@@ -2,7 +2,6 @@
  * Created by andreivinogradov on 06.03.17.
  */
 import HTTP from '../modules/http';
-// const HTTP = require('../modules/http.js');
 
 export default class AppService {
   constructor() {
@@ -33,5 +32,3 @@ export default class AppService {
     return this.http.put('/api/account', body);
   }
 }
-
-// module.exports = AppService;

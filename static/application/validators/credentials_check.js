@@ -1,6 +1,5 @@
 
 import Valnder from '../sValidator';
-// const Valnder = require('../sValidator.js');
 
 const registerCheck = (app) => {
   const nameInput = document.getElementById('reg-name');

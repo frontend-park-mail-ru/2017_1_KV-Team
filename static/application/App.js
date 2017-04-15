@@ -2,23 +2,12 @@
  * Created by andreivinogradov on 26.02.17.
  */
 
+import '../style/main.scss';
 import AppService from '../services/appService';
-// const AppService = require('../services/appService.js');
 import linker from './router/linker';
-// const linker = require('./router/linker.js');
 import Router from './router/router';
-// const Router = require('./router/router.js');
 import formActions from './forms/formActions';
-// const formActions = require('./forms/formActions.js');
-
 import Game from '../game/game';
-// const Game = require('../game/game.js');
-
-// TODO in webpack before server start
-// TODO automatically compile all xmls into js
-// TODO change to MODULE EXPORTS
-// TODO include into app js
-// TODO automatically COMPILE bundle.js
 
 const cont = document.querySelector('.container');
 

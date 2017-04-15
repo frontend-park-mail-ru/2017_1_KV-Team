@@ -87,4 +87,3 @@ export default class HTTP {
   }
 }
 
-// module.exports = HTTP;

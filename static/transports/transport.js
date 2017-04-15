@@ -3,7 +3,6 @@
  */
 
 import Mediator from '../modules/mediator';
-// const Mediator = require('../modules/mediator.js');
 
 export default class MagicTransport {
   // Открыть соединение через которое будут передаваться данные
@@ -47,5 +46,3 @@ export default class MagicTransport {
     });
   }
 }
-
-// module.exports = MagicTransport;
