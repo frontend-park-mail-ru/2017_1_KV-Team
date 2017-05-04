@@ -15,6 +15,7 @@ export default class Route {
     this.cacheTimers = {};
     this.cachedScripts = {};
     this.cont = cont;
+    this.app.playButtonStatus = 'enabled';
     // Сохраняем загруженные представления
     this.cachedViews = {};
     this.pages = {
@@ -39,11 +40,11 @@ export default class Route {
       play: {
         title: 'Играть',
         renderTemplate: () => Promise.resolve(playT(this.app.username)),
-        postRouteActions: [{
-          key: 'startSingleplayer',
-          func: this.app.startSingleGame,
-          cache: 0,
-        }],
+        // postRouteActions: [{
+        //   key: 'startSingleplayer',
+        //   func: this.app.startSingleGame.bind(this.app),
+        //   cache: 0,
+        // }],
         forms: [
           chatForm,
         ],
@@ -51,7 +52,10 @@ export default class Route {
       },
       leaders: {
         title: 'Лидеры',
-        renderTemplate: () => Promise.resolve(leadersT(this.app.username)),
+        renderTemplate: () => Promise.resolve(leadersT({
+          username: this.app.username,
+          playButtonStatus: this.app.playButtonStatus,
+        })),
         forms: [
           gameOptionsForm,
         ],
@@ -64,7 +68,10 @@ export default class Route {
       },
       about: {
         title: 'Об игре',
-        renderTemplate: () => Promise.resolve(aboutT(this.app.username)),
+        renderTemplate: () => Promise.resolve(aboutT({
+          username: this.app.username,
+          playButtonStatus: this.app.playButtonStatus,
+        })),
         forms: [
           gameOptionsForm,
         ],

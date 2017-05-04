@@ -2,6 +2,7 @@
 @import "../components/form/form.scss";
 @import "../components/spinner/spinner.scss";
 @import "../components/chat/chat.scss";
+@import "../components/timer/timer.scss";
 
 body {
   font: normal 18px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
@@ -55,6 +56,10 @@ body {
       background: rgba(255, 255, 255, 1);
       cursor: pointer;
     }
+
+    &_close {
+      background: orangered;
+    }
   }
 
   &__link {
@@ -84,14 +89,16 @@ body {
 }
 
 .game{
-  height: 520px;
-  width: 800px;
+  height: 100vh;
+  width: 100vw;
   background-color: white;
   border: 2px solid black;
   box-shadow: 0 10px 50px black;
   display: flex;
   justify-content: center;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .leaderboard{

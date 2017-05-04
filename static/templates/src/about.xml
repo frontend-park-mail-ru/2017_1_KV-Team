@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<fest:template xmlns:fest="http://fest.mail.ru"  context_name="user">
-    <fest:script>var active = { active: 'about', nick: user }</fest:script>
+<fest:template xmlns:fest="http://fest.mail.ru"  context_name="info">
+    <fest:script>
+        var active = { active: 'about', nick: info.username, playButtonStatus: info.playButtonStatus }
+    </fest:script>
     <fest:include context="active" src="./basic.xml"/>
     <div class="main-content-container">
         <div class="main-content">

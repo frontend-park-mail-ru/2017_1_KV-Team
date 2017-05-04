@@ -6,11 +6,15 @@
     </div>
     <nav class="navigation navigation_main">
         <ul class="navigation__list">
-            <li class="navigation__item {info.active==='play'?'navigation__item_active':''}">
+            <li class="navigation__item {info.playButtonStatus==='disabled'?'navigation__item_close':''}">
                 <a href="#"
                    class="navigation__link {info.active==='play'?'navigation__link_active':''}"
-                   data-act="game-start-options"
-                   data-hot="true" title="Игра">Игра</a>
+                   data-act="{info.playButtonStatus==='enabled'?'game-start-options':'end-search'}"
+                   data-hot="true" title="Игра">
+                    <fest:value>
+                        info.playButtonStatus==='enabled'?'Игра':'Отменить поиск'
+                    </fest:value>
+                </a>
             </li>
             <li class="navigation__item {info.active==='singleplayer'?'navigation__item_active':''}">
                 <a href="play"

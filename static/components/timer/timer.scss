@@ -1,0 +1,14 @@
+.timer {
+  font-size: 20px;
+  color: white;
+  display: inline-block;
+  padding: 10px;
+  position: absolute;
+  left: 40vw;
+
+  &__counter {
+    font-size: 24px;
+    color: yellow;
+    font-weight: bold;
+  }
+}

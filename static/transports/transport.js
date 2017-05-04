@@ -30,6 +30,7 @@ export default class MagicTransport {
   handleMessage(event) {
     const messageText = event.data;
     const message = JSON.parse(messageText);
+    console.log(event.data);
     this.mediator.emit(message);
   }
 

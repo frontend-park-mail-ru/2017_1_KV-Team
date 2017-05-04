@@ -6,20 +6,22 @@ import 'p2';
 import Phaser from 'phaser';
 import BootState from './states/boot';
 import PreloadState from './states/preload';
+import GameplayState from './states/gameplay';
 import Chat from '../components/chat/chat';
 import Transport from '../transports/transport';
 
 
 class GameMy extends Phaser.Game {
-  constructor() {
+  constructor(side) {
     super('100%', '100%', Phaser.AUTO, 'game');
+    this.side = side;
 
     this.state.add('bootState', BootState, false);
     this.state.add('preloadState', PreloadState, false);
+    this.state.add('gameplayState', GameplayState, false);
 
     this.state.start('bootState');
   }
-
 }
 
 function overGrid() {
@@ -424,12 +426,12 @@ export default class Game {
 
   init({ gameID, enemyUsername, allowedCards, side }) {
     if (!this.isInited) {
-      new GameMy();
+      new GameMy(side);
       // const container = document.querySelector('.game');
       // this.enemyUsername = enemyUsername;
       // this.gameID = gameID;
       // this.allowedCards = allowedCards;
-      // this.isInited = true;
+      this.isInited = true;
       // const chatContainer = document.querySelector('.chat-container');
       // chatContainer.classList.add('chat-container_visible');
       // const loader = document.querySelector('.loader');

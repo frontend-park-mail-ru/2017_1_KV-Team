@@ -7,7 +7,8 @@ import AppService from '../services/appService';
 import linker from './router/linker';
 import Router from './router/router';
 import formActions from './forms/formActions';
-import Game from '../game/game';
+import Game from '../game/game2';
+import Transport from '../transports/transport';
 
 const cont = document.querySelector('.container');
 
@@ -44,7 +45,24 @@ class App {
   }
 
   startSingleGame() {
-    return this.app.game.startSingle();
+    return this.game.startSingle();
+  }
+
+  startMatchmaking(attack, defend) {
+    let side = null;
+
+    if (attack && defend) {
+      side = 'all';
+    } else if (attack) {
+      side = 'attack';
+    } else if (defend) {
+      side = 'defence';
+    }
+    this.gameSocket = new Transport(`ws://localhost:8082/connect?type=multiplayer&side=${side}`, this.game);
+    this.gameSocket.waitOpened()
+      .then(() => {
+        console.log('СОККЕТ ОТКРЫТ');
+      });
   }
 
   login(name, pass) {
@@ -105,6 +123,22 @@ class App {
           }
           this.route();
         });
+  }
+
+  disablePlayLink() {
+    this.playButtonStatus = 'disabled';
+  }
+
+  enablePlayLink() {
+    const timer = document.querySelector('.timer');
+    timer.remove();
+    const playItem = document.querySelector('.navigation__item_close');
+    playItem.classList.remove('navigation__item_close');
+    const playLink = playItem.querySelector('.navigation__link');
+    playLink.classList.remove('navigation__link_active');
+    playLink.setAttribute('data-act', 'game-start-options');
+    playLink.innerText = 'Игра';
+    this.playButtonStatus = 'enabled';
   }
 
   connectValidator(validator) {

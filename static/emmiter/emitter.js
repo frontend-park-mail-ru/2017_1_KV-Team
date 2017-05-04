@@ -12,6 +12,8 @@ export default class Emitter {
   }
 
   gameStart(message) {
+    this.game.app.enablePlayLink();
+    this.game.app.router.route('play');
     this.game.init(message);
   }
 

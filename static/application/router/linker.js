@@ -20,7 +20,9 @@ const linker = app => (e) => {
     whatToDoBeforeRoute.push(app.logOut());
   }
 
-  if (link.dataset.act === 'game-start-options') {
+  if (link.dataset.act === 'end-search') {
+    app.enablePlayLink();
+  } else if (link.dataset.act === 'game-start-options') {
     const gameStartOpt = document.querySelector('.start-game-options-container');
     e.target.parentNode.classList.toggle('navigation__item_active');
     link.classList.toggle('navigation__link_active');
