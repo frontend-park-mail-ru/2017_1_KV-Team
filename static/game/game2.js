@@ -23,11 +23,11 @@ class Game extends Phaser.Game {
     const cardsUrls = {
       a: {
         url: 'assets/cards/a.jpg',
-        unit: 'assets/units/c.png',
+        unit: 'assets/units/a.png',
       },
       b: {
         url: 'assets/cards/b.jpg',
-        unit: 'assets/units/tower.png',
+        unit: 'assets/units/b.png',
       },
       c: {
         url: 'assets/cards/c.jpg',
@@ -35,7 +35,7 @@ class Game extends Phaser.Game {
       },
       d: {
         url: 'assets/cards/d.jpg',
-        unit: 'assets/units/d.png',
+        unit: 'assets/units/tower.png',
       },
     };
 
@@ -43,13 +43,13 @@ class Game extends Phaser.Game {
       side,
       gameID,
       me: {
-        units: null,
+        units: {},
         nickname: myUsername,
         health: 100,
         cards: [],
       },
       enemy: {
-        units: null,
+        units: {},
         nickname: enemyUsername,
         health: 100,
       },
@@ -63,6 +63,8 @@ class Game extends Phaser.Game {
         unit: cardsUrls[card.alias].unit,
       };
     }));
+
+    this.graveyard = [];
   }
 }
 

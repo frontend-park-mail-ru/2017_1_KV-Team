@@ -14,6 +14,7 @@ import menuComponent from '../components/menu';
 export default class BasicPlayState extends Phaser.State {
   init() {
     this.battleField = battleFieldComponent(this);
+    console.log('from init: ' + this.battleField.height);
     this.castle = castleComponent(this);
     this.desc = descComponent(this);
     this.topBar = topBarComponent(this);
@@ -37,7 +38,9 @@ export default class BasicPlayState extends Phaser.State {
   }
 
   update() {
-
+    let graveyard = this.game.graveyard;
+    graveyard.forEach(sprite => sprite.destroy());
+    graveyard = [];
   }
 
   preload(cards) {
@@ -45,6 +48,6 @@ export default class BasicPlayState extends Phaser.State {
   }
 
   create() {
-
+    this.physics.startSystem(Phaser.Physics.ARCADE);
   }
 }

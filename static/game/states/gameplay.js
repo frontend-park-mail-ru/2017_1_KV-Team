@@ -3,11 +3,15 @@
  */
 import Phaser from 'phaser';
 import BasicPlayState from './basicPlayState';
-import cardComponent from '../components/card';
+import CardComponent from '../components/card';
+import GridComponent from '../components/grid';
 
 export default class GameplayState extends BasicPlayState {
   init() {
     super.init();
+    this.grid = new GridComponent(this, this.game.gameInfo.side, 0, 0);
+    this.grid.hide();
+    this.dragCard = {};
   }
 
   preload() {
@@ -22,7 +26,7 @@ export default class GameplayState extends BasicPlayState {
     const cards = this.game.gameInfo.me.cards;
     let nextCardOffset = 0;
     cards.forEach((card) => {
-      cardComponent(this, card, nextCardOffset);
+      new CardComponent(this, card, nextCardOffset);
       nextCardOffset += 100;
     });
   }
@@ -30,5 +34,21 @@ export default class GameplayState extends BasicPlayState {
   update() {
     super.update();
 
+    if (this.dragCard.isDragging) {
+      const grid = this.grid.getSquareGrid();
+      grid.forEach((element) => {
+        element.alpha = 0;
+      });
+
+      this.dragCard.group.forEach((cardElement) => {
+        cardElement.position.copyFrom(this.dragCard.element.position);
+      });
+      const pointer = this.dragCard.group.children[1];
+      if (!this.game.physics.arcade.overlap(pointer, grid, function (sprite, group) {
+        group.alpha = 1;
+      })) {
+        console.log('they are not colliding!');
+      }
+    }
   }
 }
