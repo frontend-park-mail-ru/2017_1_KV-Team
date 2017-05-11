@@ -20,15 +20,15 @@ export default class PreloadState extends Phaser.State {
   }
 
   preload() {
-    this.load.image('gamefield', '../assets/gamefield2.jpg');
-    this.load.image('bottombar', '../assets/bottombar.jpg');
-    this.load.image('button', '../assets/button.jpg');
-    this.load.image('healthbar', '../assets/healthbar.png');
-    this.load.image('wall', '../assets/castle_wall.jpg');
-    this.load.image('castleTower', '../assets/castle_tower.png');
-    this.load.image('triangle', '../assets/triangle.png');
-    this.load.image('gridHighlight', '../assets/gridHighlight.png');
-    this.load.image('popup', '../assets/popup.png');
+    this.load.image('gamefield', 'game/assets/gamefield2.jpg');
+    this.load.image('bottombar', 'game/assets/bottombar.jpg');
+    this.load.image('button', 'game/assets/button.jpg');
+    this.load.image('healthbar', 'game/assets/healthbar.png');
+    this.load.image('wall', 'game/assets/castle_wall.jpg');
+    this.load.image('castleTower', 'game/assets/castle_tower.png');
+    this.load.image('triangle', 'game/assets/triangle.png');
+    this.load.image('gridHighlight', 'game/assets/gridHighlight.png');
+    this.load.image('popup', 'game/assets/popup.png');
     this.load.onFileComplete.add(this.fileLoaded, this);
   }
 
@@ -46,6 +46,6 @@ export default class PreloadState extends Phaser.State {
     this.add.tween(this.text).to(
       { alpha: 0 }, 1000, 'Linear', true);
 
-    this.state.start('gameplayState');
+    this.state.start('uiLoadState', true, false);
   }
 }

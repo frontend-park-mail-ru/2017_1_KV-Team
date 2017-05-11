@@ -6,9 +6,8 @@ import BasicPlayState from './basicPlayState';
 import CardComponent from '../components/card';
 import GridComponent from '../components/grid';
 
-export default class GameplayState extends BasicPlayState {
+export default class GameplayState extends Phaser.State {
   init() {
-    super.init();
     this.grid = new GridComponent(this, this.game.gameInfo.side, 0, 0);
     this.grid.hide();
     this.dragCard = {};
@@ -32,7 +31,10 @@ export default class GameplayState extends BasicPlayState {
   }
 
   update() {
-    super.update();
+    let graveyard = this.game.graveyard;
+    graveyard.forEach(sprite => sprite.destroy());
+    graveyard = [];
+
 
     if (this.dragCard.isDragging) {
       const grid = this.grid.getSquareGrid();

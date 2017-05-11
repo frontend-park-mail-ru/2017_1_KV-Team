@@ -4,9 +4,8 @@
 
 export default function (state) {
   const gamefield = state.add.sprite(0, 70, 'gamefield');
-  gamefield.width = state.game.width;
-  gamefield.heigth = state.game.height;
+  gamefield.width = state.width;
+  gamefield.heigth = state.height;
 
-  console.log('from battleComp: ' + gamefield.heigth);
   return gamefield;
 }

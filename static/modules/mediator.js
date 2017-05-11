@@ -6,6 +6,7 @@ import Emitter from '../emmiter/emitter';
 export default class Mediator {
   constructor(game) {
     this.emitter = new Emitter(game);
+    game.emitter = this.emitter;
   }
 
   on(message) {
@@ -18,10 +19,11 @@ export default class Mediator {
         this.emitter.gameStart(message);
         break;
       case 'attack_win':
-        this.emitter.lastRound(message);
-        break;
       case 'defence_win':
         this.emitter.lastRound(message);
+        break;
+      case 'continue':
+        this.emitter.nextRound(message);
         break;
       default:
     }

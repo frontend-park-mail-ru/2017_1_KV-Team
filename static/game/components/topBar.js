@@ -4,7 +4,7 @@
 
 export default function (state) {
   const topbar = state.add.sprite(0, 0, 'bottombar');
-  topbar.width = state.game.width;
+  topbar.width = state.width;
   topbar.height = 70;
 
   const style = {
@@ -14,7 +14,7 @@ export default function (state) {
     boundsAlignV: 'middle',
   };
 
-  state.add.text(state.game.width / 2, 20, '1', Object.assign({}, style, {
+  const roundCount = state.add.text(state.width / 2, 20, '1', Object.assign({}, style, {
     font: '30px Fira Sans',
   }));
 

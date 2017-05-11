@@ -2,8 +2,15 @@
  * Created by andreivinogradov on 03.05.17.
  */
 
-class StateController {
+export default class StateController {
+  constructor(game) {
+    this.game = game;
+  }
+
   startGameplayState() {
-    emmiter.emit('')
+  }
+
+  startNextRound(data) {
+    this.game.state.start('renderState', false, false, data);
   }
 }

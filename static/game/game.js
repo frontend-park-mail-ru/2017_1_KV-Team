@@ -19,6 +19,7 @@ class GameMy extends Phaser.Game {
     this.state.add('bootState', BootState, false);
     this.state.add('preloadState', PreloadState, false);
     this.state.add('gameplayState', GameplayState, false);
+    this.state.add('render', GameplayState, false);
 
     this.state.start('bootState');
   }

@@ -6,7 +6,7 @@ import Phaser from 'phaser';
 
 export default class BootState extends Phaser.State {
   preload() {
-    this.load.image('loadingScreenBackground', 'assets/gamefield2.jpg');
+    this.load.image('loadingScreenBackground', 'game/assets/gamefield2.jpg');
   }
 
   create() {

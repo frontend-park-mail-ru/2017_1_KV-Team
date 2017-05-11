@@ -3,9 +3,9 @@
  */
 
 export default function (state) {
-  const wall = state.add.sprite(state.game.width - 50, 70, 'wall');
-  const castleTowerTop = state.add.sprite(state.game.width - 50, 75, 'castleTower');
-  const castleTowerBot = state.add.sprite(state.game.width - 50, state.game.height - 205, 'castleTower');
+  const wall = state.add.sprite(state.width - 50, 70, 'wall');
+  const castleTowerTop = state.add.sprite(state.width - 50, 75, 'castleTower');
+  const castleTowerBot = state.add.sprite(state.width - 50, state.height - 205, 'castleTower');
 
   castleTowerBot.width = 50;
   castleTowerBot.height = 50;

@@ -49,6 +49,7 @@ export default class Card {
     cardGroup.data.alias = card.alias;
 
     this.cardGroup = cardGroup;
+    state.world.bringToTop(cardGroup);
   }
 
   onDragStart() {
@@ -69,23 +70,13 @@ export default class Card {
         unit.data.alias = card.key;
         this.state.game.physics.arcade.enable(unit);
         this.state.game.gameInfo.me.units[card.key] = unit;
-        // if (pointer.parent.data.side === 'attack') {
-        //   this.state.game.gameInfo.me.nextRoundInfo.attackSide.cards.push({
-        //     pos: {
-        //       x: group.data.gridIndex.x,
-        //       y: group.data.gridIndex.y,
-        //     },
-        //     alias: pointer.parent.data.alias,
-        //   });
-        // } else {
-        //   this.game.mine.nextRoundInfo.defenceSide.cards.push({
-        //     pos: {
-        //       x: group.data.gridIndex.x,
-        //       y: group.data.gridIndex.y,
-        //     },
-        //     alias: pointer.parent.data.alias,
-        //   });
-        // }
+        this.state.game.nextRoundInfo.cards.push({
+              pos: {
+                x: group.data.gridIndex.x,
+                y: group.data.gridIndex.y,
+              },
+              alias: pointer.parent.data.alias,
+        });
        this.state.game.graveyard.push(sprite.parent);
       })) {
       this.state.dragCard.group.forEach((cardElement) => {
