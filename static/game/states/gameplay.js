@@ -8,8 +8,8 @@ import GridComponent from '../components/grid';
 
 export default class GameplayState extends Phaser.State {
   init() {
-    this.grid = new GridComponent(this, this.game.gameInfo.side, 0, 0);
-    this.grid.hide();
+    this.game.grid = new GridComponent(this, this.game.gameInfo.side, 0, 0);
+    this.game.grid.hide();
     this.dragCard = {};
   }
 
@@ -37,7 +37,7 @@ export default class GameplayState extends Phaser.State {
 
 
     if (this.dragCard.isDragging) {
-      const grid = this.grid.getSquareGrid();
+      const grid = this.game.grid.getSquareGrid();
       grid.forEach((element) => {
         element.alpha = 0;
       });

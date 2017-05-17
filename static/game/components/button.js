@@ -11,8 +11,9 @@ export default function (state, text, x, y, sprite, callback) {
   const style = {
     font: '20px Fira Sans',
     fill: '#fff',
-    boundsAlignH: 'center',
-    boundsAlignV: 'middle',
+    align: 'center',
+    // boundsAlignH: 'center',
+    // boundsAlignV: 'middle',
   };
 
   const label = state.add.text(0, 0, text, style);

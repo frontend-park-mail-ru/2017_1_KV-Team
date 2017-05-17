@@ -8,100 +8,113 @@ export default class Grid {
     this.createOneSquare = this.createOneSquare.bind(this);
     this.createOneGridRect = Grid.createOneGridRect.bind(this);
     const squareSize = (state.game.height - 220) / 4;
-    const grid = state.add.group();
-    const gridRect = state.add.group();
+    const defenceGrid = state.add.group();
+    const defenceGridRect = state.add.group();
+    const attackGrid = state.add.group();
+    const attackGridRect = state.add.group();
 
-    console.log('from Grid: ' + squareSize);
+    Grid.squareCreator(
+      0,
+      70,
+      squareSize,
+      'down',
+      4,
+      state,
+      this.createOneSquare,
+      0).forEach((square) => {
+        attackGrid.add(square);
+      });
+
+    Grid.squareCreator(
+      0,
+      70,
+      squareSize,
+      'down',
+      4,
+      state,
+      this.createOneGridRect).forEach((square) => {
+        attackGridRect.add(square);
+      });
+
+    const startDefendGridAt = state.game.width - (squareSize * 2) - 50;
+
+    Grid.squareCreator(
+      startDefendGridAt,
+      70,
+      squareSize,
+      'down',
+      4,
+      state,
+      this.createOneSquare,
+      1).forEach((square) => {
+        defenceGrid.add(square);
+      });
+
+    Grid.squareCreator(
+      startDefendGridAt + squareSize,
+      70,
+      squareSize,
+      'down',
+      4,
+      state,
+      this.createOneSquare,
+      2).forEach((square) => {
+        defenceGrid.add(square);
+      });
+
+    Grid.squareCreator(
+      startDefendGridAt,
+      70,
+      squareSize,
+      'down',
+      4,
+      state,
+      this.createOneGridRect).forEach((square) => {
+        defenceGridRect.add(square);
+      });
+
+    Grid.squareCreator(
+      startDefendGridAt + squareSize,
+      70,
+      squareSize,
+      'down',
+      4,
+      state,
+      this.createOneGridRect).forEach((square) => {
+        defenceGridRect.add(square);
+      });
 
     if (side === 'attack') {
-      Grid.squareCreator(
-        0,
-        70,
-        squareSize,
-        'down',
-        4,
-        state,
-        this.createOneSquare,
-        0).forEach((square) => {
-          grid.add(square);
-        });
-
-      Grid.squareCreator(
-        0,
-        70,
-        squareSize,
-        'down',
-        4,
-        state,
-        this.createOneGridRect).forEach((square) => {
-          gridRect.add(square);
-        });
+      this.myGrid = attackGrid;
+      this.myGridReact = attackGridRect;
+      this.enemyGrid = defenceGrid;
+      this.enemyGridRect = defenceGridRect;
     } else {
-      const startDefendGridAt = state.game.width - (squareSize * 2) - 50;
-
-      Grid.squareCreator(
-        startDefendGridAt,
-        70,
-        squareSize,
-        'down',
-        4,
-        state,
-        this.createOneSquare,
-        1).forEach((square) => {
-          grid.add(square);
-        });
-
-      Grid.squareCreator(
-        startDefendGridAt + squareSize,
-        70,
-        squareSize,
-        'down',
-        4,
-        state,
-        this.createOneSquare,
-        2).forEach((square) => {
-          grid.add(square);
-        });
-
-      Grid.squareCreator(
-        startDefendGridAt,
-        70,
-        squareSize,
-        'down',
-        4,
-        state,
-        this.createOneGridRect).forEach((square) => {
-          gridRect.add(square);
-        });
-
-      Grid.squareCreator(
-        startDefendGridAt + squareSize,
-        70,
-        squareSize,
-        'down',
-        4,
-        state,
-        this.createOneGridRect).forEach((square) => {
-          gridRect.add(square);
-        });
+      this.myGrid = defenceGrid;
+      this.myGridReact = defenceGridRect;
+      this.enemyGrid = attackGrid;
+      this.enemyGridRect = attackGridRect;
     }
 
-    this.grid = grid;
-    this.gridRect = gridRect;
+    this.enemyGrid.visible = false;
+    this.enemyGridRect.visible = false;
+
+    this.squareSize = squareSize;
+    this.state = state;
   }
 
   hide() {
-    this.grid.visible = false;
-    this.gridRect.visible = false;
+    this.myGrid.visible = false;
+    this.myGridReact.visible = false;
   }
 
   show() {
-    this.grid.visible = true;
-    this.gridRect.visible = true;
+    this.myGrid.visible = true;
+    this.myGridReact.visible = true;
   }
 
   getSquareGrid() {
-    return this.grid;
+    return this.myGrid;
   }
 
   createOneSquare(x, y, size, game, column, row) {
@@ -110,10 +123,21 @@ export default class Grid {
     squareSprite.height = size;
     squareSprite.inputEnabled = true;
     squareSprite.data.gridIndex = { x: column, y: row };
-    squareSprite.events.onInputOver.add(Grid.overGrid, this);
-    squareSprite.events.onInputOut.add(Grid.outGrid, this);
+    squareSprite.spawnUnit = (key) => {
+      const unit = this.state.add.sprite(squareSprite.centerX, squareSprite.centerY, `${key}_unit`);
+      unit.anchor.set(0.5);
+      const k = unit.height / unit.width;
+      unit.height = squareSprite.height - (squareSprite.height * 0.2);
+      unit.width = unit.height / k;
+      return unit;
+    };
     game.physics.arcade.enable(squareSprite);
     return squareSprite;
+  }
+
+  findGridCell(x, y) {
+    return this.enemyGrid.children.find(item =>
+      item.data.gridIndex.x === x && item.data.gridIndex.y === y);
   }
 
   static createOneGridRect(x, y, size, game) {
@@ -135,13 +159,5 @@ export default class Grid {
       y += yOffset;
     }
     return squares;
-  }
-
-  static overGrid() {
-    console.log('over grid');
-  }
-
-  static outGrid() {
-    console.log('out grid');
   }
 }
