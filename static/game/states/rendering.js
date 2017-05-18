@@ -83,12 +83,12 @@ export default class RenderState extends Phaser.State {
     }
     const time = action.timeOffsetEnd - action.timeOffsetBegin;
 
-    console.log(action.actiontType, unit);
+    console.log(action.actionType, unit);
     console.log(units);
     console.log(this.game.gameInfo.enemy.units);
     console.log(this.game.gameInfo.me.units);
     let tween;
-    switch (action.actiontType) {
+    switch (action.actionType) {
       case 'move':
         console.log(unit);
         const x = this.game.width * action.actionParameters.distance;
