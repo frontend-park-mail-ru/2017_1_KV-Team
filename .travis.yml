@@ -14,3 +14,4 @@ script:
   - docker login --username=ksh.max.spam@gmail.com --password=$(echo $API_KEY) registry.heroku.com
   - docker build -t registry.heroku.com/tp-frontend-kv/web .
   - docker push registry.heroku.com/tp-frontend-kv/web
+
