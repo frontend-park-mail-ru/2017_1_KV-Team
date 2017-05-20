@@ -35,4 +35,10 @@ ADD nginx.conf /etc/nginx/nginx.conf
 
 RUN rm /etc/nginx/sites-enabled/default
 
+RUN cat /etc/nginx/nginx.conf
+RUN ls /
+RUN ls /data/www
+RUN cat /data/www/index.html
+RUN echo $PORT
+
 CMD /bin/bash -c "echo \"listen $PORT;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
