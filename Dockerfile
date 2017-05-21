@@ -41,4 +41,4 @@ RUN ls /
 RUN ls -al /data/www
 RUN cat /data/www/index.html
 
-CMD /bin/bash -c "echo \"listen 80;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
+CMD /bin/bash -c "echo \"listen $PORT;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
