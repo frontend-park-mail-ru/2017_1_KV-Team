@@ -39,4 +39,4 @@ ADD nginx.conf /etc/nginx/nginx.conf
 RUN cat /etc/nginx/nginx.conf
 RUN ls -la /usr/share/nginx/html
 
-CMD /bin/bash -c "echo \"listen 80;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
+CMD /bin/bash -c "echo \"listen $PORT;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
