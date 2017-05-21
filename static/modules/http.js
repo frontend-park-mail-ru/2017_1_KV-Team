@@ -2,9 +2,7 @@
  * Created by andreivinogradov on 06.03.17.
  */
 
-const protocol = 'http';
-const hostname = 'localhost';
-const portNumber = '8082';
+import urls from '../application/backendUrls';
 
 export default class HTTP {
   constructor() {
@@ -27,9 +25,7 @@ export default class HTTP {
         method: 'post',
         headers: Object.assign({ 'Content-type': 'application/json; charset=utf-8' }, this.headers),
       });
-
-    this.baseUrl = `${protocol}://${hostname}:${portNumber}`;
-
+    this.baseUrl = `${urls.httpUrl}`;
     HTTP.instance = this;
   }
 

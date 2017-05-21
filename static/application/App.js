@@ -9,6 +9,7 @@ import Router from './router/router';
 import formActions from './forms/formActions';
 import Game from '../game/game2';
 import Transport from '../transports/transport';
+import urls from './backendUrls';
 
 const cont = document.querySelector('.container');
 
@@ -58,7 +59,7 @@ class App {
     } else if (defend) {
       side = 'defence';
     }
-    this.gameSocket = new Transport(`ws://localhost:8082/connect?type=multiplayer&side=${side}`, this.game);
+    this.gameSocket = new Transport(`${urls.wsUrl}?type=multiplayer&side=${side}`, this.game);
     this.gameSocket.waitOpened()
       .then(() => {
         console.log('СОККЕТ ОТКРЫТ');
