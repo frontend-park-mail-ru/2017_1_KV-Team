@@ -20,9 +20,10 @@ export default class Mediator {
         break;
       case 'attack_win':
       case 'defence_win':
-        this.emitter.lastRound(message);
+      case 'continous':
+        this.emitter.renderRound(message);
         break;
-      case 'continue':
+      case 'cards':
         this.emitter.nextRound(message);
         break;
       default:

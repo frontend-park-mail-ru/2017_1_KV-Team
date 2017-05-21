@@ -10,7 +10,11 @@ export default class StateController {
   startGameplayState() {
   }
 
-  startNextRound(data) {
+  renderRound(data) {
     this.game.state.start('renderState', false, false, data);
+  }
+
+  startNextRound(data) {
+    this.game.state.start('gameplayState', false, false, data.allowedCards);
   }
 }

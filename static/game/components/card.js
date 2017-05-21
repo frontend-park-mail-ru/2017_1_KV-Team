@@ -42,6 +42,25 @@ export default class Card {
     redPointer.originalPosition = redPointer.position.clone();
     state.game.physics.arcade.enable(redPointer);
 
+    redPointer.events.onDragStop.add(function (currentSprite) {
+      const grid = state.game.grid;
+      this.onStopDrag(currentSprite, state.game.grid.getSquareGrid());
+      state.dragCard = {};
+      grid.hide();
+    }, this);
+
+    redPointer.events.onDragStart.add(function (currentSprite) {
+      const grid = state.game.grid;
+
+      state.dragCard = {
+        isDragging: true,
+        group: cardGroup,
+        element: currentSprite,
+        side: currentSprite.parent.data.side,
+      };
+      grid.show();
+    }, this);
+
     cardGroup.add(cardSprite);
     cardGroup.add(redPointer);
     cardGroup.data = {};
@@ -66,9 +85,11 @@ export default class Card {
 
     if (!this.state.game.physics.arcade.overlap(pointer, endSprite, (sprite, group) => {
       const unit = group.spawnUnit(card.key);
-      unit.data.alias = card.key;
-      this.state.game.physics.arcade.enable(unit);
+      this.state.game.physics.arcade.enable(unit.getUnitSprite());
       this.state.game.gameInfo.me.units[card.key] = unit;
+      console.log('---------------');
+      console.log(card.key);
+      console.log(this.state.game.gameInfo.me.units);
       this.state.game.nextRoundInfo.cards.push({
         pos: {
           x: group.data.gridIndex.x,
@@ -77,6 +98,7 @@ export default class Card {
         alias: pointer.parent.data.alias,
       });
       this.state.game.graveyard.push(sprite.parent);
+      delete this.state.game.gameInfo.me.cards[card.key];
     })) {
       this.state.dragCard.group.forEach((cardElement) => {
         cardElement.position.copyFrom(cardElement.originalPosition);

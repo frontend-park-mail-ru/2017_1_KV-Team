@@ -37,11 +37,27 @@ class Game extends Phaser.Game {
       },
       c: {
         url: 'game/assets/cards/c.jpg',
-        unit: 'game/assets/units/tower.png',
+        unit: 'game/assets/units/c.png',
       },
       d: {
         url: 'game/assets/cards/d.jpg',
-        unit: 'game/assets/units/tower.png',
+        unit: 'game/assets/units/d.png',
+      },
+      e: {
+        url: 'game/assets/cards/e.jpg',
+        unit: 'game/assets/units/e.png',
+      },
+      f: {
+        url: 'game/assets/cards/f.jpg',
+        unit: 'game/assets/units/f.png',
+      },
+      g: {
+        url: 'game/assets/cards/g.jpg',
+        unit: 'game/assets/units/g.png',
+      },
+      k: {
+        url: 'game/assets/cards/k.jpg',
+        unit: 'game/assets/units/k.png',
       },
     };
 
@@ -55,6 +71,11 @@ class Game extends Phaser.Game {
       cards: [],
     };
 
+    this.renderCompleteInfo = {
+      status: 'render_complete',
+      gameID: this.gameID,
+    };
+
     this.gameInfo = {
       side,
       gameID,
@@ -62,24 +83,39 @@ class Game extends Phaser.Game {
         units: {},
         nickname: myUsername,
         health: 100,
-        cards: [],
+        cards: {},
       },
       enemy: {
         units: {},
         nickname: enemyUsername,
         health: 100,
       },
+      castle: {
+        towers: {
+          bottom: {},
+          top: {},
+        },
+        wall: {},
+      },
     };
 
-    this.gameInfo.me.cards.push(...allowedCards.map((card) => {
-      return {
-        alias: card.alias,
-        side,
-        url: cardsUrls[card.alias].url,
-        unit: cardsUrls[card.alias].unit,
-      };
-    }));
+    this.activeTweensCount = undefined;
 
+    this.addTweensCount = (tween) => {
+      tween.onStart.add(() => {
+        if (this.activeTweensCount === undefined) {
+          this.activeTweensCount = 1;
+        } else {
+          this.activeTweensCount += 1;
+        }
+      });
+
+      tween.onComplete.add(() => {
+        this.activeTweensCount -= 1;
+      });
+    };
+
+    this.allowedCards = allowedCards;
     this.graveyard = [];
     this.cardsUrls = cardsUrls;
   }

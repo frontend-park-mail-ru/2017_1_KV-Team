@@ -1,7 +1,7 @@
 /**
  * Created by andreivinogradov on 04.05.17.
  */
-
+import Unit from './unit';
 
 export default class Grid {
   constructor(state, side, x, y) {
@@ -123,14 +123,13 @@ export default class Grid {
     squareSprite.height = size;
     squareSprite.inputEnabled = true;
     squareSprite.data.gridIndex = { x: column, y: row };
-    squareSprite.spawnUnit = (key) => {
-      const unit = this.state.add.sprite(squareSprite.centerX, squareSprite.centerY, `${key}_unit`);
-      unit.anchor.set(0.5);
-      const k = unit.height / unit.width;
-      unit.height = squareSprite.height - (squareSprite.height * 0.2);
-      unit.width = unit.height / k;
-      return unit;
-    };
+    squareSprite.spawnUnit = (key, enemy) => new Unit(
+        this.state.game,
+        squareSprite.centerX,
+        squareSprite.centerY,
+        squareSprite.height,
+        key,
+        enemy);
     game.physics.arcade.enable(squareSprite);
     return squareSprite;
   }

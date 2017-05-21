@@ -20,7 +20,12 @@ export default class Emitter {
   lastRound(message) {
     console.log(message);
     console.log('AFTER PARSE');
-    this.game.gameInstance.myStateController.startNextRound(message);
+    this.game.gameInstance.myStateController.renderRound(message);
+  }
+
+  renderRound(message) {
+    console.log(message);
+    this.game.gameInstance.myStateController.renderRound(message);
   }
 
   nextRound(message) {
