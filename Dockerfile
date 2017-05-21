@@ -17,28 +17,26 @@ WORKDIR /TheLastSiege-Frontend
 RUN mv productionBackendUrls.js static/application/backendUrls.js \
     && npm install \
     && npm run deploy \
-    && mkdir -p /data/www \
-    && cp static/index.html /data/www/index.html \
-    && cp static/style.css /data/www/style.css \
-    && cp static/style.css.map /data/www/style.css.map \
-    && cp static/serviceWorker.js /data/www/serviceWorker.js \
-    && cp static/bundle.js /data/www/bundle.js \
-    && cp static/vendor.bundle.js /data/www/vendor.bundle.js \
-    && mkdir -p /data/www/game \
-    && cp -avr static/images /data/www/images \
-    && cp -avr static/game/assets /data/www/game/assets \
-    && chmod 755 -R /data/www
+    && cp static/index.html /usr/share/nginx/html/index.html \
+    && cp static/style.css /usr/share/nginx/html/style.css \
+    && cp static/style.css.map /usr/share/nginx/html/style.css.map \
+    && cp static/serviceWorker.js /usr/share/nginx/html/serviceWorker.js \
+    && cp static/bundle.js /usr/share/nginx/html/bundle.js \
+    && cp static/bundle.js.map /usr/share/nginx/html/bundle.js.map \
+    && cp static/vendor.bundle.js /usr/share/nginx/html/vendor.bundle.js \
+    && cp static/vendor.bundle.js.map /usr/share/nginx/html/vendor.bundle.js.map \
+    && mkdir -p /usr/share/nginx/html/game \
+    && cp -avr static/images /usr/share/nginx/html/images \
+    && cp -avr static/game/assets /usr/share/nginx/html/game/assets
 
 WORKDIR /
 RUN rm -r /TheLastSiege-Frontend && apt-get purge -y nodejs
 
 ADD nginx.conf /etc/nginx/nginx.conf
 
-RUN rm /etc/nginx/sites-enabled/default
+# RUN rm /etc/nginx/sites-enabled/default
 
 RUN cat /etc/nginx/nginx.conf
-RUN ls /
-RUN ls -al /data/www
-RUN cat /data/www/index.html
+RUN ls -la /usr/share/nginx/html
 
-CMD /bin/bash -c "echo \"listen $PORT;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
+CMD /bin/bash -c "echo \"listen 80;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
