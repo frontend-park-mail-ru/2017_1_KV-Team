@@ -26,7 +26,8 @@ RUN mv productionBackendUrls.js static/application/backendUrls.js \
     && cp static/vendor.bundle.js /data/www/vendor.bundle.js \
     && mkdir -p /data/www/game \
     && cp -avr static/images /data/www/images \
-    && cp -avr static/game/assets /data/www/game/assets
+    && cp -avr static/game/assets /data/www/game/assets \
+    && chmod 755 -R /data/www
 
 WORKDIR /
 RUN rm -r /TheLastSiege-Frontend && apt-get purge -y nodejs
@@ -37,7 +38,7 @@ RUN rm /etc/nginx/sites-enabled/default
 
 RUN cat /etc/nginx/nginx.conf
 RUN ls /
-RUN ls /data/www
+RUN ls -al /data/www
 RUN cat /data/www/index.html
 
-CMD /bin/bash -c "echo \"listen $PORT;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
+CMD /bin/bash -c "echo \"listen 80;\" > /etc/nginx/listen.conf && nginx -g 'daemon off;'"
