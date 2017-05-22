@@ -102,13 +102,13 @@ class Game extends Phaser.Game {
     this.activeTweensCount = undefined;
 
     this.addTweensCount = (tween) => {
-      tween.onStart.add(() => {
-        if (this.activeTweensCount === undefined) {
-          this.activeTweensCount = 1;
-        } else {
-          this.activeTweensCount += 1;
-        }
-      });
+      // tween.onStart.add(() => {
+      //   if (this.activeTweensCount === undefined) {
+      //     this.activeTweensCount = 1;
+      //   } else {
+      //     this.activeTweensCount += 1;
+      //   }
+      // });
 
       tween.onComplete.add(() => {
         this.activeTweensCount -= 1;

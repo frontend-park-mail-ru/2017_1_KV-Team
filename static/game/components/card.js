@@ -71,6 +71,18 @@ export default class Card {
     state.world.bringToTop(cardGroup);
   }
 
+  getCardGroup() {
+    return this.cardGroup;
+  }
+
+  setCoord(x, y = this.state.game.height - 130) {
+    this.cardGroup.children.forEach((element) => {
+      element.x = x;
+      element.y = y;
+      element.originalPosition = element.position.clone();
+    });
+  }
+
   onDragStart() {
     this.state.game.grid.show();
   }
@@ -84,17 +96,19 @@ export default class Card {
     const card = currentSprite.parent.children[0];
 
     if (!this.state.game.physics.arcade.overlap(pointer, endSprite, (sprite, group) => {
+      const { x, y } = group.data.gridIndex;
       const unit = group.spawnUnit(card.key);
+      const rectCell = this.state.game.grid.findRectCell(x, y);
+      unit.setBornPlace(group, rectCell);
+      group.kill();
+      rectCell.kill();
       this.state.game.physics.arcade.enable(unit.getUnitSprite());
       this.state.game.gameInfo.me.units[card.key] = unit;
       console.log('---------------');
       console.log(card.key);
       console.log(this.state.game.gameInfo.me.units);
       this.state.game.nextRoundInfo.cards.push({
-        pos: {
-          x: group.data.gridIndex.x,
-          y: group.data.gridIndex.y,
-        },
+        pos: { x, y },
         alias: pointer.parent.data.alias,
       });
       this.state.game.graveyard.push(sprite.parent);

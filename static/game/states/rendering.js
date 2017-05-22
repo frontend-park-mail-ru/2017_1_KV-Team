@@ -3,12 +3,11 @@
  */
 
 import Phaser from 'phaser';
-import BasicPlayState from './basicPlayState';
 
 export default class RenderState extends Phaser.State {
   init(data) {
     this.data = data;
-    this.game.activeTweensCount = undefined;
+    this.game.activeTweensCount = data.actions.length;
   }
 
   // Тут подгружаем всех юнитов врага
@@ -38,8 +37,13 @@ export default class RenderState extends Phaser.State {
     // Создаем и сохраняем вражеские юниты
     this.data.enemyUnits.forEach((unit) => {
       if (!this.game.gameInfo.enemy.units[unit.unitID]) {
-        const cell = this.game.grid.findGridCell(unit.startPoint.x, unit.startPoint.y);
+        const { x, y } = unit.startPoint;
+        const cell = this.game.grid.findGridCell(x, y);
+        const rectCell = this.game.grid.findEnemyRectCell(x, y);
         const unitObj = cell.spawnUnit(unit.assotiatedCardAlias, true);
+        unitObj.setBornPlace(cell, rectCell);
+        cell.kill();
+        rectCell.kill();
         unitObj.setUnitID(unit.unitID);
         this.game.gameInfo.enemy.units[unit.unitID] = unitObj;
       }
@@ -50,13 +54,14 @@ export default class RenderState extends Phaser.State {
   }
 
   update() {
+    console.log(this.game.activeTweensCount);
     if (this.game.activeTweensCount === 0) {
+      this.game.activeTweensCount = undefined;
       this.renderComplete();
     }
   }
 
   renderRound({ actions }) {
-    // Сортируем экшены в порядке окончания, чтобы самое длинное действие было в конце
     actions.forEach((action) => {
       this.renderAction(action);
     });

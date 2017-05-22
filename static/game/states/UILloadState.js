@@ -9,6 +9,7 @@ import descComponent from '../components/desc';
 import TopBarComponent from '../components/topBar';
 import buttonComponent from '../components/button';
 import healthbarComponent from '../components/healthbar';
+import GridComponent from '../components/grid';
 import menuComponent from '../components/menu';
 
 export default class UILloadState extends Phaser.State {
@@ -26,6 +27,8 @@ export default class UILloadState extends Phaser.State {
     this.game.enemyHealthBar =
       healthbarComponent(this.game, this.game.gameInfo.enemy.nickname, this.game.width - 310, 25);
     this.game.menu = menuComponent(this.game);
+    this.game.grid = new GridComponent(this.game, this.game.gameInfo.side, 0, 0);
+    this.game.grid.hide();
     this.game.menu.visible = false;
     this.state.start('gameplayState', false, false, this.game.allowedCards);
   }

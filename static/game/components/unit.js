@@ -21,6 +21,11 @@ class Unit {
     }
   }
 
+  setBornPlace(cell, rectCell) {
+    this.bornPlace = { cell, rectCell };
+    console.log(this.bornPlace);
+  }
+
   getUnitSprite() {
     return this.unit;
   }
@@ -36,10 +41,10 @@ class Unit {
       victim = victim.getUnitSprite();
     }
     const tween1 = this.tweenTint(this.unit, 0xffffff, 0x0000ff, time / 2, offset);
-    this.state.addTweensCount(tween1);
+    // this.state.addTweensCount(tween1);
 
     const tween = this.tweenTint(this.unit, 0x0000ff, 0xffffff, time / 2, offset + (time / 2));
-    this.state.addTweensCount(tween);
+    // this.state.addTweensCount(tween);
 
     const timer = this.state.time.create();
     timer.add(offset, () => {
@@ -59,8 +64,9 @@ class Unit {
     timer.start();
   }
 
+  // Пока анимация для этого действия не имплементирована
   getDamage(time, offset) {
-    const tween = this.state.add.tween(this.unit).to({ alpha: 0.1 }, time, null, true, offset);
+    const tween = this.state.add.tween(this.unit).to({ }, time, null, true, offset);
 
     this.state.addTweensCount(tween);
   }
@@ -71,6 +77,8 @@ class Unit {
     this.state.addTweensCount(tween);
 
     tween.onComplete.add(() => {
+      this.bornPlace.cell.revive();
+      this.bornPlace.rectCell.revive();
       this.unit.destroy();
       delete this.unitsThisSide[this.unitID];
     });
@@ -78,7 +86,10 @@ class Unit {
 
   move(x, time, offset) {
     const movement = this.state.add.tween(this.unit).to({ x }, time, null, true, offset);
-
+    console.log('!!!!');
+    console.log(this);
+    this.bornPlace.cell.revive();
+    this.bornPlace.rectCell.revive();
     this.state.addTweensCount(movement);
   }
 
