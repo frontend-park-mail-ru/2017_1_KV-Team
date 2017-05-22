@@ -25,15 +25,24 @@ export default class CardManager {
     };
     this.cards.c = {
       alias: 'c',
-      side: 'DEFENDER',
+      side: 'ATTACKER',
       maxHP: 1,
       attack: 1,
       timeAttack: 300,
-      range: 0.2,
-      velocity: 0,
+      range: 0.1,
+      velocity: 0.2,
     };
     this.cards.d = {
       alias: 'd',
+      side: 'ATTACKER',
+      maxHP: 1,
+      attack: 1,
+      timeAttack: 300,
+      range: 0.1,
+      velocity: 0.2,
+    };
+    this.cards.e = {
+      alias: 'e',
       side: 'DEFENDER',
       maxHP: 1,
       attack: 1,
@@ -41,10 +50,41 @@ export default class CardManager {
       range: 0.2,
       velocity: 0,
     };
+    this.cards.f = {
+      alias: 'f',
+      side: 'DEFENDER',
+      maxHP: 1,
+      attack: 1,
+      timeAttack: 300,
+      range: 0.2,
+      velocity: 0,
+    };
+    this.cards.g = {
+      alias: 'g',
+      side: 'DEFENDER',
+      maxHP: 1,
+      attack: 1,
+      timeAttack: 300,
+      range: 0.2,
+      velocity: 0,
+    };
+    this.cards.k = {
+      alias: 'k',
+      side: 'DEFENDER',
+      maxHP: 1,
+      attack: 1,
+      timeAttack: 300,
+      range: 0.2,
+      velocity: 0,
+    };
+    this.cardsPool = {};
+    Object.values(this.cards).forEach((card) => {
+      this.cardsPool[card.alias] = card;
+    });
   }
 
   getCardsForMove(side, move) {
-    const onlySelectedSide = Object.values(this.cards)
+    const onlySelectedSide = Object.values(this.cardsPool)
       .filter(p => p.side === side);
     const numberOfCardsForMove = Math.min(move, 4);
     const indexes = [];
@@ -54,7 +94,11 @@ export default class CardManager {
         indexes.push(randomIndex);
       }
     }
-    return indexes.map(idx => onlySelectedSide[idx]);
+    const cardsForMove = indexes.map(idx => onlySelectedSide[idx]);
+    cardsForMove.forEach((card) => {
+      delete this.cardsPool[card.alias];
+    });
+    return cardsForMove;
   }
   getCard(alias, pos) {
     const template = this.cards[alias];
