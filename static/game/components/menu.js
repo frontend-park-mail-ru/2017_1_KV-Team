@@ -4,15 +4,25 @@
 import buttonComponent from './button';
 
 export default function (state) {
+  const overlay = state.add.graphics(0, 0);
+  overlay.lineStyle(state.height, 0x000000);
+  overlay.beginFill();
+  overlay.moveTo(0, state.height / 2);
+  overlay.lineTo(state.width, state.height / 2);
+  overlay.endFill();
+  overlay.alpha = 0.5;
+
   const menu = state.add.group();
   const menuBackground = state.add.sprite(state.width / 2, state.height / 2, 'popup');
   menuBackground.anchor.setTo(0.5, 0.5);
+  menuBackground.width = 200;
+  menuBackground.y -= 50;
 
   const surr = buttonComponent(
     state,
     'Сдаться',
     state.width / 2,
-    (menuBackground.y - (menuBackground.height / 2)) + 20,
+    (menuBackground.y - (menuBackground.height / 2)) + 80,
     'button',
     () => { console.log('Вы типо сдались!'); });
 
@@ -20,7 +30,7 @@ export default function (state) {
     state,
     'Опции',
     state.width / 2,
-      (menuBackground.y - (menuBackground.height / 2)) + 80,
+      (menuBackground.y - (menuBackground.height / 2)) + 130,
     'button',
     () => { console.log('Ну типо опции!'); });
 
@@ -28,10 +38,11 @@ export default function (state) {
     state,
     'Выйти',
     state.width / 2,
-    (menuBackground.y - (menuBackground.height / 2)) + 140,
+    (menuBackground.y - (menuBackground.height / 2)) + 180,
     'button',
-    () => { console.log('Вы типо вышли!'); });
+    () => { state.controller.app.route('/'); });
 
+  menu.add(overlay);
   menu.add(menuBackground);
   menu.add(surr);
   menu.add(opt);

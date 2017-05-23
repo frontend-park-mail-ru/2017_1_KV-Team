@@ -27,6 +27,10 @@ export default class MagicTransport {
     };
   }
 
+  close() {
+    this.socket.close();
+  }
+
   handleMessage(event) {
     const messageText = event.data;
     const message = JSON.parse(messageText);

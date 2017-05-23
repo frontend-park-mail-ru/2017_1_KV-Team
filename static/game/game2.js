@@ -9,19 +9,22 @@ import BootState from './states/boot';
 import PreloadState from './states/preload';
 import GameplayState from './states/gameplay';
 import RenderState from './states/rendering';
+import GameEndState from './states/gameend';
 import UILoadState from './states/UILloadState';
 
 import Chat from '../components/chat/chat';
 import StateController from './stateController';
 
 class Game extends Phaser.Game {
-  constructor({ gameID, enemyUsername, allowedCards, side }, myUsername, gameSocket) {
+  constructor({ gameID, enemyUsername, allowedCards, side }, myUsername, gameSocket, controller) {
     super('100%', '100%', Phaser.AUTO, 'game');
+    console.log(document.getElementById('game'));
 
     this.state.add('bootState', BootState, false);
     this.state.add('preloadState', PreloadState, false);
     this.state.add('uiLoadState', UILoadState, false);
     this.state.add('gameplayState', GameplayState, false);
+    this.state.add('gameEndState', GameEndState, false);
     this.state.add('renderState', RenderState, false);
 
     this.state.start('bootState');
@@ -61,6 +64,7 @@ class Game extends Phaser.Game {
       },
     };
 
+    this.controller = controller;
     this.gameID = gameID;
     this.gameSocket = gameSocket;
     this.myStateController = new StateController(this);
@@ -132,7 +136,7 @@ export default class GameController {
   }
 
   init(options) {
-    this.gameInstance = new Game(options, this.app.username, this.app.gameSocket);
+    this.gameInstance = new Game(options, this.app.username, this.app.gameSocket, this);
   }
 }
 

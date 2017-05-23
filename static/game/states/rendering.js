@@ -7,6 +7,7 @@ import Phaser from 'phaser';
 export default class RenderState extends Phaser.State {
   init(data) {
     this.data = data;
+    this.game.status = data.status;
     this.game.activeTweensCount = data.actions.length;
   }
 
@@ -54,6 +55,8 @@ export default class RenderState extends Phaser.State {
   }
 
   update() {
+    this.game.world.bringToTop(this.game.menu);
+
     console.log(this.game.activeTweensCount);
     if (this.game.activeTweensCount === 0) {
       this.game.activeTweensCount = undefined;
@@ -69,7 +72,11 @@ export default class RenderState extends Phaser.State {
 
   renderComplete() {
     console.log('Рендер завершен!');
-    this.game.gameSocket.send(this.game.renderCompleteInfo);
+    if (this.game.status === 'continous') {
+      this.game.gameSocket.send(this.game.renderCompleteInfo);
+    } else {
+      this.game.myStateController.gameEnd();
+    }
   }
 
   renderAction(action) {
@@ -93,7 +100,7 @@ export default class RenderState extends Phaser.State {
       case 'castleattack':
         victim = this.game.gameInfo.me.units[action.actionParameters.victim]
           || this.game.gameInfo.enemy.units[action.actionParameters.victim];
-        this.game.castle.attack(victim, action.actionParameters.tower, time, action.timeOffsetBegin);
+        this.game.castle.attack(victim.getUnitSprite(), action.actionParameters.tower, time, action.timeOffsetBegin);
         break;
       case 'attack':
         victim = this.game.gameInfo.me.units[action.actionParameters.victim]

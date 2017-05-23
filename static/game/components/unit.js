@@ -36,7 +36,7 @@ class Unit {
 
   attack(time, offset, victim) {
     if (!victim) {
-      victim = this.state.castle.getWall();
+      victim = { centerX: this.state.castle.getWall().x, centerY: this.unit.centerY };
     } else {
       victim = victim.getUnitSprite();
     }
@@ -85,12 +85,12 @@ class Unit {
   }
 
   move(x, time, offset) {
-    const movement = this.state.add.tween(this.unit).to({ x }, time, null, true, offset);
-    console.log('!!!!');
-    console.log(this);
-    this.bornPlace.cell.revive();
-    this.bornPlace.rectCell.revive();
-    this.state.addTweensCount(movement);
+    const timer = this.state.time.create();
+    timer.add(offset, () => {
+      const movement = this.state.add.tween(this.unit).to({ x }, time, null, true, 0);
+      this.state.addTweensCount(movement);
+    });
+    timer.start();
   }
 
   tweenTint(spriteToTween, startColor, endColor, duration, offset) {

@@ -36,13 +36,12 @@ class Castle {
 
     timer.add(offset, () => {
       const shot = this.state.add.graphics(0, 0);
-      shot.lineStyle(2, 0x0ff7f, 1);
+      shot.lineStyle(1, 0x0088FF, 1);
       shot.beginFill();
       shot.moveTo(tower.centerX, tower.centerY);
       shot.lineTo(enemyUnit.centerX, enemyUnit.centerY);
       shot.endFill();
-
-      const shotTween = this.state.add.tween(shot).to({ alpha: 0.1 }, time, null, true);
+      const shotTween = this.state.add.tween(shot).to({ alpha: 0.1 }, time, null, true, 0);
       this.state.addTweensCount(shotTween);
       shotTween.onComplete.add(() => {
         shot.destroy();

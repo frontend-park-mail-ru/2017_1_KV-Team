@@ -49,6 +49,7 @@ export default class GameplayState extends Phaser.State {
     graveyard.forEach(sprite => sprite.destroy());
     graveyard = [];
 
+    this.game.world.bringToTop(this.game.menu);
 
     if (this.dragCard.isDragging) {
       const grid = this.game.grid.getSquareGrid();

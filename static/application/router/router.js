@@ -161,8 +161,10 @@ export default class Route {
   }
 
   route(url = window.location.href) {
-    if (this.app.game.game) {
-      this.app.game.game.destroy();
+    if (this.app.game.gameInstance) {
+      this.app.game.gameInstance.destroy();
+      this.app.game.gameInstance = undefined;
+      this.app.gameSocket.close();
     }
     let path = url.slice(url.lastIndexOf('/') + 1) || 'about';
     if (!this.app.loggedStatus && this.pages[path] && this.pages[path].forLogged) {
