@@ -8,7 +8,7 @@ export default class AppService {
     this.http = new HTTP();
   }
   getLeaders() {
-    return this.http.get('/api/leaders');
+    return this.http.get('/api/leaders?limit=10');
   }
   isLoggedIn() {
     return this.http.get('/api/isloggedin');
