@@ -21,18 +21,22 @@ export default function (state) {
   popupBackground.visible = false;
 
   let text;
-  if (state.status === 'attack_win') {
-    if (state.gameInfo.side === 'attack') {
-      text = 'Вы победили! Ваши демоны разрушили замок!';
+  if (state.mode === 'multi') {
+    if (state.status === 'attack_win') {
+      if (state.gameInfo.side === 'attack') {
+        text = 'Вы победили! Ваши демоны разрушили замок!';
+      } else {
+        text = 'Вы проиграли! В следующий раз охраняйте замок лучше!';
+      }
     } else {
-      text = 'Вы проиграли! В следующий раз охраняйте замок лучше!';
+      if (state.gameInfo.side === 'attack') {
+        text = 'Вы проиграли! В следующий раз продумывайте свои ходы лучше!';
+      } else {
+        text = 'Вы победили! Вам удалось защитить замок!';
+      }
     }
   } else {
-    if (state.gameInfo.side === 'attack') {
-      text = 'Вы проиграли! В следующий раз продумывайте свои ходы лучше!';
-    } else {
-      text = 'Вы победили! Вам удалось защитить замок!';
-    }
+    text = 'Игра окончена!';
   }
 
   const style = {
