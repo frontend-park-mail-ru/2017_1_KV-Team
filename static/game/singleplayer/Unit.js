@@ -57,6 +57,11 @@ export default class Unit {
     this.positionOffset = unit.positionOffset;
     return this;
   }
+
+  toString() {
+    return this.unitID.toString();
+  }
+
   decrementHP(value) {
     this.currentHP = (this.currentHP - value > 0) ?
                       this.currentHP - value :

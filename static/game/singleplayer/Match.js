@@ -8,7 +8,7 @@ import CardManager from './CardManager.js';
 
 const uuidV4 = require('uuid/v4');
 
-class Match {
+export default class Match {
   serializeMoveResults(move, myUnits, enemyUnits, actions) {
     if (move.currentCastleHP <= 0 || move.currentMove >= this.settings.maxMovesCount) {
       const winner = move.currentCastleHP <= 0 ? 'attack_win' : 'defence_win';
@@ -57,29 +57,30 @@ class Match {
     const defenceCards = this.cardManager.getCardsForMove('DEFENDER', 1);
     this.attackAvailableCards = attackCards;
     this.defenceAvailableCards = defenceCards;
-    
+
     return {
       attack: {
         gameID: this.gameID,
         status: 'start',
         side: 'attack',
-        enemyName: username,
+        enemyUsername: username,
         movesCount: this.settings.maxMovesCount,
         castleMaxHP: this.settings.maxCastleHP,
-        allowedCards: attackCards.map(c => c.alias),
+        allowedCards: attackCards.map(c => ({ alias: c.alias, side: c.side })),
       },
-      defence:{
+      defence: {
         gameID: this.gameID,
         status: 'start',
         side: 'defence',
-        enemyName: username,
+        enemyUsername: username,
         movesCount: this.settings.maxMovesCount,
         castleMaxHP: this.settings.maxCastleHP,
-        allowedCards: defenceCards.map(c => c.alias),
+        allowedCards: defenceCards.map(c => ({ alias: c.alias, side: c.side })),
       },
     };
   }
   ready(readyData) {
+    console.log('ready data into match', readyData);
     const attackReadyData = readyData.attack;
     const defenceReadyData = readyData.defence;
     // Из выбранных карт удаляем карты, которые не были разрешены
@@ -130,32 +131,24 @@ class Match {
           timeOffsetEnd: a.endOffset,
         };
       });
-    return {
-      attack: this.serializeMoveResults(move, attackUnits, defenceUnits, actions),
-      defence: this.serializeMoveResults(move, defenceUnits, attackUnits, actions),
-    };
+    console.log('out', actions);
+    return this.serializeMoveResults(move, defenceUnits, attackUnits, actions);
   }
   renderComplete(renderCompleteData) {
     const move = this.moves[this.moves.length - 1];
+    console.log('into render complete', this.moves.length, move);
     if (move.currentCastleHP > 0 && move.currentMove < this.settings.maxMovesCount) {
       const attackCards = this.cardManager.getCardsForMove('ATTACKER', move.currentMove + 1);
       const defenceCards = this.cardManager.getCardsForMove('DEFENDER', move.currentMove + 1);
       this.attackAvailableCards = attackCards;
       this.defenceAvailableCards = defenceCards;
+      const allCards = attackCards.concat(defenceCards).map(c => ({ alias: c.alias, side: c.side }));
+      console.log(allCards);
       return {
-        attack: {
-          gameID: this.gameID,
-          status: 'cards',
-          allowedCards: attackCards.map(c => c.alias),
-        },
-        defence:{
-          gameID: this.gameID,
-          status: 'cards',
-          allowedCards: defenceCards.map(c => c.alias),
-        },
+        allowedCards: allCards,
       };
     }
-    return undefined;
+    console.log('finish');
   }
 }
 /*

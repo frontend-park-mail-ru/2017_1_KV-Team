@@ -132,14 +132,16 @@ class App {
 
   enablePlayLink() {
     const timer = document.querySelector('.timer');
-    timer.remove();
-    const playItem = document.querySelector('.navigation__item_close');
-    playItem.classList.remove('navigation__item_close');
-    const playLink = playItem.querySelector('.navigation__link');
-    playLink.classList.remove('navigation__link_active');
-    playLink.setAttribute('data-act', 'game-start-options');
-    playLink.innerText = 'Игра';
-    this.playButtonStatus = 'enabled';
+    if (timer) {
+      timer.remove();
+      const playItem = document.querySelector('.navigation__item_close');
+      playItem.classList.remove('navigation__item_close');
+      const playLink = playItem.querySelector('.navigation__link');
+      playLink.classList.remove('navigation__link_active');
+      playLink.setAttribute('data-act', 'game-start-options');
+      playLink.innerText = 'Игра';
+      this.playButtonStatus = 'enabled';
+    }
   }
 
   connectValidator(validator) {

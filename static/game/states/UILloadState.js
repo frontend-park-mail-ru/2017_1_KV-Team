@@ -38,6 +38,12 @@ export default class UILloadState extends Phaser.State {
   }
 
   readyForNextRound() {
-    this.game.gameSocket.send(this.game.nextRoundInfo);
+    console.log(this.game.mode);
+    if (this.game.mode === 'multi') {
+      this.game.gameSocket.send(this.game.nextRoundInfo);
+    } else {
+      const renderData = this.game.controller.gameEngine.ready(this.game.nextRoundInfoSingle);
+      this.game.controller.emitter.renderRound(renderData);
+    }
   }
 }

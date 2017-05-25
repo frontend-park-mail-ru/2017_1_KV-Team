@@ -17,7 +17,7 @@
                 </a>
             </li>
             <li class="navigation__item {info.active==='singleplayer'?'navigation__item_active':''}">
-                <a href="play"
+                <a href="#"
                    class="navigation__link {info.active==='singleplayer'?'navigation__link_active':''}"
                    data-act="start-singleplayer"
                    data-hot="true" title="Обучение">Обучение</a>

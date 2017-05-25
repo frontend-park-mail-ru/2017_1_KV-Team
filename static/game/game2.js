@@ -11,14 +11,17 @@ import GameplayState from './states/gameplay';
 import RenderState from './states/rendering';
 import GameEndState from './states/gameend';
 import UILoadState from './states/UILloadState';
+import Match from './singleplayer/Match';
+import Emitter from '../emmiter/emitter';
 
 import Chat from '../components/chat/chat';
 import StateController from './stateController';
 
 class Game extends Phaser.Game {
-  constructor({ gameID, enemyUsername, allowedCards, side }, myUsername, gameSocket, controller) {
+  constructor({ attack, defence, gameID, enemyUsername, allowedCards, side }, myUsername, gameSocket, controller) {
     super('100%', '100%', Phaser.AUTO, 'game');
-    console.log(document.getElementById('game'));
+    this.mode = attack ? 'single' : 'multi';
+    console.log(this.mode);
 
     this.state.add('bootState', BootState, false);
     this.state.add('preloadState', PreloadState, false);
@@ -75,33 +78,73 @@ class Game extends Phaser.Game {
       cards: [],
     };
 
+    this.nextRoundInfoSingle = {
+      attack: {
+        status: 'ready',
+        gameID: this.gameID,
+        cards: [],
+      },
+      defence: {
+        status: 'ready',
+        gameID: this.gameID,
+        cards: [],
+      },
+    };
+
     this.renderCompleteInfo = {
       status: 'render_complete',
       gameID: this.gameID,
     };
 
-    this.gameInfo = {
-      side,
-      gameID,
-      me: {
-        units: {},
-        nickname: myUsername,
-        health: 100,
-        cards: {},
-      },
-      enemy: {
-        units: {},
-        nickname: enemyUsername,
-        health: 100,
-      },
-      castle: {
-        towers: {
-          bottom: {},
-          top: {},
+    if (this.mode === 'multi') {
+      this.gameInfo = {
+        side,
+        gameID,
+        me: {
+          units: {},
+          nickname: myUsername,
+          health: 100,
+          cards: {},
         },
-        wall: {},
-      },
-    };
+        enemy: {
+          units: {},
+          nickname: enemyUsername,
+          health: 100,
+        },
+        castle: {
+          towers: {
+            bottom: {},
+            top: {},
+          },
+          wall: {},
+        },
+      };
+    } else {
+      this.gameInfo = {
+        gameID,
+        me: {
+          units: {},
+          nickname: myUsername,
+          allowedCards: attack.allowedCards,
+          health: 100,
+          cards: {},
+        },
+        enemy: {
+          units: {},
+          nickname: myUsername,
+          allowedCards: defence.allowedCards,
+          health: 100,
+        },
+        castle: {
+          towers: {
+            bottom: {},
+            top: {},
+          },
+          wall: {},
+        },
+      };
+      allowedCards = this.gameInfo.me.allowedCards.concat(this.gameInfo.enemy.allowedCards);
+    }
 
     this.activeTweensCount = undefined;
 
@@ -133,6 +176,13 @@ export default class GameController {
   start() {
     console.log('игра запущена!');
     console.log('подключаю чат!');
+  }
+
+  startSingle() {
+    this.emitter = new Emitter(this);
+    this.gameEngine = new Match();
+    const initData = this.gameEngine.startMatch(this.app.username, 1, 3, 0.15, 1, 500);
+    this.emitter.gameStart(initData);
   }
 
   init(options) {

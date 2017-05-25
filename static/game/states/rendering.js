@@ -13,16 +13,22 @@ export default class RenderState extends Phaser.State {
 
   // Тут подгружаем всех юнитов врага
   preload() {
-    this.data.enemyUnits.forEach((unit) => {
-      if (!this.game.gameInfo.enemy.units[unit.unitID]) {
-        this.load.image(`${unit.assotiatedCardAlias}_unit`, this.game.cardsUrls[unit.assotiatedCardAlias].unit);
-      }
-    });
+    if (this.game.mode === 'multi') {
+      this.data.enemyUnits.forEach((unit) => {
+        if (!this.game.gameInfo.enemy.units[unit.unitID]) {
+          this.load.image(`${unit.assotiatedCardAlias}_unit`, this.game.cardsUrls[unit.assotiatedCardAlias].unit);
+        }
+      });
+    }
   }
 
   create() {
     const myUnits = this.game.gameInfo.me.units;
+    console.log(myUnits);
     // Меняем свои ключи своих юнитов на UUID
+    if (this.game.mode !== 'multi') {
+      this.data.myUnits.push(...this.data.enemyUnits);
+    }
     this.data.myUnits.forEach((unit) => {
       if (!myUnits[unit.unitID]) {
         myUnits[unit.unitID] = myUnits[unit.assotiatedCardAlias];
@@ -36,21 +42,24 @@ export default class RenderState extends Phaser.State {
     });
 
     // Создаем и сохраняем вражеские юниты
-    this.data.enemyUnits.forEach((unit) => {
-      if (!this.game.gameInfo.enemy.units[unit.unitID]) {
-        const { x, y } = unit.startPoint;
-        const cell = this.game.grid.findGridCell(x, y);
-        const rectCell = this.game.grid.findEnemyRectCell(x, y);
-        const unitObj = cell.spawnUnit(unit.assotiatedCardAlias, true);
-        unitObj.setBornPlace(cell, rectCell);
-        cell.kill();
-        rectCell.kill();
-        unitObj.setUnitID(unit.unitID);
-        this.game.gameInfo.enemy.units[unit.unitID] = unitObj;
-      }
-    });
+    if (this.game.mode === 'multi') {
+      this.data.enemyUnits.forEach((unit) => {
+        if (!this.game.gameInfo.enemy.units[unit.unitID]) {
+          const {x, y} = unit.startPoint;
+          const cell = this.game.grid.findGridCell(x, y);
+          const rectCell = this.game.grid.findEnemyRectCell(x, y);
+          const unitObj = cell.spawnUnit(unit.assotiatedCardAlias, true);
+          unitObj.setBornPlace(cell, rectCell);
+          cell.kill();
+          rectCell.kill();
+          unitObj.setUnitID(unit.unitID);
+          this.game.gameInfo.enemy.units[unit.unitID] = unitObj;
+        }
+      });
+    }
 
     // После того как все заспаунены, начинаем отрисовку
+    console.log('!!!!!!!!!! ', this.data);
     this.renderRound(this.data);
   }
 
@@ -73,7 +82,11 @@ export default class RenderState extends Phaser.State {
   renderComplete() {
     console.log('Рендер завершен!');
     if (this.game.status === 'continous') {
-      this.game.gameSocket.send(this.game.renderCompleteInfo);
+      if (this.game.mode !== 'multi') {
+        this.game.controller.emitter.nextRound(this.game.controller.gameEngine.renderComplete());
+      } else {
+        this.game.gameSocket.send(this.game.renderCompleteInfo);
+      }
     } else {
       this.game.myStateController.gameEnd();
     }
@@ -89,6 +102,7 @@ export default class RenderState extends Phaser.State {
     const time = action.timeOffsetEnd - action.timeOffsetBegin;
 
     console.log(action.actionType, unit);
+    console.log(action);
     console.log(this.game.gameInfo.enemy.units);
     console.log(this.game.gameInfo.me.units);
     let victim;

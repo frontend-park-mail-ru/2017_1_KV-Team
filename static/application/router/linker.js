@@ -20,6 +20,10 @@ const linker = app => (e) => {
     whatToDoBeforeRoute.push(app.logOut());
   }
 
+  if (link.dataset.act === 'start-singleplayer') {
+    app.game.startSingle();
+  }
+
   if (link.dataset.act === 'end-search') {
     app.enablePlayLink();
   } else if (link.dataset.act === 'game-start-options') {

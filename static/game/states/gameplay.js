@@ -36,8 +36,9 @@ export default class GameplayState extends Phaser.State {
     let nextCardOffset = 120 * currentCardsNumber;
 
     this.allowedCards.forEach((card) => {
+      console.log(card.side);
       cards[card.alias] = new CardComponent(this, {
-        side: this.game.gameInfo.side,
+        side: card.side,
         alias: card.alias,
       }, nextCardOffset);
       nextCardOffset += 120;
@@ -53,16 +54,26 @@ export default class GameplayState extends Phaser.State {
 
     if (this.dragCard.isDragging) {
       const grid = this.game.grid.getSquareGrid();
+      const enemyGrid = this.game.grid.getEnemiesSquareGrid();
       grid.forEach((element) => {
         element.alpha = 0;
       });
-
+      enemyGrid.forEach((element) => {
+        element.alpha = 0;
+      });
       this.dragCard.group.forEach((cardElement) => {
         cardElement.position.copyFrom(this.dragCard.element.position);
       });
       const pointer = this.dragCard.group.children[1];
+
       if (!this.game.physics.arcade.overlap(pointer, grid, function (sprite, group) {
         group.alpha = 1;
+      })) {
+        console.log('they are not colliding!');
+      }
+
+      if (!this.game.physics.arcade.overlap(pointer, enemyGrid, function (sprite, group) {
+          group.alpha = 1;
       })) {
         console.log('they are not colliding!');
       }

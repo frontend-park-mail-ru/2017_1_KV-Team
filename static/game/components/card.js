@@ -5,9 +5,24 @@ export default class Card {
   constructor(state, card, offset) {
     this.state = state;
     const cardGroup = state.add.group();
+    cardGroup.data = {};
+    cardGroup.data.side = card.side;
+    cardGroup.data.alias = card.alias;
+    const grid = state.game.grid;
+    let showFunction;
+    let getSquareGrid;
+    if (state.game.mode === 'single') {
+      showFunction = card.side === 'DEFENDER' ? grid.show.bind(grid) : grid.showEnemies.bind(grid);
+      getSquareGrid = card.side === 'DEFENDER' ? grid.getSquareGrid.bind(grid) : grid.getEnemiesSquareGrid.bind(grid);
+    } else {
+      showFunction = grid.show.bind(grid);
+      getSquareGrid = grid.getSquareGrid.bind(grid);
+    }
+
 
     const cardSprite =
       state.add.sprite((state.game.width / 2) + offset, state.game.height - 130, card.alias);
+    cardGroup.add(cardSprite);
     cardSprite.width = 100;
     cardSprite.height = 125;
     cardSprite.inputEnabled = true;
@@ -16,25 +31,23 @@ export default class Card {
     state.game.physics.arcade.enable(cardSprite);
 
     cardSprite.events.onDragStop.add(function (currentSprite) {
-      const grid = state.game.grid;
-      this.onStopDrag(currentSprite, state.game.grid.getSquareGrid());
+      this.onStopDrag(currentSprite, getSquareGrid());
       state.dragCard = {};
       grid.hide();
     }, this);
 
     cardSprite.events.onDragStart.add(function (currentSprite) {
-      const grid = state.game.grid;
-
       state.dragCard = {
         isDragging: true,
         group: cardGroup,
         element: currentSprite,
         side: currentSprite.parent.data.side,
       };
-      grid.show();
+      showFunction();
     }, this);
 
     const redPointer = state.add.sprite((state.game.width / 2) + offset, state.game.height - 130, 'triangle');
+    cardGroup.add(redPointer);
     redPointer.width = 25;
     redPointer.height = 25;
     redPointer.inputEnabled = true;
@@ -43,29 +56,20 @@ export default class Card {
     state.game.physics.arcade.enable(redPointer);
 
     redPointer.events.onDragStop.add(function (currentSprite) {
-      const grid = state.game.grid;
-      this.onStopDrag(currentSprite, state.game.grid.getSquareGrid());
+      this.onStopDrag(currentSprite, getSquareGrid());
       state.dragCard = {};
       grid.hide();
     }, this);
 
     redPointer.events.onDragStart.add(function (currentSprite) {
-      const grid = state.game.grid;
-
       state.dragCard = {
         isDragging: true,
         group: cardGroup,
         element: currentSprite,
         side: currentSprite.parent.data.side,
       };
-      grid.show();
+      showFunction();
     }, this);
-
-    cardGroup.add(cardSprite);
-    cardGroup.add(redPointer);
-    cardGroup.data = {};
-    cardGroup.data.side = card.side;
-    cardGroup.data.alias = card.alias;
 
     this.cardGroup = cardGroup;
     state.world.bringToTop(cardGroup);
@@ -103,7 +107,27 @@ export default class Card {
       group.kill();
       rectCell.kill();
       this.state.game.physics.arcade.enable(unit.getUnitSprite());
-      this.state.game.gameInfo.me.units[card.key] = unit;
+
+      if (this.state.game.mode === 'multi' || sprite.parent.data.side === 'DEFENDER') {
+        this.state.game.gameInfo.me.units[card.key] = unit;
+        if (this.state.game.mode === 'multi') {
+          this.state.game.nextRoundInfo.cards.push({
+            pos: { x, y },
+            alias: pointer.parent.data.alias,
+          });
+        } else {
+          this.state.game.nextRoundInfoSingle.defence.cards.push({
+            pos: { x, y },
+            alias: pointer.parent.data.alias,
+          });
+        }
+      } else {
+        this.state.game.gameInfo.me.units[card.key] = unit;
+        this.state.game.nextRoundInfoSingle.attack.cards.push({
+          pos: { x, y },
+          alias: pointer.parent.data.alias,
+        });
+      }
       console.log('---------------');
       console.log(card.key);
       console.log(this.state.game.gameInfo.me.units);

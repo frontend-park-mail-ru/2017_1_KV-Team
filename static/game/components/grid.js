@@ -109,6 +109,8 @@ export default class Grid {
   hide() {
     this.myGrid.visible = false;
     this.myGridRect.visible = false;
+    this.enemyGrid.visible = false;
+    this.enemyGridRect.visible = false;
   }
 
   show() {
@@ -116,8 +118,17 @@ export default class Grid {
     this.myGridRect.visible = true;
   }
 
+  showEnemies() {
+    this.enemyGrid.visible = true;
+    this.enemyGridRect.visible = true;
+  }
+
   getSquareGrid() {
     return this.myGrid;
+  }
+
+  getEnemiesSquareGrid() {
+    return this.enemyGrid;
   }
 
   createOneSquare(x, y, size, game, column, row) {
@@ -138,17 +149,17 @@ export default class Grid {
   }
 
   findGridCell(x, y) {
-    return this.enemyGrid.children.find(item =>
+    return this.myGrid.children.concat(this.enemyGrid.children).find(item =>
       item.data.gridIndex.x === x && item.data.gridIndex.y === y);
   }
 
   findEnemyRectCell(x, y) {
-    return this.enemyGridRect.children.find(item =>
+    return this.myGridRect.children.concat(this.enemyGridRect.children).find(item =>
       item.data.gridIndex.x === x && item.data.gridIndex.y === y);
   }
 
   findRectCell(x, y) {
-    return this.myGridRect.children.find((item) => {
+    return this.myGridRect.children.concat(this.enemyGridRect.children).find((item) => {
       return item.data.gridIndex.x === x && item.data.gridIndex.y === y;
     });
   }

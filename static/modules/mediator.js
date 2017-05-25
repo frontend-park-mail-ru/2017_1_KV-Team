@@ -7,6 +7,7 @@ export default class Mediator {
   constructor(game) {
     this.emitter = new Emitter(game);
     game.emitter = this.emitter;
+    console.log(game);
   }
 
   on(message) {

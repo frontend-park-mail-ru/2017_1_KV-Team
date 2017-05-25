@@ -11,7 +11,7 @@ export default class CardManager {
       maxHP: 1,
       attack: 1,
       timeAttack: 300,
-      range: 0.05,
+      range: 0.1,
       velocity: 0.2,
     };
     this.cards.b = {
@@ -86,7 +86,7 @@ export default class CardManager {
   getCardsForMove(side, move) {
     const onlySelectedSide = Object.values(this.cardsPool)
       .filter(p => p.side === side);
-    const numberOfCardsForMove = Math.min(move, 4);
+    const numberOfCardsForMove = Math.min(move, 4, onlySelectedSide.length);
     const indexes = [];
     while (indexes.length < numberOfCardsForMove) {
       const randomIndex = Math.floor(Math.random() * onlySelectedSide.length);

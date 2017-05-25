@@ -83,13 +83,15 @@ const chooseCastleTowerAndAttackUnit = (context, unit) => {
 };
 
 const removeOldActiveActions = (context) => {
-  for (const entry in context.activeActions.entries) {
-    const unit = entry[0];
-    const action = entry[1];
-    if (action.endOffset < context.time || unit.currentHP <= 0) {
+  const actions = context.activeActions;
+  Object.keys(actions).forEach((key) => {
+    const unit = context.move.aliveUnits.filter(u => u.unitID === key)[0];
+    const action = actions[key];
+    // console.log(unit, action);
+    if (action !== undefined && (action.endOffset < context.time || unit.currentHP <= 0)) {
       context.activeActions[unit] = undefined;
     }
-  }
+  });
   if (context.topTowerAction !== undefined && context.topTowerAction.endOffset < context.time) {
     context.topTowerAction = undefined;
   }
@@ -153,13 +155,13 @@ const unitsAttack = (context) => {
 };
 
 const towerAttackUnit = (context, tower, unit) => {
-  unit.decrementHP(tower.attack);
   const attack = new Action(tower, 'attack');
   attack.addActionParam('victim', unit.unitID);
   attack.beginOffset = context.time;
-  attack.endOffset = context.time + tower.timeAttack();
+  attack.endOffset = context.time + tower.timeAttack;
   context.activeActions[tower] = attack;
   context.move.addAction(attack);
+  unit.decrementHP(tower.attack);
   const getDamageAction = new Action(unit, 'getdamage');
   getDamageAction.addActionParam('damage', tower.attack);
   getDamageAction.beginOffset = context.time;
@@ -210,6 +212,7 @@ const addMoveAction = (context, unit) => {
   action.endOffset = context.time + TIME_DELTA;
   context.activeActions[unit] = action;
   context.move.addAction(action);
+  console.log('add move action');
 };
 
 const moveEachUnit = (context, unit) => {
@@ -219,7 +222,7 @@ const moveEachUnit = (context, unit) => {
     const distance = Math.min(distancePerTick, distanceToObstacle);
     unit.incrementOffset(distance);
     context.activeActions[unit].endOffset = context.time + ((distance / distancePerTick) * TIME_DELTA);
-    context.activeActions[unit].addActionParam('pos', distance);
+    context.activeActions[unit].addActionParam('distance', unit.positionOffset);
   }
 };
 
@@ -227,7 +230,12 @@ const moveUnits = (context) => {
   // Если юнит ничем не занят и не уперся в башню или в замок,
   // то в активные действия ему прибавляем ходьбу
   context.attackUnits
-    .filter(p => context.activeActions[p] === undefined && !restAgainstObstacle(p, context))
+    .filter(p => {
+      //console.log('HEUYEUY');
+      //console.log(context.activeActions[p]);
+      //console.log(!restAgainstObstacle(p, context));
+      return context.activeActions[p] === undefined && !restAgainstObstacle(p, context);
+    })
     .forEach(unit => addMoveAction(context, unit));
   // Двигаем юнитов, у которых в активных действиях ходьба
   context.attackUnits
@@ -268,6 +276,7 @@ const processMove = (settings, chosenAttackCards, chosenDefenceCards, move) => {
     moveUnits(context);
     context.time += TIME_DELTA;
   }
+  console.log(context.time);
 };
 
 export default processMove;
