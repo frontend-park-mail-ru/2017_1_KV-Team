@@ -149,15 +149,26 @@ class App {
   }
 }
 
-// if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker.register("serviceWorker.js", { scope: "/" })
-//     .then((registration) => {
-//       console.log('ServiceWorker registration', registration);
-//     })
-//     .catch((error) => {
-//       throw new Error(`ServiceWorker error: ${error}`);
-//     });
-// }
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('/serviceWorker.js')
+    .then(function (registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    })
+    .catch(function (err) {
+      // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  // navigator.serviceWorker.addEventListener('message', onMessage);
+
+  if ('SyncManager' in window) {
+    /*
+     * Task 8b) Register background sync
+     */
+  }
+}
 
 const app = new App();
 app.checkLoggedStatus();

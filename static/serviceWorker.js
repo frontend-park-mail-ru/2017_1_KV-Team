@@ -1,54 +1,82 @@
-/**
- * Created by andreivinogradov on 05.05.17.
+/* globals self, caches, fetch, fetchCommits, sendMessageToClients */
+
+// self.importScripts('/vendor/idb-keyval-min.js');
+// self.importScripts('/helpers.js');
+const CACHE_NAME = 'awesome-app--cache-v1';
+
+/*
+ * Task 3a)
+ *   Create list of known files
  */
 
-const CACHE_NAME = 'cardDefence';
+ const urls = [
+ '/',
+ '/vendor.bundle.js',
+ '/bundle.js',
+ '/style.css',
+ ];
 
-self.addEventListener('install', function(event) {
-  console.log('WORKER: install event in progress.');
-  event.waitUntil(
-    /* The caches built-in is a promise-based API that helps you cache responses,
-     as well as finding and deleting them.
-     */
-    caches
-    /* You can open a cache by name, and this method returns a promise. We use
-     a versioned cache name here so that we can remove old cache entries in
-     one fell swoop later, when phasing out an older service worker.
-     */
-      .open(CACHE_NAME)
-      .then(function(cache) {
-        /* After the cache is opened, we can fill it with the offline fundamentals.
-         The method below will add all resources we've indicated to the cache,
-         after making HTTP requests for each of them.
-         */
-        return cache.addAll([
-          '/',
-          '/style.css',
-          '/vendor.bundle.js',
-          '/bundle.js',
-        ]);
-      })
-      .then(function() {
-        console.log('WORKER: install completed');
-      })
-  );
-});
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request)
-        .catch(error => {
-            return caches.open(CACHE_NAME).then((cache) => {
-              console.log('!!!' + cache);
-              return cache.match("bundle.js").then((cachedResponse) => {
-                return cachedResponse;
-              })
-            });
-        })
+function updateCommits() {
+  self.clients.matchAll()
+    .then(function (clients) {
+      clients.forEach(function (client) {
+        client.postMessage({ type: 'start-loading' });
+      });
+    });
+
+  return fetchCommits()
+    .then(function (commits) {
+      return sendMessageToClients({ type: 'commits', body: commits });
     })
-  )
+    .catch(function (error) {
+      return sendMessageToClients({ type: 'failed-to-load', error: error.toString() });
+    });
+}
+
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function (cache) {
+        cache.addAll(urls);
+      }));
 });
+
+self.addEventListener('fetch', function (event) {
+  event.respondWith(
+    caches.match(event.request)
+      .then(function (cacheResponse) {
+        if (cacheResponse) {
+          return cacheResponse;
+        }
+
+        const fetchRequest = event.request.clone();
+        return fetch(fetchRequest)
+          .then((response) => {
+            if (!response || response.status !== 200) {
+              return response;
+            }
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME)
+              .then(function (cache) {
+                cache.put(event.request, responseClone);
+              });
+            return response;
+          });
+      }));
+
+  /*
+   * Task 5)
+   *   If not in cache: request it and then cache it
+   */
+
+  /*
+   * Task 6)
+   *   Do not cache API responses
+   */
+});
+
+/*
+ * Task 8a)
+ *   Add background sync
+ */
