@@ -12,6 +12,8 @@ const phaser = path.join(phaserModule, 'build/custom/phaser-split.js');
 const pixi = path.join(phaserModule, 'build/custom/pixi.js');
 const p2 = path.join(phaserModule, 'build/custom/p2.js');
 
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
 });
@@ -47,6 +49,11 @@ module.exports = {
       name: 'vendor',
       filename: 'vendor.bundle.js',
       // minChunks: Infinity,
+    }),
+    new UglifyJSPlugin({
+      sourceMap: true,
+      compress: true,
+      comments:false,
     }),
   ],
   module: {
