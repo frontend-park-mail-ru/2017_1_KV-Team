@@ -1,16 +1,12 @@
 <?xml version="1.0"?>
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="leaders">
     <table id="leaderboard">
-        <col width="300"/>
+        <col width="400"/>
         <col width="150"/>
-        <col width="100"/>
         <thead>
             <tr class="leaderboard__head-row">
                 <th class="leaderboard__head-element">
                     <a href="" class="leaderboard__head-row-link">Игрок</a>
-                </th>
-                <th class="leaderboard__head-element">
-                    <a href="" class="leaderboard__head-row-link">Уровень</a>
                 </th>
                 <th class="leaderboard__head-element">
                     <a href="" class="leaderboard__head-row-link">Рейтинг</a>
@@ -24,9 +20,6 @@
                         <a href="" class="leaderboard__user-link">
                             <fest:value>v.username</fest:value>
                         </a>
-                    </td>
-                    <td class="leaderboard__body-element">
-                        <fest:value>v.level</fest:value>
                     </td>
                     <td class="leaderboard__body-element">
                         <fest:value>v.rating</fest:value>
