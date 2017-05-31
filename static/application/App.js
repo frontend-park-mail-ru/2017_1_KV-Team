@@ -140,7 +140,6 @@ class App {
       playLink.classList.remove('navigation__link_active');
       playLink.setAttribute('data-act', 'game-start-options');
       playLink.innerText = 'Игра';
-      this.gameSocket.close();
       this.playButtonStatus = 'enabled';
     }
   }

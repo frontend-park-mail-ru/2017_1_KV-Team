@@ -1,6 +1,8 @@
 /**
  * Created by andreivinogradov on 03.05.17.
  */
+import Flipper from '../utility/flipper';
+
 export default class Card {
   constructor(state, card, offset) {
     this.state = state;
@@ -81,6 +83,7 @@ export default class Card {
       showFunction();
     }, this);
 
+    const cardFlipper = new Flipper(cardGroup, 'efef');
     this.cardGroup = cardGroup;
     state.world.bringToTop(cardGroup);
   }
