@@ -13,8 +13,8 @@ export default class Emitter {
 
   gameStart(message) {
     this.game.app.enablePlayLink();
-    this.game.app.router.route('play');
-    this.game.init(message);
+    this.game.app.route('play')
+      .then(() => this.game.init(message));
   }
 
   lastRound(message) {

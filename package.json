@@ -31,6 +31,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "expose-loader": "^0.7.1",
+    "image-webpack-loader": "^3.3.1",
     "uglify-js": "^2.8.0",
     "uglifyjs-webpack-plugin": "^0.4.3",
     "webpack": "^2.2.0"

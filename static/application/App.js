@@ -105,7 +105,7 @@ class App {
   }
 
   route(url) {
-    this.router.route(url);
+    return this.router.route(url);
   }
 
   getLeaders() {
@@ -140,6 +140,7 @@ class App {
       playLink.classList.remove('navigation__link_active');
       playLink.setAttribute('data-act', 'game-start-options');
       playLink.innerText = 'Игра';
+      this.gameSocket.close();
       this.playButtonStatus = 'enabled';
     }
   }
@@ -150,25 +151,25 @@ class App {
 }
 
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/serviceWorker.js')
-    .then(function (registration) {
-      // Registration was successful
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    })
-    .catch(function (err) {
-      // registration failed :(
-      console.log('ServiceWorker registration failed: ', err);
-    });
-  // navigator.serviceWorker.addEventListener('message', onMessage);
-
-  if ('SyncManager' in window) {
-    /*
-     * Task 8b) Register background sync
-     */
-  }
-}
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker
+//     .register('/serviceWorker.js')
+//     .then(function (registration) {
+//       // Registration was successful
+//       console.log('ServiceWorker registration successful with scope: ', registration.scope);
+//     })
+//     .catch(function (err) {
+//       // registration failed :(
+//       console.log('ServiceWorker registration failed: ', err);
+//     });
+//   // navigator.serviceWorker.addEventListener('message', onMessage);
+//
+//   if ('SyncManager' in window) {
+//     /*
+//      * Task 8b) Register background sync
+//      */
+//   }
+// }
 
 const app = new App();
 app.checkLoggedStatus();

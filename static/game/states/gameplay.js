@@ -64,7 +64,7 @@ export default class GameplayState extends Phaser.State {
       this.dragCard.group.forEach((cardElement) => {
         cardElement.position.copyFrom(this.dragCard.element.position);
       });
-      const pointer = this.dragCard.group.children[1];
+      const pointer = this.dragCard.group.children[2];
 
       if (!this.game.physics.arcade.overlap(pointer, grid, function (sprite, group) {
         group.alpha = 1;
@@ -73,7 +73,7 @@ export default class GameplayState extends Phaser.State {
       }
 
       if (!this.game.physics.arcade.overlap(pointer, enemyGrid, function (sprite, group) {
-          group.alpha = 1;
+        group.alpha = 1;
       })) {
         console.log('they are not colliding!');
       }

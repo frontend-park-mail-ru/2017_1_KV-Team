@@ -186,6 +186,7 @@ export default class GameController {
   }
 
   init(options) {
+    console.log(document.getElementsByClassName('container')[0].firstChild);
     this.gameInstance = new Game(options, this.app.username, this.app.gameSocket, this);
   }
 }

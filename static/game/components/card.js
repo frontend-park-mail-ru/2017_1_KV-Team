@@ -55,6 +55,16 @@ export default class Card {
     redPointer.originalPosition = redPointer.position.clone();
     state.game.physics.arcade.enable(redPointer);
 
+    const collisionPoint = state.add.graphics();
+    cardGroup.add(collisionPoint);
+    collisionPoint.lineStyle(1, 0x0000FF, 1);
+    collisionPoint.drawRect((state.game.width / 2) + offset, state.game.height - 130, 1, 1);
+    collisionPoint.boundsPadding = 0;
+    collisionPoint.inputEnabled = true;
+    collisionPoint.input.enableDrag(true);
+    collisionPoint.originalPosition = collisionPoint.position.clone();
+    state.game.physics.arcade.enable(cardGroup);
+
     redPointer.events.onDragStop.add(function (currentSprite) {
       this.onStopDrag(currentSprite, getSquareGrid());
       state.dragCard = {};
@@ -97,9 +107,10 @@ export default class Card {
     console.log(endSprite);
 
     const pointer = currentSprite.parent.children[1];
+    const collisionPoint = currentSprite.parent.children[2];
     const card = currentSprite.parent.children[0];
 
-    if (!this.state.game.physics.arcade.overlap(pointer, endSprite, (sprite, group) => {
+    if (!this.state.game.physics.arcade.overlap(collisionPoint, endSprite, (sprite, group) => {
       const { x, y } = group.data.gridIndex;
       const unit = group.spawnUnit(card.key);
       const rectCell = this.state.game.grid.findRectCell(x, y);

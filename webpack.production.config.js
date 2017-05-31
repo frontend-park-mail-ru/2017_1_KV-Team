@@ -6,6 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackShellPlugin = require('webpack-shell-plugin');
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 const phaserModule = path.join(__dirname, '/node_modules/phaser/');
 const phaser = path.join(phaserModule, 'build/custom/phaser-split.js');
@@ -50,6 +51,12 @@ module.exports = {
       filename: 'vendor.bundle.js',
       // minChunks: Infinity,
     }),
+    new ImageminPlugin({
+      disable: false,
+      pngquant: {
+        quality: '50-60',
+      },
+    }),
     new UglifyJSPlugin({
       sourceMap: true,
       compress: true,
@@ -58,12 +65,12 @@ module.exports = {
   ],
   module: {
     rules: [
-      {
-        test: /\.(png|jpe?g|gif|svg)$/,
-        use: [
-          'file-loader?name=images/[name].[ext]',
-        ],
-      },
+      // {
+      //   test: /\.(png|jpe?g|gif|svg)$/,
+      //   use: [
+      //     'file-loader?name=images/[name].[ext]',
+      //   ],
+      // },
       {
         test: /\.scss$/,
         use: extractSass.extract({

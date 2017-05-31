@@ -133,8 +133,8 @@ export default class Grid {
 
   createOneSquare(x, y, size, game, column, row) {
     const squareSprite = game.add.sprite(x, y, 'gridHighlight');
-    squareSprite.width = size;
-    squareSprite.height = size;
+    squareSprite.width = size - 2;
+    squareSprite.height = size - 2;
     squareSprite.inputEnabled = true;
     squareSprite.data.gridIndex = { x: column, y: row };
     squareSprite.spawnUnit = (key, enemy) => new Unit(

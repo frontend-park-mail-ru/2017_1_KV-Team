@@ -177,7 +177,7 @@ export default class Route {
       this.renderView(this.cachedViews[path], path);
     } else {
       const view = this.pages[path] || this.pages.notFound;
-      view.renderTemplate()
+      return view.renderTemplate()
         .then((html) => {
           const fullHtml = this.renderView(html, path);
           if (this.pages[path] && this.pages[path].cache) {
