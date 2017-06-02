@@ -33,35 +33,35 @@ class Game extends Phaser.Game {
 
     const cardsUrls = {
       a: {
-        url: 'game/assets/cards/a.jpg',
+        url: 'game/assets/cards/a.png',
         unit: 'game/assets/units/a.png',
       },
       b: {
-        url: 'game/assets/cards/b.jpg',
+        url: 'game/assets/cards/b.png',
         unit: 'game/assets/units/b.png',
       },
       c: {
-        url: 'game/assets/cards/c.jpg',
+        url: 'game/assets/cards/c.png',
         unit: 'game/assets/units/c.png',
       },
       d: {
-        url: 'game/assets/cards/d.jpg',
+        url: 'game/assets/cards/d.png',
         unit: 'game/assets/units/d.png',
       },
       e: {
-        url: 'game/assets/cards/e.jpg',
+        url: 'game/assets/cards/e.png',
         unit: 'game/assets/units/e.png',
       },
       f: {
-        url: 'game/assets/cards/f.jpg',
+        url: 'game/assets/cards/f.png',
         unit: 'game/assets/units/f.png',
       },
       g: {
-        url: 'game/assets/cards/g.jpg',
+        url: 'game/assets/cards/g.png',
         unit: 'game/assets/units/g.png',
       },
       k: {
-        url: 'game/assets/cards/k.jpg',
+        url: 'game/assets/cards/k.png',
         unit: 'game/assets/units/k.png',
       },
     };

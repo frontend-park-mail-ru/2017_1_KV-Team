@@ -21,16 +21,16 @@ export default function (state, nickname, x, y) {
 
   nick.anchor.x = 0.5;
 
-  const healthScale = state.add.graphics();
-  // healthScale.beginFill(0x0000FF);
-  healthScale.lineStyle(2, 0x0000FF, 1);
-  healthScale.drawRect(x, y, 300, 40);
-  // healthScale.endFill();
-  healthScale.boundsPadding = 0;
+  // const healthScale = state.add.graphics();
+  // // healthScale.beginFill(0x0000FF);
+  // healthScale.lineStyle(2, 0x0000FF, 1);
+  // healthScale.drawRect(x, y, 300, 40);
+  // // healthScale.endFill();
+  // healthScale.boundsPadding = 0;
 
   const healthbar = state.add.group();
   healthbar.add(healthbarTexture);
-  healthbar.add(healthScale);
+  // healthbar.add(healthScale);
   healthbar.add(nick);
 
   return healthbar;
