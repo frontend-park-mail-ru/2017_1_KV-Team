@@ -99,6 +99,9 @@ export default class RenderState extends Phaser.State {
         this.game.gameSocket.send(this.game.renderCompleteInfo);
       }
     } else {
+      if (this.game.mode === 'multi') {
+        this.game.gameSocket.send(this.game.renderCompleteInfo);
+      }
       this.game.myStateController.gameEnd();
     }
   }
