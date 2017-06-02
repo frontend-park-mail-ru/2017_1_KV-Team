@@ -16,7 +16,18 @@ export default class RenderState extends Phaser.State {
     if (this.game.mode === 'multi') {
       this.data.enemyUnits.forEach((unit) => {
         if (!this.game.gameInfo.enemy.units[unit.unitID]) {
-          this.load.image(`${unit.assotiatedCardAlias}_unit`, this.game.cardsUrls[unit.assotiatedCardAlias].unit);
+          if (this.game.gameInfo.side === 'defence') {
+            this.load.spritesheet(
+              `${unit.assotiatedCardAlias}_unit`,
+              this.game.cardsUrls[unit.assotiatedCardAlias].unit,
+              110,
+              132,
+              33);
+          } else {
+            this.load.image(
+              `${unit.assotiatedCardAlias}_unit`,
+              this.game.cardsUrls[unit.assotiatedCardAlias].unit);
+          }
         }
       });
     }
@@ -48,7 +59,7 @@ export default class RenderState extends Phaser.State {
           const {x, y} = unit.startPoint;
           const cell = this.game.grid.findGridCell(x, y);
           const rectCell = this.game.grid.findEnemyRectCell(x, y);
-          const unitObj = cell.spawnUnit(unit.assotiatedCardAlias, true);
+          const unitObj = cell.spawnUnit(unit.assotiatedCardAlias, true, this.game.gameInfo.side === 'defence');
           unitObj.setBornPlace(cell, rectCell);
           cell.kill();
           rectCell.kill();

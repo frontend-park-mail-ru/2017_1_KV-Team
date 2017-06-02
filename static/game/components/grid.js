@@ -137,13 +137,14 @@ export default class Grid {
     squareSprite.height = size - 2;
     squareSprite.inputEnabled = true;
     squareSprite.data.gridIndex = { x: column, y: row };
-    squareSprite.spawnUnit = (key, enemy) => new Unit(
+    squareSprite.spawnUnit = (key, enemy, isAnimated) => new Unit(
         this.state,
         squareSprite.centerX,
         squareSprite.centerY,
         squareSprite.height,
         key,
-        enemy);
+        enemy,
+        isAnimated);
     game.physics.arcade.enable(squareSprite);
     return squareSprite;
   }

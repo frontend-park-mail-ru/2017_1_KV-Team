@@ -4,7 +4,7 @@
 import Phaser from 'phaser';
 
 class Unit {
-  constructor(state, x, y, squareSize, key, enemy) {
+  constructor(state, x, y, squareSize, key, enemy, isAnimated) {
     const unit = state.add.sprite(x, y, `${key}_unit`);
     unit.anchor.set(0.5);
     const k = unit.height / unit.width;
@@ -19,6 +19,15 @@ class Unit {
     } else {
       this.unitsThisSide = state.gameInfo.me.units;
     }
+    this.isAnimated = isAnimated;
+    if (this.isAnimated) {
+      this.idle();
+    }
+  }
+
+  idle() {
+    this.unit.animations.add('iddle', [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]);
+    this.unit.animations.play('iddle', 24, true);
   }
 
   setBornPlace(cell, rectCell) {
@@ -86,8 +95,18 @@ class Unit {
 
   move(x, time, offset) {
     const timer = this.state.time.create();
+
     timer.add(offset, () => {
       const movement = this.state.add.tween(this.unit).to({ x }, time, null, true, 0);
+      if (this.isAnimated) {
+        this.unit.animations.add('move', [23, 24, 25, 26, 27, 28, 29, 30, 31, 32]);
+        movement.onStart.add(() => {
+          this.unit.animations.play('move', 30, true);
+        });
+        movement.onComplete.add(() => {
+          this.unit.animations.stop('move');
+        });
+      }
       this.state.addTweensCount(movement);
     });
     timer.start();

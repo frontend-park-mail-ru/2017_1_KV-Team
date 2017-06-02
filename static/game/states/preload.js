@@ -21,6 +21,7 @@ export default class PreloadState extends Phaser.State {
 
   preload() {
     this.load.image('gamefield', 'game/assets/gamefield2.jpg');
+    this.load.image('cardBack', 'game/assets/cards/cardback.jpg');
     this.load.image('bottombar', 'game/assets/bottombar.jpg');
     this.load.image('button', 'game/assets/button.jpg');
     this.load.image('healthbar', 'game/assets/healthbar.png');

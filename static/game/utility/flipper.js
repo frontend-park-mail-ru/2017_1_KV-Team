@@ -5,17 +5,22 @@
 class Flipper {
   constructor(frontSide, backSide, game) {
     this.frontSide = frontSide;
+    this.frontSide.anchor.set(0.5);
     this.backSide = backSide;
     this.game = game;
+    this.direction = 'left';
   }
 
-  flip(speed = 1) {
+  flip(speed = 5, direction = this.direction) {
     const time = speed * 200;
-    const firstFlipHalf = this.game.add.tween(this.frontSide.scale).to({ x: -0.5 }, time, null, true);
-    const secondFlipHalf = this.game.add.tween(this.frontSide.scale).to({ x: -1 }, time, null);
+    const prevKey = this.frontSide.key;
+
+    const firstFlipHalf = this.game.add.tween(this.frontSide.scale).to({ x: 0 }, time, null, true);
+    const secondFlipHalf = this.game.add.tween(this.frontSide.scale).to({ x: -0.335 }, time, null);
 
     firstFlipHalf.onComplete.add(() => {
-      this.frontSide.loadTexture(this.backSide, 0);
+      // this.frontSide.loadTexture(this.backSide);
+      this.backSide = prevKey;
       secondFlipHalf.start();
     });
   }

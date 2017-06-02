@@ -15,7 +15,11 @@ export default class GameplayState extends Phaser.State {
 
     this.allowedCards.forEach((card) => {
       this.load.image(card.alias, this.game.cardsUrls[card.alias].url);
-      this.load.image(`${card.alias}_unit`, this.game.cardsUrls[card.alias].unit);
+      if (card.side !== 'DEFENDER') {
+        this.load.spritesheet(`${card.alias}_unit`, this.game.cardsUrls[card.alias].unit, 110, 132, 33);
+      } else {
+        this.load.image(`${card.alias}_unit`, this.game.cardsUrls[card.alias].unit);
+      }
     });
 
     console.log('hello from preload!');

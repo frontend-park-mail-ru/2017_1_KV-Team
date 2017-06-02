@@ -21,7 +21,6 @@ class Game extends Phaser.Game {
   constructor({ attack, defence, gameID, enemyUsername, allowedCards, side }, myUsername, gameSocket, controller) {
     super('100%', '100%', Phaser.AUTO, 'game');
     this.mode = attack ? 'single' : 'multi';
-    console.log(this.mode);
 
     this.state.add('bootState', BootState, false);
     this.state.add('preloadState', PreloadState, false);

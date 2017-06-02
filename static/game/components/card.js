@@ -83,7 +83,10 @@ export default class Card {
       showFunction();
     }, this);
 
-    const cardFlipper = new Flipper(cardGroup, 'efef');
+    // const cardFlipper = new Flipper(cardSprite, 'cardBack', this.state.game);
+    // cardSprite.events.onInputDown.add(() => {
+    //   cardFlipper.flip();
+    // }, this);
     this.cardGroup = cardGroup;
     state.world.bringToTop(cardGroup);
   }
@@ -115,7 +118,8 @@ export default class Card {
 
     if (!this.state.game.physics.arcade.overlap(collisionPoint, endSprite, (sprite, group) => {
       const { x, y } = group.data.gridIndex;
-      const unit = group.spawnUnit(card.key);
+      console.log('!!!!', sprite.parent.data);
+      const unit = group.spawnUnit(card.key, false, sprite.parent.data.side !== 'DEFENDER');
       const rectCell = this.state.game.grid.findRectCell(x, y);
       unit.setBornPlace(group, rectCell);
       group.kill();
